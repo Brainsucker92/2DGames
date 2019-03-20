@@ -8,9 +8,10 @@ import java.util.ArrayList;
 import java.util.EventListener;
 import java.util.List;
 
+@SuppressWarnings("unused")
 public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> {
 
-    List<GridListener> listeners = new ArrayList<>();
+    private List<GridListener> listeners = new ArrayList<>();
 
     public EventGrid2DImpl(int size) {
         super(size);
