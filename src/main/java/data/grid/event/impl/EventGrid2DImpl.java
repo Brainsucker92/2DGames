@@ -25,7 +25,7 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
     public void setValue(int rowIndex, int columnIndex, T value) {
         T oldValue = this.getValue(rowIndex, columnIndex);
         super.setValue(rowIndex, columnIndex, value);
-        GridValueChangedEvent event = new GridValueChangedEvent(this, oldValue, value);
+        GridValueChangedEvent event = new GridValueChangedEvent(this, rowIndex, columnIndex, oldValue, value);
         fireEvent(event);
     }
 
@@ -66,11 +66,23 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
     public class GridValueChangedEvent extends GridEventImpl {
         private T oldValue;
         private T newValue;
+        private int rowIndex;
+        private int columnIndex;
 
-        GridValueChangedEvent(Grid2D source, T oldValue, T newValue) {
+        GridValueChangedEvent(Grid2D source, int rowIndex, int columnIndex, T oldValue, T newValue) {
             super(source);
+            this.rowIndex = rowIndex;
+            this.columnIndex = columnIndex;
             this.oldValue = oldValue;
             this.newValue = newValue;
+        }
+
+        public int getRowIndex() {
+            return rowIndex;
+        }
+
+        public int getColumnIndex() {
+            return columnIndex;
         }
 
         public T getOldValue() {
