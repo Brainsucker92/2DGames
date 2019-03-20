@@ -25,10 +25,8 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
     public void setValue(int rowIndex, int columnIndex, T value) {
         T oldValue = this.getValue(rowIndex, columnIndex);
         super.setValue(rowIndex, columnIndex, value);
-        if (oldValue != null && !oldValue.equals(value)) {
-            GridValueChangedEvent event = new GridValueChangedEvent(this, oldValue, value);
-            fireEvent(event);
-        }
+        GridValueChangedEvent event = new GridValueChangedEvent(this, oldValue, value);
+        fireEvent(event);
     }
 
     @Override
