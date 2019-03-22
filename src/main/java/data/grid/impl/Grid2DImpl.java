@@ -2,6 +2,9 @@ package data.grid.impl;
 
 import data.grid.Grid2D;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 /**
  *
  * @param <T> The type to store in the grid.
@@ -56,5 +59,11 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     @Override
     public int getNumColumns() {
         return data[0].length;
+    }
+
+    @Override
+    public Iterator<T> iterator() {
+        return Arrays.stream(data).flatMap(Arrays::stream).iterator();
+
     }
 }

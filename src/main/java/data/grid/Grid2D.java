@@ -1,6 +1,6 @@
 package data.grid;
 
-public interface Grid2D<T> {
+public interface Grid2D<T> extends Iterable<T> {
     T getValue(int rows, int columns);
 
     void setValue(int rowIndex, int columnIndex, T value);
