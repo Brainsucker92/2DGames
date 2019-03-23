@@ -4,6 +4,8 @@ import data.grid.Grid2D;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Dimension2D;
@@ -12,6 +14,7 @@ public class GridPanel extends JPanel {
 
     private Grid2D<?> grid;
     private Color gridColor = Color.BLACK;
+    private Dimension2D tileSize = new DoubleDimension();
 
 
     public GridPanel(Grid2D<?> grid) {
@@ -21,6 +24,16 @@ public class GridPanel extends JPanel {
     }
 
     private void init() {
+
+        this.addComponentListener(new ComponentAdapter() {
+
+            @Override
+            public void componentResized(ComponentEvent e) {
+                super.componentResized(e);
+                updateTileSize();
+            }
+        });
+
         this.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
@@ -40,6 +53,10 @@ public class GridPanel extends JPanel {
         System.out.println(point.toString());
     }
 
+    protected void tileSizeUpdated(Dimension2D tileSize) {
+
+    }
+
     public Color getGridColor() {
         return gridColor;
     }
@@ -54,16 +71,7 @@ public class GridPanel extends JPanel {
      * @return The {@code Dimension} of the tile.
      */
     public Dimension2D getTileSize() {
-        int width = this.getWidth();
-        int height = this.getHeight();
-        int rows = grid.getNumRows();
-        int columns = grid.getNumColumns();
-
-        double tileWidth = width / (double) columns;
-        double tileHeight = height / (double) rows;
-        Dimension2D dimension = new DoubleDimension();
-        dimension.setSize(tileWidth, tileHeight);
-        return dimension;
+        return tileSize;
     }
 
     @Override
@@ -100,6 +108,18 @@ public class GridPanel extends JPanel {
             int lineX = (int) (i * tileWidth);
             g.drawLine(lineX, 0, lineX, height);
         }
+    }
+
+    private void updateTileSize() {
+        int width = this.getWidth();
+        int height = this.getHeight();
+        int rows = grid.getNumRows();
+        int columns = grid.getNumColumns();
+
+        double tileWidth = width / (double) columns;
+        double tileHeight = height / (double) rows;
+        tileSize.setSize(tileWidth, tileHeight);
+        tileSizeUpdated(tileSize);
     }
 
     public class DoubleDimension extends Dimension2D {
