@@ -4,6 +4,8 @@ import data.grid.Grid2D;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Dimension2D;
 
 public class GridPanel extends JPanel {
@@ -15,6 +17,27 @@ public class GridPanel extends JPanel {
     public GridPanel(Grid2D<?> grid) {
         super();
         this.grid = grid;
+        init();
+    }
+
+    private void init() {
+        this.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                super.mouseReleased(e);
+                int x = e.getX();
+                int y = e.getY();
+                Dimension2D tileSize = getTileSize();
+                int xIndex = (int) (x / tileSize.getWidth());
+                int yIndex = (int) (y / tileSize.getHeight());
+                Point point = new Point(xIndex, yIndex);
+                tileClicked(point);
+            }
+        });
+    }
+
+    protected void tileClicked(Point point) {
+        System.out.println(point.toString());
     }
 
     public Color getGridColor() {
