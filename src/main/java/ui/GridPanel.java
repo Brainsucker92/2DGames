@@ -46,16 +46,16 @@ public class GridPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
+        Color oldColor = g.getColor();
+        g.setColor(this.gridColor);
         drawGrid(g);
+        g.setColor(oldColor);
     }
 
     private void drawGrid(Graphics g) {
         Dimension2D tileSize = this.getTileSize();
-        Color oldColor = g.getColor();
-        g.setColor(this.gridColor);
         drawVerticalLines(g, tileSize);
         drawHorizontalLines(g, tileSize);
-        g.setColor(oldColor);
 
     }
 
@@ -98,6 +98,12 @@ public class GridPanel extends JPanel {
         public void setSize(double width, double height) {
             this.width = width;
             this.height = height;
+        }
+
+        public Dimension toDimension() {
+            Dimension dimension = new Dimension();
+            dimension.setSize(width, height);
+            return dimension;
         }
     }
 }
