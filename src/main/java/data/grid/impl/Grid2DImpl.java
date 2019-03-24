@@ -6,19 +6,21 @@ import java.util.Arrays;
 import java.util.Iterator;
 
 /**
- *
  * @param <T> The type to store in the grid.
  */
 public class Grid2DImpl<T> implements Grid2D<T> {
 
     private T[][] data;
+    private int totalSize;
 
     public Grid2DImpl(int size) {
         data = (T[][]) new Object[size][size];
+        totalSize = size * size;
     }
 
     public Grid2DImpl(int rows, int columns) {
         data = (T[][]) new Object[rows][columns];
+        totalSize = rows * columns;
     }
 
     @Override
@@ -33,7 +35,7 @@ public class Grid2DImpl<T> implements Grid2D<T> {
 
     @Override
     public void setRowValues(int row, T... values) {
-        if(values.length > this.getNumColumns()) {
+        if (values.length > this.getNumColumns()) {
             throw new IllegalArgumentException("Too many values given.");
         }
         for (int i = 0; i < values.length; i++) {
@@ -59,6 +61,35 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     @Override
     public int getNumColumns() {
         return data[0].length;
+    }
+
+    @Override
+    public int getTotalSize() {
+        return totalSize;
+    }
+
+    @Override
+    public int getTileIndex(int rowIndex, int columnIndex) {
+        if (rowIndex < 0 || rowIndex >= this.getNumRows()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (columnIndex < 0 || columnIndex >= this.getNumColumns()) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        return rowIndex * getNumColumns() + columnIndex;
+    }
+
+    @Override
+    public int[] getCoordinates(int tileIndex) {
+        if (tileIndex > this.getTotalSize() - 1) {
+            throw new IndexOutOfBoundsException();
+        }
+        int x = tileIndex % getNumColumns();
+        int y = tileIndex / getNumColumns();
+
+        return new int[]{x, y};
     }
 
     @Override

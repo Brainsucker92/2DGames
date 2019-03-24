@@ -12,4 +12,10 @@ public interface Grid2D<T> extends Iterable<T> {
     int getNumRows();
 
     int getNumColumns();
+
+    int getTotalSize();
+
+    int getTileIndex(int rowIndex, int columnIndex);
+
+    int[] getCoordinates(int tileIndex);
 }
