@@ -71,11 +71,11 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     @Override
     public int getTileIndex(int rowIndex, int columnIndex) {
         if (rowIndex < 0 || rowIndex >= this.getNumRows()) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(String.format("Expected rowIndex between 0 and %s. Got %s", this.getNumRows() - 1, rowIndex));
         }
 
         if (columnIndex < 0 || columnIndex >= this.getNumColumns()) {
-            throw new IndexOutOfBoundsException();
+            throw new IndexOutOfBoundsException(String.format("Expected columnIndex between 0 and %s. Got %s", this.getNumColumns() - 1, columnIndex));
         }
 
         return rowIndex * getNumColumns() + columnIndex;

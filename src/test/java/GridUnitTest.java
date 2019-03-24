@@ -44,7 +44,7 @@ public class GridUnitTest {
     }
 
     @Test
-    public void testGetCoordinates() {
+    public void testGetTileIndex() {
 
         Grid2D<?> grid = new Grid2DImpl<>(4, 6);
 
@@ -53,10 +53,16 @@ public class GridUnitTest {
         assertThrows(IndexOutOfBoundsException.class, () -> grid.getTileIndex(4, 0));
         assertThrows(IndexOutOfBoundsException.class, () -> grid.getTileIndex(0, 6));
 
-        assertEquals(0, grid.getTileIndex(0, 0));
-        assertEquals(3, grid.getTileIndex(0, 3));
-        assertEquals(7, grid.getTileIndex(1, 1));
-        assertEquals(12, grid.getTileIndex(2, 0));
-        assertEquals(23, grid.getTileIndex(3, 5));
+        for (int i = 1; i < 25; i++) {
+            for (int j = 1; j < 25; j++) {
+                Grid2D<?> g = new Grid2DImpl<>(i, j);
+                for (int y = 0; y < g.getNumRows() - 1; y++) {
+                    for (int x = 0; x < g.getNumColumns() - 1; x++) {
+                        int tileIndex = g.getTileIndex(y, x);
+                        assertEquals(y * g.getNumColumns() + x, tileIndex, String.format("Value mismatch for coordinates (%s|%s). (%s|%s)", x, y, g.getNumRows(), g.getNumColumns()));
+                    }
+                }
+            }
+        }
     }
 }
