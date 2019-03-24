@@ -2,16 +2,14 @@ package data.grid.event.impl;
 
 import data.grid.Grid2D;
 import data.grid.event.EventGrid2D;
+import data.grid.event.EventListener;
+import data.grid.event.EventObject;
 import data.grid.impl.Grid2DImpl;
-
-import java.util.ArrayList;
-import java.util.EventListener;
-import java.util.List;
 
 @SuppressWarnings("unused")
 public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> {
 
-    private List<GridListener> listeners = new ArrayList<>();
+    private EventObject eventObject = new EventObjectImpl();
 
     public EventGrid2DImpl(int size) {
         super(size);
@@ -26,44 +24,21 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
         T oldValue = this.getValue(rowIndex, columnIndex);
         super.setValue(rowIndex, columnIndex, value);
         GridValueChangedEvent event = new GridValueChangedEvent(this, rowIndex, columnIndex, oldValue, value);
-        fireEvent(event);
+        eventObject.fireEvent(event);
     }
 
     @Override
-    public void addListener(GridListener listener) {
-        listeners.add(listener);
+    public void addListener(EventListener listener) {
+        eventObject.addListener(listener);
     }
 
     @Override
-    public void removeListener(GridListener listener) {
-        listeners.remove(listener);
+    public void removeListener(EventListener listener) {
+        eventObject.removeListener(listener);
     }
 
-    protected void fireEvent(GridEvent event) {
-        for (GridListener listener : this.listeners) {
-            listener.onEventFired(event);
-        }
-    }
 
-    public interface GridEvent {
-        Grid2D getEventSource();
-    }
-
-    class GridEventImpl implements GridEvent {
-
-        private Grid2D source;
-
-        GridEventImpl(Grid2D source) {
-            this.source = source;
-        }
-
-        @Override
-        public Grid2D getEventSource() {
-            return source;
-        }
-    }
-
-    public class GridValueChangedEvent extends GridEventImpl {
+    public class GridValueChangedEvent extends EventImpl {
         private T oldValue;
         private T newValue;
         private int rowIndex;
@@ -92,10 +67,5 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
         public T getNewValue() {
             return newValue;
         }
-    }
-
-    public interface GridListener extends EventListener {
-        void onEventFired(GridEvent event);
-
     }
 }

@@ -8,6 +8,7 @@ public class GridPanelTest {
 
     public static void main(String[] args) {
         JFrame frame = new JFrame();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 400);
         Grid2D<String> grid2D = new Grid2DImpl<>(8, 8);
 

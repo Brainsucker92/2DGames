@@ -1,10 +1,10 @@
 package data.grid.event;
 
-import data.grid.Grid2D;
-
-public interface EventGrid2D<T> extends Grid2D<T> {
+public interface EventObject {
 
     void addListener(EventListener listener);
 
     void removeListener(EventListener listener);
+
+    void fireEvent(Event event);
 }
