@@ -1,8 +1,9 @@
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class GridUnitTest {
 
@@ -40,5 +41,22 @@ public class GridUnitTest {
         String value2 = grid2D.getValue(1, 3);
 
         assertEquals(testValue2, value2);
+    }
+
+    @Test
+    public void testGetCoordinates() {
+
+        Grid2D<?> grid = new Grid2DImpl<>(4, 6);
+
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getTileIndex(-1, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getTileIndex(0, -1));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getTileIndex(4, 0));
+        assertThrows(IndexOutOfBoundsException.class, () -> grid.getTileIndex(0, 6));
+
+        assertEquals(0, grid.getTileIndex(0, 0));
+        assertEquals(3, grid.getTileIndex(0, 3));
+        assertEquals(7, grid.getTileIndex(1, 1));
+        assertEquals(12, grid.getTileIndex(2, 0));
+        assertEquals(23, grid.getTileIndex(3, 5));
     }
 }
