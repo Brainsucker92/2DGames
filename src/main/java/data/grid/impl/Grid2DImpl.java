@@ -93,6 +93,11 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     }
 
     @Override
+    public boolean isEmpty(int rowIndex, int columnIndex) {
+        return data[rowIndex][columnIndex] == null;
+    }
+
+    @Override
     public Iterator<T> iterator() {
         return Arrays.stream(data).flatMap(Arrays::stream).iterator();
 
