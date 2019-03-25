@@ -1,7 +1,9 @@
 package data.grid;
 
+import java.io.PrintStream;
+
 public interface Grid2D<T> extends Iterable<T> {
-    T getValue(int rows, int columns);
+    T getValue(int rowIndex, int columnIndex);
 
     void setValue(int rowIndex, int columnIndex, T value);
 
@@ -20,4 +22,8 @@ public interface Grid2D<T> extends Iterable<T> {
     int[] getCoordinates(int tileIndex);
 
     boolean isEmpty(int rowIndex, int columnIndex);
+
+    void print();
+
+    void print(PrintStream printStream);
 }

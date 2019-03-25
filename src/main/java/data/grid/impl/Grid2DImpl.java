@@ -2,6 +2,7 @@ package data.grid.impl;
 
 import data.grid.Grid2D;
 
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -24,8 +25,8 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     }
 
     @Override
-    public T getValue(int rows, int columns) {
-        return data[rows][columns];
+    public T getValue(int rowIndex, int columnIndex) {
+        return data[rowIndex][columnIndex];
     }
 
     @Override
@@ -95,6 +96,28 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     @Override
     public boolean isEmpty(int rowIndex, int columnIndex) {
         return data[rowIndex][columnIndex] == null;
+    }
+
+    @Override
+    public void print() {
+        print(System.out);
+    }
+
+    @Override
+    public void print(PrintStream printStream) {
+        for (int y = 0; y < this.getNumRows(); y++) {
+            for (int x = 0; x < this.getNumColumns(); x++) {
+                if (!this.isEmpty(y, x)) {
+                    T value = this.getValue(y, x);
+                    printStream.print(value.toString());
+                } else {
+                    printStream.print("-");
+                }
+                printStream.print("\t");
+            }
+            printStream.print("\n");
+        }
+        printStream.print("\n");
     }
 
     @Override
