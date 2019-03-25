@@ -18,4 +18,6 @@ public interface Grid2D<T> extends Iterable<T> {
     int getTileIndex(int rowIndex, int columnIndex);
 
     int[] getCoordinates(int tileIndex);
+
+    boolean isEmpty(int rowIndex, int columnIndex);
 }
