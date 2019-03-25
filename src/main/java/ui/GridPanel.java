@@ -43,14 +43,14 @@ public class GridPanel extends JPanel {
                 Dimension2D tileSize = getTileSize();
                 int xIndex = (int) (x / tileSize.getWidth());
                 int yIndex = (int) (y / tileSize.getHeight());
-                Point point = new Point(xIndex, yIndex);
-                tileClicked(point);
+                int tileIndex = grid.getTileIndex(xIndex, yIndex);
+                tileClicked(tileIndex);
             }
         });
     }
 
-    protected void tileClicked(Point point) {
-        System.out.println(point.toString());
+    protected void tileClicked(int tileIndex) {
+        System.out.println("Tile clicked: " + tileIndex);
     }
 
     protected void tileSizeUpdated(Dimension2D tileSize) {

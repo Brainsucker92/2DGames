@@ -18,9 +18,8 @@ public class EventGridPanel extends GridPanel {
     }
 
     @Override
-    protected void tileClicked(Point point) {
-        super.tileClicked(point);
-        TileClickedEvent event = new TileClickedEvent(this, point);
+    protected void tileClicked(int tileIndex) {
+        TileClickedEvent event = new TileClickedEvent(this, tileIndex);
         eventObject.fireEvent(event);
     }
 
@@ -57,6 +56,7 @@ public class EventGridPanel extends GridPanel {
 
         TileSizeUpdatedEvent(Object source, Dimension2D oldSize, Dimension2D newSize) {
             super(source);
+            this.oldSize = oldSize;
             this.newSize = newSize;
         }
 
@@ -71,15 +71,15 @@ public class EventGridPanel extends GridPanel {
 
     public class TileClickedEvent extends EventImpl {
 
-        private Point point;
+        private int tileIndex;
 
-        TileClickedEvent(Object source, Point point) {
+        TileClickedEvent(Object source, int tileIndex) {
             super(source);
-            this.point = point;
+            this.tileIndex = tileIndex;
         }
 
-        public Point getPoint() {
-            return this.point;
+        public int getTileIndex() {
+            return tileIndex;
         }
     }
 
