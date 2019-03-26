@@ -1,55 +1,47 @@
 package control;
 
 import data.grid.Grid2D;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import ui.EventGridPanel;
 
-public class Controller {
+import java.util.Objects;
 
-    private Grid2D<Character> dataGrid;
-    private EventGridPanel panel;
-    private char currentPly = 'X';
+public abstract class Controller<T> {
 
-    public Controller(Grid2D<Character> dataGrid, EventGridPanel panel) {
+    protected Grid2D<T> dataGrid;
+    protected EventGridPanel panel;
+    private T currentPly;
+
+    public Controller(Grid2D<T> dataGrid, EventGridPanel panel, T startToken) {
         this.dataGrid = dataGrid;
         this.panel = panel;
+        this.currentPly = startToken;
 
-        this.panel.addListener(new EventListener() {
-            @Override
-            public void onEventFired(Event event) {
-                if (event instanceof EventGridPanel.TileClickedEvent) {
-                    EventGridPanel.TileClickedEvent evnt = (EventGridPanel.TileClickedEvent) event;
-                    int tileIndex = evnt.getTileIndex();
-                    placeToken(tileIndex);
-                }
-            }
-        });
     }
 
-    private void placeToken(int tileIndex) {
+    protected boolean placeToken(int tileIndex) {
         int[] coordinates = dataGrid.getCoordinates(tileIndex);
-        int rowIndex = coordinates[0];
-        int columnIndex = coordinates[1];
+        int columnIndex = coordinates[0];
+        int rowIndex = coordinates[1];
         if (dataGrid.isEmpty(rowIndex, columnIndex)) {
             dataGrid.setValue(rowIndex, columnIndex, currentPly);
             checkGameEnd();
             changeCurrentPly();
-            dataGrid.print();
+            this.panel.repaint();
+            return true;
         }
+        return false;
+    }
 
+    public T getCurrentPly() {
+        return currentPly;
     }
 
     private void changeCurrentPly() {
-        switch (currentPly) {
-            case 'X':
-                currentPly = 'O';
-                break;
-            case 'O':
-                currentPly = 'X';
-                break;
-        }
+        T next = setNextPly();
+        this.currentPly = Objects.requireNonNull(next);
     }
+
+    public abstract T setNextPly();
 
     private void checkGameEnd() {
 

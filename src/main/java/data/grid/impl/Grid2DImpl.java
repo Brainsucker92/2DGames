@@ -35,12 +35,12 @@ public class Grid2DImpl<T> implements Grid2D<T> {
     }
 
     @Override
-    public void setRowValues(int row, T... values) {
+    public void setRowValues(int rowIndex, T... values) {
         if (values.length > this.getNumColumns()) {
             throw new IllegalArgumentException("Too many values given.");
         }
         for (int i = 0; i < values.length; i++) {
-            this.setValue(row, i, values[i]);
+            this.setValue(rowIndex, i, values[i]);
         }
     }
 

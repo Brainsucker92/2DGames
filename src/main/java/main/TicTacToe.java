@@ -1,19 +1,21 @@
 package main;
 
 import control.Controller;
+import control.TicTacToeController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
 import ui.EventGridPanel;
+import ui.Token;
 
 import javax.swing.*;
 
-public class Main {
+public class TicTacToe {
 
     public static void main(String[] args) {
-        Grid2D<Character> dataGrid = new Grid2DImpl<>(3);
+        Grid2D<Token> dataGrid = new Grid2DImpl<>(3);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
-        Controller controller = new Controller(dataGrid, gridPanel);
+        Controller<Token> controller = new TicTacToeController(dataGrid, gridPanel);
 
         JFrame frame = new JFrame();
         frame.setSize(500, 500);

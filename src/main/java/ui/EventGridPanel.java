@@ -32,6 +32,13 @@ public class EventGridPanel extends GridPanel {
     }
 
     @Override
+    public void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        PanelRepaintEvent event = new PanelRepaintEvent(this, g);
+        eventObject.fireEvent(event);
+    }
+
+    @Override
     public void setGridColor(Color gridColor) {
         Color oldColor = this.getGridColor();
         super.setGridColor(gridColor);
@@ -47,6 +54,20 @@ public class EventGridPanel extends GridPanel {
 
     public void removeListener(EventListener listener) {
         eventObject.removeListener(listener);
+    }
+
+    public class PanelRepaintEvent extends EventImpl {
+
+        private Graphics graphics;
+
+        public PanelRepaintEvent(Object source, Graphics graphics) {
+            super(source);
+            this.graphics = graphics;
+        }
+
+        public Graphics getGraphics() {
+            return graphics;
+        }
     }
 
     public class TileSizeUpdatedEvent extends EventImpl {

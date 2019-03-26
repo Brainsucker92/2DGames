@@ -2,8 +2,7 @@ import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GridUnitTest {
 
@@ -41,6 +40,38 @@ public class GridUnitTest {
         String value2 = grid2D.getValue(1, 3);
 
         assertEquals(testValue2, value2);
+    }
+
+    @Test
+    public void testIsEmpty() {
+        Grid2D<String> grid2D = new Grid2DImpl<>(5, 6);
+
+        // Test initialisation
+        for (int y = 0; y < grid2D.getNumRows(); y++) {
+            for (int x = 0; x < grid2D.getNumColumns(); x++) {
+                assertTrue(grid2D.isEmpty(y, x));
+            }
+        }
+
+        // Test single value
+        assertTrue(grid2D.isEmpty(1, 3));
+        grid2D.setValue(1, 3, "Test Value");
+        assertFalse(grid2D.isEmpty(1, 3));
+        grid2D.setValue(1, 3, null);
+        assertTrue(grid2D.isEmpty(1, 3));
+
+        // Test everything.
+        for (int y = 0; y < grid2D.getNumRows(); y++) {
+            for (int x = 0; x < grid2D.getNumColumns(); x++) {
+                assertTrue(grid2D.isEmpty(y, x));
+                grid2D.setValue(y, x, "val");
+                assertFalse(grid2D.isEmpty(y, x));
+                grid2D.setValue(y, x, null);
+                assertTrue(grid2D.isEmpty(y, x));
+            }
+        }
+
+
     }
 
     @Test

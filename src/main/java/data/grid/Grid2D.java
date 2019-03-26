@@ -7,7 +7,7 @@ public interface Grid2D<T> extends Iterable<T> {
 
     void setValue(int rowIndex, int columnIndex, T value);
 
-    void setRowValues(int row, T... values);
+    void setRowValues(int rowIndex, T... values);
 
     void setColumnValues(int columnIndex, T... values);
 
