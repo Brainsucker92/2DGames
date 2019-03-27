@@ -74,6 +74,13 @@ public class GridPanel extends JPanel {
         return tileSize;
     }
 
+    public Point getTilePosition(int rowIndex, int columnIndex) {
+        Dimension2D tileSize = this.getTileSize();
+        int xPos = (int) Math.round(columnIndex * tileSize.getWidth());
+        int yPos = (int) Math.round(rowIndex * tileSize.getHeight());
+        return new Point(xPos, yPos);
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

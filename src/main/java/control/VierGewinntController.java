@@ -8,9 +8,6 @@ import ui.EventGridPanel;
 import ui.RedToken;
 import ui.Token;
 
-import java.awt.*;
-import java.awt.geom.Dimension2D;
-
 public class VierGewinntController extends Controller<Token> {
 
     private static final Token BLUE = new BlueToken();
@@ -34,23 +31,6 @@ public class VierGewinntController extends Controller<Token> {
                             break;
                         }
                     }
-
-                } else if (event instanceof EventGridPanel.PanelRepaintEvent) {
-                    EventGridPanel.PanelRepaintEvent evnt = (EventGridPanel.PanelRepaintEvent) event;
-                    Graphics graphics = evnt.getGraphics();
-                    Dimension2D tileSize = panel.getTileSize();
-                    for (int y = 0; y < dataGrid.getNumRows(); y++) {
-                        for (int x = 0; x < dataGrid.getNumColumns(); x++) {
-                            if (dataGrid.isEmpty(y, x)) {
-                                continue;
-                            }
-                            Point position = new Point((int) (x * tileSize.getWidth()), (int) (y * tileSize.getHeight()));
-                            Token value = dataGrid.getValue(y, x);
-                            value.draw(graphics, position, tileSize);
-                        }
-
-                    }
-                    dataGrid.print();
                 }
             }
         });
