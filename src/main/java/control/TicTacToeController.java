@@ -8,7 +8,7 @@ import ui.Cross;
 import ui.EventGridPanel;
 import ui.Token;
 
-public class TicTacToeController extends Controller<Token> {
+public class TicTacToeController extends ControllerImpl<Token> {
 
     private static Token CROSS = new Cross();
     private static Token CIRCLE = new Circle();
@@ -37,5 +37,15 @@ public class TicTacToeController extends Controller<Token> {
             return CIRCLE;
         }
         throw new IllegalStateException();
+    }
+
+    @Override
+    public void checkGameEnd() {
+
+    }
+
+    @Override
+    public void endGame() {
+
     }
 }

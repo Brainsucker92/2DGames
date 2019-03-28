@@ -8,7 +8,7 @@ import ui.EventGridPanel;
 import ui.RedToken;
 import ui.Token;
 
-public class VierGewinntController extends Controller<Token> {
+public class VierGewinntController extends ControllerImpl<Token> {
 
     private static final Token BLUE = new BlueToken();
     private static final Token RED = new RedToken();
@@ -45,5 +45,15 @@ public class VierGewinntController extends Controller<Token> {
             return RED;
         }
         throw new IllegalStateException();
+    }
+
+    @Override
+    public void checkGameEnd() {
+
+    }
+
+    @Override
+    public void endGame() {
+
     }
 }

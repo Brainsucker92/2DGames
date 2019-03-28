@@ -1,6 +1,6 @@
 package main;
 
-import control.Controller;
+import control.ControllerImpl;
 import control.VierGewinntController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
@@ -15,12 +15,11 @@ public class VierGewinnt {
         Grid2D<Token> dataGrid = new Grid2DImpl<>(9);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
-        Controller<Token> controller = new VierGewinntController(dataGrid, gridPanel);
+        ControllerImpl<Token> controller = new VierGewinntController(dataGrid, gridPanel);
 
         JFrame frame = new JFrame();
         frame.setSize(500, 500);
         frame.setTitle("Vier Gewinnt");
-
 
         frame.setContentPane(gridPanel);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
