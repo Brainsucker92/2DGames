@@ -12,6 +12,11 @@ import javax.swing.*;
 public class VierGewinnt {
 
     public static void main(String[] args) {
+        VierGewinnt vierGewinnt = new VierGewinnt();
+        vierGewinnt.start();
+    }
+
+    private void start() {
         Grid2D<Token> dataGrid = new Grid2DImpl<>(9);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 

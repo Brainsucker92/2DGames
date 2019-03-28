@@ -12,6 +12,11 @@ import javax.swing.*;
 public class TicTacToe {
 
     public static void main(String[] args) {
+        TicTacToe ticTacToe = new TicTacToe();
+        ticTacToe.start();
+    }
+
+    private void start() {
         Grid2D<Token> dataGrid = new Grid2DImpl<>(3);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
