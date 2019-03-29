@@ -17,10 +17,16 @@ public abstract class Resource<T> {
         this.classLoader = this.getClass().getClassLoader();
     }
 
+    public void load(boolean force) {
+        if (!isLoaded() || force) {
+            InputStream inputStream = classLoader.getResourceAsStream(path.toString());
+            Objects.requireNonNull(inputStream);
+            data = convertData(inputStream);
+        }
+    }
+
     public void load() {
-        InputStream inputStream = classLoader.getResourceAsStream(path.toString());
-        Objects.requireNonNull(inputStream);
-        data = convertData(inputStream);
+        load(false);
     }
 
     public abstract T convertData(InputStream inputStream);
