@@ -1,7 +1,6 @@
 package main;
 
-public class SpriteAnimation {
-
+public class Animations {
     public static void main(String[] args) {
 
     }
