@@ -66,7 +66,7 @@ public class GameData {
     }
 
     public Future<?> reloadResource(Resource<?> resource) {
-        return executorService.submit(resource::load);
+        return executorService.submit(() -> resource.load(true));
     }
 
     public ImageResource getTrumpResource() {
