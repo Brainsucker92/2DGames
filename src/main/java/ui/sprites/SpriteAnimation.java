@@ -1,9 +1,10 @@
-package sprites;
+package ui.sprites;
 
 
+import javax.swing.*;
 import java.awt.image.BufferedImage;
 
-public class SpriteAnimation {
+public class SpriteAnimation extends JComponent {
 
     private Sprite[] sprites;
     private int currentPos = 0;

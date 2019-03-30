@@ -6,9 +6,9 @@ import data.ImageResource;
 import data.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import sprites.Sprite;
-import sprites.SpriteAnimation;
-import sprites.SpriteSheet;
+import ui.sprites.Sprite;
+import ui.sprites.SpriteAnimation;
+import ui.sprites.SpriteSheet;
 
 import javax.swing.*;
 import java.awt.*;
