@@ -3,14 +3,19 @@ package control;
 import data.ImageResource;
 import data.Resource;
 import data.Resources;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import ui.AnimationDrawer;
 import ui.GameComponent;
 import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 
+import java.awt.*;
 import java.util.List;
 
 public class Coin implements GameEntity {
+
+    public static final Logger LOGGER = LoggerFactory.getLogger(Coin.class);
 
     private GameComponent component;
     private AnimationDrawer drawer;
@@ -42,11 +47,12 @@ public class Coin implements GameEntity {
         coinShineSprites = coinShineResources.stream().map(x -> new Sprite(x.getData())).toArray(Sprite[]::new);
 
         animations = new Animations();
-        drawer = new AnimationDrawer(currentAnimation);
+        drawer = new AnimationDrawer(animations.coinRotateAnimation);
         setCurrentAnimation(animations.coinRotateAnimation);
         component = new GameComponent(drawer);
-        component.setLocation(100, 100);
-        component.setSize(20, 20);
+        // component.setLocation(200, 50);
+        component.setPreferredSize(new Dimension(100, 100));
+        component.setMinimumSize(new Dimension(10, 10));
         component.setVisible(true);
     }
 
@@ -60,13 +66,25 @@ public class Coin implements GameEntity {
         component.repaint();
     }
 
-    private void setCurrentAnimation(SpriteAnimation animation) {
+    public void setCurrentAnimation(SpriteAnimation animation) {
         currentAnimation = animation;
         drawer.setImageSupplier(animation);
     }
 
-    class Animations {
-        SpriteAnimation coinRotateAnimation = new SpriteAnimation(coinRotateSprites);
-        SpriteAnimation coinShineAnimation = new SpriteAnimation(coinShineSprites);
+    public Animations getAnimations() {
+        return this.animations;
+    }
+
+    public class Animations {
+        private SpriteAnimation coinRotateAnimation = new SpriteAnimation(coinRotateSprites);
+        private SpriteAnimation coinShineAnimation = new SpriteAnimation(coinShineSprites);
+
+        public SpriteAnimation getCoinRotateAnimation() {
+            return coinRotateAnimation;
+        }
+
+        public SpriteAnimation getCoinShineAnimation() {
+            return coinShineAnimation;
+        }
     }
 }

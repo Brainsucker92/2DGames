@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
@@ -45,10 +46,11 @@ public class TrumpGame {
                     logger.debug("Panel lost focus");
                 }
             });
+            panel.requestFocus();
 
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setSize(500, 500);
+            frame.setPreferredSize(new Dimension(500, 500));
 
             frame.addWindowListener(new WindowAdapter() {
                 @Override
@@ -64,7 +66,8 @@ public class TrumpGame {
                 }
             });
 
-            frame.setContentPane(panel);
+            frame.add(panel);
+            frame.setLocation(500, 500);
             frame.pack();
             frame.setVisible(true);
             gameData.waitResourcesLoaded();
