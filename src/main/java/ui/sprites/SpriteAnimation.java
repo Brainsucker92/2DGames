@@ -1,10 +1,10 @@
 package ui.sprites;
 
 
-import javax.swing.*;
 import java.awt.image.BufferedImage;
+import java.util.function.Supplier;
 
-public class SpriteAnimation extends JComponent {
+public class SpriteAnimation implements Supplier<BufferedImage> {
 
     private Sprite[] sprites;
     private int currentPos = 0;
@@ -14,17 +14,23 @@ public class SpriteAnimation extends JComponent {
 
     }
 
+    @Deprecated
     public BufferedImage getImage() {
-        return sprites[currentPos].getImage();
+        return this.get();
     }
 
     public BufferedImage next() {
         currentPos++;
         currentPos = currentPos % sprites.length;
-        return sprites[currentPos].getImage();
+        return this.get();
     }
 
     public void reset() {
         currentPos = 0;
+    }
+
+    @Override
+    public BufferedImage get() {
+        return sprites[currentPos].getImage();
     }
 }

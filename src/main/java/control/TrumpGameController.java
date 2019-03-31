@@ -5,6 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 
 public class TrumpGameController {
@@ -14,6 +16,10 @@ public class TrumpGameController {
     private ExecutorService executorService;
     private JPanel panel;
     private GameData gameData;
+    private Timer timer;
+
+    private Trump trump;
+    private Coin coin;
 
     public TrumpGameController(ExecutorService executorService, JPanel panel, GameData gameData) {
         this.executorService = executorService;
@@ -23,6 +29,22 @@ public class TrumpGameController {
     }
 
     private void init() {
+
+        timer = new Timer();
+        trump = new Trump();
+        coin = new Coin();
+
+        panel.add(trump.getGameComponent());
+        panel.add(coin.getGameComponent());
+
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                trump.updateAnimation();
+                coin.updateAnimation();
+            }
+        };
+        timer.scheduleAtFixedRate(task, 0, 300);
 
     }
 }
