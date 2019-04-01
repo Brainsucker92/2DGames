@@ -23,8 +23,7 @@ public class GameComponent extends JComponent {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Point location = this.getLocation();
         Dimension2D dimension2D = this.getSize();
-        drawable.draw(g, location, dimension2D);
+        drawable.draw(g, new Point(), dimension2D);
     }
 }
