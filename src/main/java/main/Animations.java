@@ -27,6 +27,9 @@ public class Animations {
         Coin c2 = new Coin();
         c2.setCurrentAnimation(c2.getAnimations().getCoinShineAnimation());
         Trump t1 = new Trump();
+        Trump t2 = new Trump();
+        Trump t3 = new Trump();
+        Trump t4 = new Trump();
 
         Flappy f1 = new Flappy();
 
@@ -34,23 +37,32 @@ public class Animations {
         GameComponent c1GameComponent = c1.getGameComponent();
         GameComponent c2GameComponent = c2.getGameComponent();
         GameComponent t1GameComponent = t1.getGameComponent();
+        GameComponent t2GameComponent = t2.getGameComponent();
+        GameComponent t3GameComponent = t3.getGameComponent();
+        GameComponent t4GameComponent = t4.getGameComponent();
 
-        f1GameComponent.setBounds(0, 0, 20, 20);
-        c1GameComponent.setBounds(20, 20, 50, 50);
-        c2GameComponent.setBounds(70, 70, 50, 50);
-        t1GameComponent.setBounds(150, 150, 100, 100);
+        t2.setCurrentAnimation(t2.getAnimations().getWalkNorthAnimation());
+        t3.setCurrentAnimation(t3.getAnimations().getWalkSouthAnimation());
+        t3.setCurrentAnimation(t3.getAnimations().getWalkWestAnimation());
 
-//        f1GameComponent.setSize(50, 50);
-//        c1GameComponent.setSize(100, 100);
-//        c2GameComponent.setSize(100, 100);
-//        t1GameComponent.setSize(100, 100);
-//
-//        f1GameComponent.setLocation(0, 0);
-//        t1GameComponent.setLocation(0, 100);
-//        c1GameComponent.setLocation(0, 100);
-        // c2GameComponent.setLocation(0, 200);
 
-        panel.setLayout(null);
+        f1GameComponent.setSize(50, 50);
+        c1GameComponent.setSize(100, 100);
+        c2GameComponent.setSize(100, 100);
+        t1GameComponent.setSize(100, 100);
+        t2GameComponent.setSize(100, 100);
+        t3GameComponent.setSize(100, 100);
+        t4GameComponent.setSize(100, 100);
+
+        f1GameComponent.setLocation(0, 0);
+        t1GameComponent.setLocation(150, 50);
+        t2GameComponent.setLocation(150, 150);
+        t3GameComponent.setLocation(150, 250);
+        t4GameComponent.setLocation(150, 350);
+        c1GameComponent.setLocation(0, 100);
+        c2GameComponent.setLocation(0, 200);
+
+        // panel.setLayout(null);
         // panel.setLayout(new FlowLayout());
         panel.setBounds(0, 0, 600, 600);
         // panel.setSize(600, 600);
@@ -59,16 +71,15 @@ public class Animations {
         panel.add(c2GameComponent);
         panel.add(t1GameComponent);
         panel.add(f1GameComponent);
+        panel.add(t2GameComponent);
+        panel.add(t3GameComponent);
+        panel.add(t4GameComponent);
 
         panel.setVisible(true);
-//        JButton button = new JButton();
-//        JButton button2 = new JButton();
 
-//        panel.add(button);
-//        panel.add(button2);
 
         frame.getContentPane().add(panel);
-        frame.setLayout(null);
+        // frame.setLayout(null);
         frame.setSize(400, 400);
         frame.pack();
         frame.setVisible(true);
@@ -80,6 +91,9 @@ public class Animations {
                 c1.updateAnimation();
                 c2.updateAnimation();
                 t1.updateAnimation();
+                t2.updateAnimation();
+                t3.updateAnimation();
+                t4.updateAnimation();
                 f1.updateAnimation();
             }
         };
