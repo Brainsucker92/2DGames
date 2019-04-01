@@ -3,19 +3,29 @@ package main;
 import control.Coin;
 import control.Flappy;
 import control.Trump;
+import data.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.GameComponent;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Animations {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Animations.class);
 
     public static void main(String[] args) {
+
+        ExecutorService executorService = Executors.newCachedThreadPool();
+
+        ResourceLoader resourceLoader = ResourceLoader.getInstance();
+        resourceLoader.setExecutorService(executorService);
 
         JFrame frame = new JFrame();
         frame.setTitle("Animations");
@@ -77,6 +87,12 @@ public class Animations {
 
         panel.setVisible(true);
 
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                executorService.shutdown();
+            }
+        });
 
         frame.getContentPane().add(panel);
         // frame.setLayout(null);

@@ -8,6 +8,10 @@ public class GameComponent extends JComponent {
 
     private Drawable drawable;
 
+    public GameComponent() {
+        drawable = new ErrorDrawing();
+    }
+
     public GameComponent(Drawable drawable) {
         this.drawable = drawable;
     }

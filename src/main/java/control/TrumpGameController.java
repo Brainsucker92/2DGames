@@ -1,6 +1,7 @@
 package control;
 
 import data.GameData;
+import data.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.GameComponent;
@@ -30,6 +31,9 @@ public class TrumpGameController {
     }
 
     private void init() {
+
+        ResourceLoader resourceLoader = ResourceLoader.getInstance();
+        resourceLoader.setExecutorService(this.executorService);
 
         timer = new Timer();
         trump = new Trump();

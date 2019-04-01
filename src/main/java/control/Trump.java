@@ -1,6 +1,7 @@
 package control;
 
 import data.ImageResource;
+import data.ResourceLoader;
 import data.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +12,12 @@ import ui.sprites.SpriteAnimation;
 import ui.sprites.SpriteSheet;
 
 import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class Trump implements GameEntity, KeyListener {
 
@@ -29,25 +32,33 @@ public class Trump implements GameEntity, KeyListener {
 
     public Trump() {
         ImageResource resource = Resources.TRUMP;
-        resource.load();
-        // TODO load resource via ExecutorService
 
-        spriteSheet = new SpriteSheet(resource.getData(), 6, 4);
-        animations = new Animations();
-        currentAnimation = animations.walkEast;
-        animationDrawer = new AnimationDrawer(currentAnimation);
-        component = new GameComponent(animationDrawer);
+        ResourceLoader resourceLoader = ResourceLoader.getInstance();
+        LOGGER.info("Starting to load resources");
+        Future<?> future = resourceLoader.loadResources(List.of(resource));
 
+        // Do some other stuff while resources are loading.
+        component = new GameComponent();
         component.setPreferredSize(new Dimension(100, 100));
         component.setMinimumSize(new Dimension(10, 10));
         // component.setLocation(200, 50);
-        component.addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                LOGGER.debug("component resized " + e.getComponent().getSize().toString());
-            }
-        });
         component.setVisible(true);
+
+        // It's time to access the resources.
+        try {
+            // make sure all resources have been loaded.
+            future.get();
+            LOGGER.info("Finished loading resources");
+        } catch (InterruptedException | ExecutionException e) {
+            LOGGER.error("Error during resource loading", e);
+        }
+
+        spriteSheet = new SpriteSheet((BufferedImage) resource.getData(), 6, 4);
+        animations = new Animations();
+        currentAnimation = animations.walkEast;
+        animationDrawer = new AnimationDrawer(currentAnimation);
+        component.setDrawable(animationDrawer);
+
     }
 
     public void updateAnimation() {

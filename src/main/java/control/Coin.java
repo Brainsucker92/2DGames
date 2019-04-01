@@ -1,7 +1,7 @@
 package control;
 
-import data.ImageResource;
 import data.Resource;
+import data.ResourceLoader;
 import data.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,7 +11,10 @@ import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 public class Coin implements GameEntity {
 
@@ -32,28 +35,38 @@ public class Coin implements GameEntity {
 
     private void init() {
 
-        List<ImageResource> coinRotateResources = List.of(Resources.STAR_COIN_ROTATE1, Resources.STAR_COIN_ROTATE2,
+        List<Resource<?>> coinRotateResources = List.of(Resources.STAR_COIN_ROTATE1, Resources.STAR_COIN_ROTATE2,
                 Resources.STAR_COIN_ROTATE3, Resources.STAR_COIN_ROTATE4,
                 Resources.STAR_COIN_ROTATE5, Resources.STAR_COIN_ROTATE6);
-        List<ImageResource> coinShineResources = List.of(Resources.STAR_COIN_SHINE1, Resources.STAR_COIN_SHINE2,
+        List<Resource<?>> coinShineResources = List.of(Resources.STAR_COIN_SHINE1, Resources.STAR_COIN_SHINE2,
                 Resources.STAR_COIN_SHINE3, Resources.STAR_COIN_SHINE4,
                 Resources.STAR_COIN_SHINE5, Resources.STAR_COIN_SHINE6);
 
-        coinRotateResources.forEach(Resource::load);
-        coinShineResources.forEach(Resource::load);
-        // TODO load resources!!
 
-        coinRotateSprites = coinRotateResources.stream().map(x -> new Sprite(x.getData())).toArray(Sprite[]::new);
-        coinShineSprites = coinShineResources.stream().map(x -> new Sprite(x.getData())).toArray(Sprite[]::new);
+        ResourceLoader resourceLoader = ResourceLoader.getInstance();
+        Future<?> futureRotateResources = resourceLoader.loadResources(coinRotateResources);
+        Future<?> futureShineResources = resourceLoader.loadResources(coinShineResources);
 
-        animations = new Animations();
-        drawer = new AnimationDrawer(animations.coinRotateAnimation);
-        setCurrentAnimation(animations.coinRotateAnimation);
-        component = new GameComponent(drawer);
+        component = new GameComponent();
         // component.setLocation(200, 50);
         component.setPreferredSize(new Dimension(100, 100));
         component.setMinimumSize(new Dimension(10, 10));
         component.setVisible(true);
+
+        try {
+            futureRotateResources.get();
+            futureShineResources.get();
+        } catch (InterruptedException | ExecutionException e) {
+            LOGGER.error("Error during resource loading", e);
+        }
+
+        coinRotateSprites = coinRotateResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
+        coinShineSprites = coinShineResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
+
+        animations = new Animations();
+        drawer = new AnimationDrawer(animations.coinRotateAnimation);
+        setCurrentAnimation(animations.coinRotateAnimation);
+        component.setDrawable(drawer);
     }
 
     @Override

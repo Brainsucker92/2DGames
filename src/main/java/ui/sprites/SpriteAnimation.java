@@ -1,10 +1,10 @@
 package ui.sprites;
 
 
-import java.awt.image.BufferedImage;
+import java.awt.*;
 import java.util.function.Supplier;
 
-public class SpriteAnimation implements Supplier<BufferedImage> {
+public class SpriteAnimation implements Supplier<Image> {
 
     private Sprite[] sprites;
     private int currentPos = 0;
@@ -15,11 +15,11 @@ public class SpriteAnimation implements Supplier<BufferedImage> {
     }
 
     @Deprecated
-    public BufferedImage getImage() {
+    public Image getImage() {
         return this.get();
     }
 
-    public BufferedImage next() {
+    public Image next() {
         currentPos++;
         currentPos = currentPos % sprites.length;
         return this.get();
@@ -30,7 +30,7 @@ public class SpriteAnimation implements Supplier<BufferedImage> {
     }
 
     @Override
-    public BufferedImage get() {
+    public Image get() {
         return sprites[currentPos].getImage();
     }
 }
