@@ -53,7 +53,7 @@ public class Animations {
 
         t2.setCurrentAnimation(t2.getAnimations().getWalkNorthAnimation());
         t3.setCurrentAnimation(t3.getAnimations().getWalkSouthAnimation());
-        t3.setCurrentAnimation(t3.getAnimations().getWalkWestAnimation());
+        t4.setCurrentAnimation(t4.getAnimations().getWalkWestAnimation());
 
 
         f1GameComponent.setSize(50, 50);
