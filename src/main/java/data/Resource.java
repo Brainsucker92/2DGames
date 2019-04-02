@@ -4,6 +4,13 @@ import java.io.InputStream;
 import java.nio.file.Path;
 import java.util.Objects;
 
+/**
+ * Represents a resource file within the resources folder.
+ * The Path has to be specified relative to the resources folder of that project.
+ * e. g. path/to/file.txt
+ *
+ * @param <T> The type of data this resource will produce after conversion
+ */
 public abstract class Resource<T> {
 
     private Path path;

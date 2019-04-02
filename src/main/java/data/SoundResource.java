@@ -3,7 +3,6 @@ package data;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -18,16 +17,11 @@ public class SoundResource extends Resource<byte[]> {
 
     @Override
     public byte[] convertData(InputStream inputStream) {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-
         try {
-            while (inputStream.available() > 0) {
-                outputStream.write(inputStream.read());
-            }
+            return inputStream.readAllBytes();
         } catch (IOException e) {
             LOGGER.error("Unable to read input stream", e);
         }
-
-        return outputStream.toByteArray();
+        throw new IllegalArgumentException("Unable to read input stream");
     }
 }
