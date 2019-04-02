@@ -1,8 +1,10 @@
 package control;
 
-import data.*;
-import javazoom.jl.decoder.JavaLayerException;
-import javazoom.jl.player.advanced.AdvancedPlayer;
+import data.ImageResource;
+import data.Resource;
+import data.ResourceLoader;
+import data.Resources;
+import data.grid.MP3SoundResource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.AnimationDrawer;
@@ -11,13 +13,13 @@ import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 import ui.sprites.SpriteSheet;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -61,17 +63,11 @@ public class Trump implements GameEntity, KeyListener {
         component.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                try {
-                    Random random = new Random();
-                    int i = random.nextInt(soundResources.size());
-                    SoundResource res = (SoundResource) soundResources.get(i);
-                    byte[] resData = res.getData();
-                    AdvancedPlayer player = new AdvancedPlayer(new ByteArrayInputStream(resData));
-                    player.play();
-
-                } catch (JavaLayerException ex) {
-                    ex.printStackTrace();
-                }
+                Random random = new Random();
+                int i = random.nextInt(soundResources.size());
+                MP3SoundResource mP3SoundResource = (MP3SoundResource) soundResources.get(i);
+                Clip clip = mP3SoundResource.getData();
+                clip.start();
             }
         });
 
