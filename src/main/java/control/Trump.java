@@ -67,6 +67,7 @@ public class Trump implements GameEntity, KeyListener {
                 int i = random.nextInt(soundResources.size());
                 MP3SoundResource mP3SoundResource = (MP3SoundResource) soundResources.get(i);
                 Clip clip = mP3SoundResource.getData();
+                clip.setMicrosecondPosition(0);
                 clip.start();
             }
         });
