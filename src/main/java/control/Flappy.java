@@ -23,7 +23,9 @@ public class Flappy implements GameEntity {
     public static final Logger LOGGER = LoggerFactory.getLogger(Flappy.class);
 
     private GameComponent component;
-    private SpriteAnimation animation;
+    private SpriteAnimation currentAnimation;
+    private Animations animations;
+    private AnimationDrawer drawer;
 
     public Flappy() {
         init();
@@ -49,16 +51,37 @@ public class Flappy implements GameEntity {
 
         SpriteSheet spriteSheet = new SpriteSheet((BufferedImage) flappyResource.getData(), 3, 1);
 
-        animation = new SpriteAnimation(spriteSheet.getRow(0).toArray(Sprite[]::new));
-        AnimationDrawer drawer = new AnimationDrawer(animation);
-
-
+        animations = new Animations(spriteSheet);
+        currentAnimation = animations.getFlyAnimation();
+        drawer = new AnimationDrawer(currentAnimation);
         component.setDrawable(drawer);
     }
 
     public void updateAnimation() {
-        animation.next();
+        currentAnimation.next();
         component.repaint();
+    }
+
+    public void setCurrentAnimation(SpriteAnimation animation) {
+        currentAnimation = animation;
+        drawer.setImageSupplier(animation);
+    }
+
+    public Animations getAnimations() {
+        return animations;
+    }
+
+    public class Animations {
+
+        private SpriteAnimation flyAnimation;
+
+        Animations(SpriteSheet spriteSheet) {
+            flyAnimation = new SpriteAnimation(spriteSheet.getRow(0).toArray(Sprite[]::new));
+        }
+
+        public SpriteAnimation getFlyAnimation() {
+            return flyAnimation;
+        }
     }
 
     @Override

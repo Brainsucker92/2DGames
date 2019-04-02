@@ -63,7 +63,7 @@ public class Coin implements GameEntity {
         coinRotateSprites = coinRotateResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
         coinShineSprites = coinShineResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
 
-        animations = new Animations();
+        animations = new Animations(coinRotateSprites, coinShineSprites);
         drawer = new AnimationDrawer(animations.coinRotateAnimation);
         setCurrentAnimation(animations.coinRotateAnimation);
         component.setDrawable(drawer);
@@ -89,8 +89,13 @@ public class Coin implements GameEntity {
     }
 
     public class Animations {
-        private SpriteAnimation coinRotateAnimation = new SpriteAnimation(coinRotateSprites);
-        private SpriteAnimation coinShineAnimation = new SpriteAnimation(coinShineSprites);
+        private SpriteAnimation coinRotateAnimation;
+        private SpriteAnimation coinShineAnimation;
+
+        Animations(Sprite[] coinRotateSprites, Sprite[] coinShineSprites) {
+            coinRotateAnimation = new SpriteAnimation(coinRotateSprites);
+            coinShineAnimation = new SpriteAnimation(coinShineSprites);
+        }
 
         public SpriteAnimation getCoinRotateAnimation() {
             return coinRotateAnimation;

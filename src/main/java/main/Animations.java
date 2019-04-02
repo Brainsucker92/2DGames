@@ -79,8 +79,8 @@ public class Animations {
 
         panel.add(c1GameComponent);
         panel.add(c2GameComponent);
-        panel.add(t1GameComponent);
         panel.add(f1GameComponent);
+        panel.add(t1GameComponent);
         panel.add(t2GameComponent);
         panel.add(t3GameComponent);
         panel.add(t4GameComponent);
