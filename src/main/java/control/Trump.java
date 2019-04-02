@@ -1,5 +1,9 @@
 package control;
 
+import control.movement.Controllable;
+import control.movement.Direction;
+import control.movement.MoveableObject;
+import control.movement.impl.MoveableObjectImpl;
 import data.ImageResource;
 import data.Resource;
 import data.ResourceLoader;
@@ -15,17 +19,16 @@ import ui.sprites.SpriteSheet;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.event.*;
+import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
-public class Trump implements GameEntity, KeyListener {
+public class Trump implements GameEntity, Controllable {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trump.class);
 
@@ -34,6 +37,8 @@ public class Trump implements GameEntity, KeyListener {
     private Animations animations;
     private AnimationDrawer animationDrawer;
     private SpriteAnimation currentAnimation;
+    private KeyListener keyListener;
+    private MoveableObject moveableObject;
 
     public Trump() {
         ImageResource resource = Resources.TRUMP;
@@ -72,7 +77,35 @@ public class Trump implements GameEntity, KeyListener {
             }
         });
 
+        moveableObject = new MoveableObjectImpl();
 
+        keyListener = new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                int keyCode = e.getKeyCode();
+                switch (keyCode) {
+                    case KeyEvent.VK_W:
+                        setCurrentAnimation(animations.walkNorth);
+                        moveableObject.setDirection(Direction.NORTH);
+                        break;
+                    case KeyEvent.VK_A:
+                        setCurrentAnimation(animations.walkWest);
+                        moveableObject.setDirection(Direction.WEST);
+                        break;
+                    case KeyEvent.VK_S:
+                        setCurrentAnimation(animations.walkSouth);
+                        moveableObject.setDirection(Direction.SOUTH);
+                        break;
+                    case KeyEvent.VK_D:
+                        setCurrentAnimation(animations.walkEast);
+                        moveableObject.setDirection(Direction.EAST);
+                        break;
+                }
+            }
+        };
+        component.addKeyListener(keyListener);
+        component.setFocusable(true);
+        component.requestFocus();
 
         // It's time to access the resources.
         try {
@@ -106,37 +139,36 @@ public class Trump implements GameEntity, KeyListener {
         animationDrawer.setImageSupplier(animation);
     }
 
-    @Override
-    public void keyTyped(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyPressed(KeyEvent e) {
-
-    }
-
-    @Override
-    public void keyReleased(KeyEvent e) {
-        int keyCode = e.getKeyCode();
-        switch (keyCode) {
-            case KeyEvent.VK_W:
-                setCurrentAnimation(animations.walkNorth);
-                break;
-            case KeyEvent.VK_A:
-                setCurrentAnimation(animations.walkWest);
-                break;
-            case KeyEvent.VK_S:
-                setCurrentAnimation(animations.walkSouth);
-                break;
-            case KeyEvent.VK_D:
-                setCurrentAnimation(animations.walkEast);
-                break;
-        }
-    }
-
     public Animations getAnimations() {
         return this.animations;
+    }
+
+    public KeyListener getKeyListener() {
+        return keyListener;
+    }
+
+    public MoveableObject getMoveableObject() {
+        return this.moveableObject;
+    }
+
+    @Override
+    public Point2D getPosition() {
+        return component.getLocation();
+    }
+
+    @Override
+    public void setPosition(Point2D position) {
+        Point pos = new Point();
+        pos.setLocation(position.getX(), position.getY());
+        component.setLocation(pos);
+    }
+
+    public void gameTick(long delta, TimeUnit timeUnit) {
+        moveableObject.move(delta, timeUnit);
+        Point2D position = moveableObject.getPosition();
+        Point pos = new Point();
+        pos.setLocation(position);
+        component.setLocation(pos);
     }
 
     public class Animations {

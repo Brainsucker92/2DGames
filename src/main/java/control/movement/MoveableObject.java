@@ -1,6 +1,6 @@
 package control.movement;
 
-import java.awt.*;
+import java.awt.geom.Point2D;
 import java.util.concurrent.TimeUnit;
 
 public interface MoveableObject {
@@ -11,9 +11,9 @@ public interface MoveableObject {
 
     Direction getDirection();
 
-    void setDirection(Direction direction);
+    Point2D getPosition();
 
-    Point getPosition();
+    void setDirection(Direction direction);
 
     double getMovementSpeed();
 

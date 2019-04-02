@@ -7,8 +7,6 @@ import org.slf4j.LoggerFactory;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.concurrent.ExecutorService;
@@ -31,22 +29,8 @@ public class TrumpGame {
         try {
             GameData gameData = new GameData(executorService);
             JPanel panel = new JPanel();
+            panel.setLayout(null);
             TrumpGameController controller = new TrumpGameController(executorService, panel, gameData);
-
-
-            panel.setFocusable(true);
-            panel.addFocusListener(new FocusAdapter() {
-                @Override
-                public void focusGained(FocusEvent e) {
-                    logger.debug("Panel gained focus");
-                }
-
-                @Override
-                public void focusLost(FocusEvent e) {
-                    logger.debug("Panel lost focus");
-                }
-            });
-            panel.requestFocus();
 
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -70,7 +54,6 @@ public class TrumpGame {
             frame.setLocation(500, 500);
             frame.pack();
             frame.setVisible(true);
-            gameData.waitResourcesLoaded();
             logger.info("Finished initializing application");
         } finally {
             executorService.shutdown();

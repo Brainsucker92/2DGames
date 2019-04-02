@@ -7,9 +7,11 @@ import org.slf4j.LoggerFactory;
 import ui.GameComponent;
 
 import java.awt.*;
+import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class TrumpGameController {
 
@@ -19,6 +21,7 @@ public class TrumpGameController {
     private Container container;
     private GameData gameData;
     private Timer timer;
+    private Timer animationTimer;
 
     private Trump trump;
     private Coin coin;
@@ -36,17 +39,21 @@ public class TrumpGameController {
         resourceLoader.setExecutorService(this.executorService);
 
         timer = new Timer();
+        animationTimer = new Timer();
         trump = new Trump();
         coin = new Coin();
 
         GameComponent trumpComponent = trump.getGameComponent();
         trumpComponent.setSize(100, 100);
         GameComponent coinGameComponent = coin.getGameComponent();
-        coinGameComponent.setSize(100, 1000);
+        coinGameComponent.setSize(20, 20);
+        coinGameComponent.setLocation(150, 150);
+
+        trump.getMoveableObject().setMovementSpeed(45.0);
 
         container.add(trumpComponent);
         container.add(coinGameComponent);
-        container.addKeyListener(trump);
+        KeyListener trumpKeyListener = trump.getKeyListener();
 
         TimerTask task = new TimerTask() {
             @Override
@@ -55,7 +62,27 @@ public class TrumpGameController {
                 coin.updateAnimation();
             }
         };
-        timer.scheduleAtFixedRate(task, 0, 300);
+        animationTimer.scheduleAtFixedRate(task, 0, 300);
+        TimerTask gameTicker = new TimerTask() {
+            @Override
+            public void run() {
+                long prevTime = System.nanoTime();
+                while (true) {
+                    long currentTime = System.nanoTime();
+                    long diff = currentTime - prevTime;
+                    prevTime = currentTime;
+                    gameTick(diff, TimeUnit.NANOSECONDS);
+                }
+            }
+        };
+        timer.scheduleAtFixedRate(gameTicker, 0, 10);
+    }
 
+    private void gameTick(long delta, TimeUnit timeUnit) {
+        trump.gameTick(delta, timeUnit);
+    }
+
+    public void shutdown() {
+        timer.cancel();
     }
 }

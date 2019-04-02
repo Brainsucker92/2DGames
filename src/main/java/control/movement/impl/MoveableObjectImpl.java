@@ -2,14 +2,17 @@ package control.movement.impl;
 
 import control.movement.Direction;
 import control.movement.MoveableObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import java.awt.*;
 import java.awt.geom.Point2D;
 import java.util.concurrent.TimeUnit;
 
 public class MoveableObjectImpl implements MoveableObject {
 
-    private Direction direction;
+    private static final Logger LOGGER = LoggerFactory.getLogger(MoveableObject.class);
+
+    private Direction direction = Direction.EAST;
     private Point2D position;
     private double movementSpeed;
 
@@ -49,19 +52,13 @@ public class MoveableObjectImpl implements MoveableObject {
     }
 
     @Override
-    public void setDirection(Direction direction) {
-        this.direction = direction;
+    public Point2D getPosition() {
+        return position;
     }
 
     @Override
-    public Point getPosition() {
-        Point point = new Point();
-        point.setLocation(position.getX(), position.getY());
-        return point;
-    }
-
-    public void setPosition(Point2D position) {
-        this.position = position;
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
     @Override
