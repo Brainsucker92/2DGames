@@ -25,6 +25,6 @@ public class SoundResource extends Resource<AudioInputStream> {
         } catch (UnsupportedAudioFileException | IOException e) {
             LOGGER.error("Unable to convert format.", e);
         }
-        throw new IllegalArgumentException("Could not convert input stream to AudioFileFormat");
+        throw new IllegalArgumentException("Could not convert input stream to AudioInputStream");
     }
 }
