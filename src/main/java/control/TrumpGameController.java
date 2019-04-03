@@ -84,5 +84,6 @@ public class TrumpGameController {
 
     public void shutdown() {
         timer.cancel();
+        animationTimer.cancel();
     }
 }
