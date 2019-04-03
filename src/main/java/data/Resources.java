@@ -9,6 +9,7 @@ public class Resources {
     public static final ImageResource BIRD = new ImageResource(Paths.get("ui/sprites/flappy.png"));
     public static final ImageResource TRUMP = new ImageResource(Paths.get("ui/sprites/trump_run.png"));
     public static final ImageResource COIN = new ImageResource(Paths.get("ui/sprites/coin.png"));
+    public static final ImageResource OBAMA = new ImageResource(Paths.get("ui/sprites/obama.png"));
 
     public static final ImageResource STAR_COIN_ROTATE1 = new ImageResource(Paths.get("ui/sprites/star coin animation Pack/star coin rotate/star coin rotate 1.png"));
     public static final ImageResource STAR_COIN_ROTATE2 = new ImageResource(Paths.get("ui/sprites/star coin animation Pack/star coin rotate/star coin rotate 2.png"));
@@ -51,4 +52,7 @@ public class Resources {
     public static final MP3SoundResource TRUMP_WELL = new MP3SoundResource(Paths.get("sound/trump/well.mp3"));
     public static final MP3SoundResource TRUMP_WELL_OVER_TEN_BILLION_DOLLARS = new MP3SoundResource(Paths.get("sound/trump/well_over_ten_billion_dollars.mp3"));
     public static final MP3SoundResource TRUMP_WERE_GOING_TO_DO_A_FANTASTIC_JOB = new MP3SoundResource(Paths.get("sound/trump/were_going_to_do_a_fantastic_job.mp3"));
+
+    public static final MP3SoundResource HITLER_NEIN_NEIN_NEIN = new MP3SoundResource(Paths.get("sound/hitler/nein_nein_nein.mp3"));
+    public static final MP3SoundResource DIXIE_HORN = new MP3SoundResource(Paths.get("sound/other/dixie_horn.mp3"));
 }

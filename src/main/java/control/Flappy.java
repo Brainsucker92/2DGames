@@ -39,10 +39,9 @@ public class Flappy implements GameEntity {
         Future<?> futureResources = resourceLoader.loadResources(List.of(flappyResource));
 
         component = new GameComponent();
-        component.setPreferredSize(new Dimension(20, 20));
+        component.setPreferredSize(new Dimension(150, 150));
         component.setMinimumSize(new Dimension(10, 10));
         component.setVisible(true);
-
         try {
             futureResources.get();
         } catch (InterruptedException | ExecutionException e) {
