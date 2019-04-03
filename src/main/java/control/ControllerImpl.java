@@ -11,7 +11,7 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.util.Objects;
 
-public abstract class ControllerImpl<T extends Drawable> implements Controller<T> {
+public abstract class ControllerImpl<T extends Drawable> implements GameController<T> {
 
     protected Grid2D<T> dataGrid;
     protected JPanel panel;

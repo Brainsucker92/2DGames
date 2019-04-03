@@ -1,6 +1,6 @@
 package main;
 
-import control.Controller;
+import control.GameController;
 import control.TicTacToeController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
@@ -20,7 +20,7 @@ public class TicTacToe {
         Grid2D<Token> dataGrid = new Grid2DImpl<>(3);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
-        Controller<Token> controller = new TicTacToeController(dataGrid, gridPanel);
+        GameController<Token> controller = new TicTacToeController(dataGrid, gridPanel);
 
         JFrame frame = new JFrame();
         frame.setSize(500, 500);

@@ -1,6 +1,6 @@
 package main;
 
-import control.Controller;
+import control.GameController;
 import control.VierGewinntController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
@@ -20,7 +20,7 @@ public class VierGewinnt {
         Grid2D<Token> dataGrid = new Grid2DImpl<>(9);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
-        Controller<Token> controller = new VierGewinntController(dataGrid, gridPanel);
+        GameController<Token> controller = new VierGewinntController(dataGrid, gridPanel);
 
         JFrame frame = new JFrame();
         frame.setSize(500, 500);

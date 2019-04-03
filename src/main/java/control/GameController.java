@@ -1,6 +1,6 @@
 package control;
 
-public interface Controller<T> {
+public interface GameController<T> {
 
     boolean placeToken(int tileIndex);
 
