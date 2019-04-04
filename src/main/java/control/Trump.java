@@ -1,6 +1,8 @@
 package control;
 
-import control.movement.*;
+import control.movement.Controllable;
+import control.movement.Direction;
+import control.movement.MoveableObject;
 import control.movement.impl.MoveableObjectImpl;
 import data.ImageResource;
 import data.Resource;
@@ -17,7 +19,6 @@ import ui.sprites.SpriteSheet;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
@@ -77,14 +78,8 @@ public class Trump implements GameEntity, Controllable {
 
         moveableObject = new MoveableObjectImpl();
 
-        MovementController movementController = new KeyInputController(moveableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
-        MovementController controller = new MouseMotionController(moveableObject);
-        MovementController mouseController = new MouseClickController(moveableObject);
-        moveableObject.setMovementController(movementController);
-
         component.setFocusable(true);
         component.requestFocus();
-        moveableObject.getMovementController().register(component);
 
         // It's time to access the resources.
         try {
@@ -139,7 +134,6 @@ public class Trump implements GameEntity, Controllable {
     }
 
     public void gameTick(long delta, TimeUnit timeUnit) {
-        moveableObject.getMovementController().requestMovementInput();
         moveableObject.move(delta, timeUnit);
         Point2D position = moveableObject.getPosition();
         Point pos = new Point();

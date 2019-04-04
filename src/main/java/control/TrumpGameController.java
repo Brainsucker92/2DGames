@@ -1,5 +1,6 @@
 package control;
 
+import control.movement.*;
 import data.GameData;
 import data.ResourceLoader;
 import org.slf4j.Logger;
@@ -7,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import ui.GameComponent;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -48,7 +50,13 @@ public class TrumpGameController {
         coinGameComponent.setSize(20, 20);
         coinGameComponent.setLocation(150, 150);
 
-        trump.getMoveableObject().setMovementSpeed(45.0);
+        MoveableObject trumpMoveableObject = trump.getMoveableObject();
+        MovementController movementController = new KeyInputController(trumpMoveableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
+        MovementController controller = new MouseMotionController(trumpMoveableObject);
+        MovementController mouseController = new MouseClickController(trumpMoveableObject);
+        trumpMoveableObject.setMovementController(controller);
+        trumpMoveableObject.setMovementSpeed(45.0);
+        trumpMoveableObject.getMovementController().register(this.container);
 
         container.add(trumpComponent);
         container.add(coinGameComponent);
