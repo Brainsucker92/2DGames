@@ -2,6 +2,7 @@ package control.movement.impl;
 
 import control.movement.Direction;
 import control.movement.MoveableObject;
+import control.movement.MovementController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -15,6 +16,7 @@ public class MoveableObjectImpl implements MoveableObject {
     private Direction direction = Direction.EAST;
     private Point2D position;
     private double movementSpeed;
+    private MovementController movementController;
 
     public MoveableObjectImpl() {
         position = new Point2D.Double();
@@ -54,6 +56,17 @@ public class MoveableObjectImpl implements MoveableObject {
     @Override
     public Point2D getPosition() {
         return position;
+    }
+
+    @Override
+    public MovementController getMovementController() {
+        return this.movementController;
+    }
+
+    @Override
+    public void setMovementController(MovementController movementController) {
+        this.movementController = movementController;
+        movementController.setMoveableObject(this);
     }
 
     @Override

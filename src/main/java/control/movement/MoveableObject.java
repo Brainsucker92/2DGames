@@ -13,6 +13,10 @@ public interface MoveableObject {
 
     Point2D getPosition();
 
+    MovementController getMovementController();
+
+    void setMovementController(MovementController movementController);
+
     void setDirection(Direction direction);
 
     double getMovementSpeed();

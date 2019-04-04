@@ -8,7 +8,10 @@ import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 import ui.sprites.SpriteSheet;
 
+import javax.sound.sampled.Clip;
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -29,7 +32,7 @@ public class Obama implements GameEntity {
     private void init() {
 
         ResourceLoader resourceLoader = ResourceLoader.getInstance();
-        Future<?> loadResources = resourceLoader.loadResources(List.of(Resources.OBAMA));
+        Future<?> loadResources = resourceLoader.loadResources(List.of(Resources.OBAMA, Resources.EARTH_WIND_FIRE));
 
         gameComponent = new GameComponent();
         gameComponent.setPreferredSize(new Dimension(128, 128));
@@ -49,6 +52,15 @@ public class Obama implements GameEntity {
         animations = new Animations(obamaAnimation);
         gameComponent.setDrawable(animationDrawer);
         gameComponent.setVisible(true);
+
+        gameComponent.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseReleased(MouseEvent e) {
+                Clip clip = Resources.EARTH_WIND_FIRE.getData();
+                clip.setMicrosecondPosition(0);
+                clip.start();
+            }
+        });
     }
 
     public void updateAnimation() {

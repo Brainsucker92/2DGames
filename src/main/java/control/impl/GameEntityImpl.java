@@ -1,5 +1,6 @@
-package control;
+package control.impl;
 
+import control.GameEntity;
 import ui.GameComponent;
 
 public class GameEntityImpl implements GameEntity {

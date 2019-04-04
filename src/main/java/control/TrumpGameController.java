@@ -7,7 +7,6 @@ import org.slf4j.LoggerFactory;
 import ui.GameComponent;
 
 import java.awt.*;
-import java.awt.event.KeyListener;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -53,7 +52,6 @@ public class TrumpGameController {
 
         container.add(trumpComponent);
         container.add(coinGameComponent);
-        KeyListener trumpKeyListener = trump.getKeyListener();
 
         TimerTask task = new TimerTask() {
             @Override

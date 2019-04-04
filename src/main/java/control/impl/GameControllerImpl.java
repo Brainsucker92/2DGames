@@ -1,5 +1,6 @@
-package control;
+package control.impl;
 
+import control.GameController;
 import data.grid.Grid2D;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
@@ -11,13 +12,13 @@ import java.awt.*;
 import java.awt.geom.Dimension2D;
 import java.util.Objects;
 
-public abstract class ControllerImpl<T extends Drawable> implements GameController<T> {
+public abstract class GameControllerImpl<T extends Drawable> implements GameController<T> {
 
     protected Grid2D<T> dataGrid;
     protected JPanel panel;
     private T currentPly;
 
-    public ControllerImpl(Grid2D<T> dataGrid, JPanel panel, T startToken) {
+    public GameControllerImpl(Grid2D<T> dataGrid, JPanel panel, T startToken) {
         this.dataGrid = dataGrid;
         this.panel = panel;
         this.currentPly = startToken;

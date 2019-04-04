@@ -1,5 +1,6 @@
 package control;
 
+import control.impl.GameControllerImpl;
 import data.grid.Grid2D;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
@@ -8,7 +9,7 @@ import ui.Cross;
 import ui.EventGridPanel;
 import ui.Token;
 
-public class TicTacToeController extends ControllerImpl<Token> {
+public class TicTacToeController extends GameControllerImpl<Token> {
 
     private static Token CROSS = new Cross();
     private static Token CIRCLE = new Circle();

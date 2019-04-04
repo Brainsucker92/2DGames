@@ -1,8 +1,6 @@
 package control;
 
-import control.movement.Controllable;
-import control.movement.Direction;
-import control.movement.MoveableObject;
+import control.movement.*;
 import control.movement.impl.MoveableObjectImpl;
 import data.ImageResource;
 import data.Resource;
@@ -19,7 +17,9 @@ import ui.sprites.SpriteSheet;
 
 import javax.sound.sampled.Clip;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
@@ -33,11 +33,9 @@ public class Trump implements GameEntity, Controllable {
     public static final Logger LOGGER = LoggerFactory.getLogger(Trump.class);
 
     private GameComponent component;
-    private SpriteSheet spriteSheet;
     private Animations animations;
     private AnimationDrawer animationDrawer;
     private SpriteAnimation currentAnimation;
-    private KeyListener keyListener;
     private MoveableObject moveableObject;
 
     public Trump() {
@@ -79,33 +77,14 @@ public class Trump implements GameEntity, Controllable {
 
         moveableObject = new MoveableObjectImpl();
 
-        keyListener = new KeyAdapter() {
-            @Override
-            public void keyReleased(KeyEvent e) {
-                int keyCode = e.getKeyCode();
-                switch (keyCode) {
-                    case KeyEvent.VK_W:
-                        setCurrentAnimation(animations.walkNorth);
-                        moveableObject.setDirection(Direction.NORTH);
-                        break;
-                    case KeyEvent.VK_A:
-                        setCurrentAnimation(animations.walkWest);
-                        moveableObject.setDirection(Direction.WEST);
-                        break;
-                    case KeyEvent.VK_S:
-                        setCurrentAnimation(animations.walkSouth);
-                        moveableObject.setDirection(Direction.SOUTH);
-                        break;
-                    case KeyEvent.VK_D:
-                        setCurrentAnimation(animations.walkEast);
-                        moveableObject.setDirection(Direction.EAST);
-                        break;
-                }
-            }
-        };
-        component.addKeyListener(keyListener);
+        MovementController movementController = new KeyInputController(moveableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
+        MovementController controller = new MouseMotionController(moveableObject);
+        MovementController mouseController = new MouseClickController(moveableObject);
+        moveableObject.setMovementController(movementController);
+
         component.setFocusable(true);
         component.requestFocus();
+        moveableObject.getMovementController().register(component);
 
         // It's time to access the resources.
         try {
@@ -116,7 +95,7 @@ public class Trump implements GameEntity, Controllable {
             LOGGER.error("Error during resource loading", e);
         }
 
-        spriteSheet = new SpriteSheet((BufferedImage) resource.getData(), 6, 4);
+        SpriteSheet spriteSheet = new SpriteSheet((BufferedImage) resource.getData(), 6, 4);
         animations = new Animations(spriteSheet);
         currentAnimation = animations.walkEast;
         animationDrawer = new AnimationDrawer(currentAnimation);
@@ -143,10 +122,6 @@ public class Trump implements GameEntity, Controllable {
         return this.animations;
     }
 
-    public KeyListener getKeyListener() {
-        return keyListener;
-    }
-
     public MoveableObject getMoveableObject() {
         return this.moveableObject;
     }
@@ -164,11 +139,28 @@ public class Trump implements GameEntity, Controllable {
     }
 
     public void gameTick(long delta, TimeUnit timeUnit) {
+        moveableObject.getMovementController().requestMovementInput();
         moveableObject.move(delta, timeUnit);
         Point2D position = moveableObject.getPosition();
         Point pos = new Point();
         pos.setLocation(position);
         component.setLocation(pos);
+
+        Direction direction = moveableObject.getDirection();
+        switch (direction) {
+            case NORTH:
+                setCurrentAnimation(animations.getWalkNorthAnimation());
+                break;
+            case EAST:
+                setCurrentAnimation(animations.getWalkEastAnimation());
+                break;
+            case SOUTH:
+                setCurrentAnimation(animations.getWalkSouthAnimation());
+                break;
+            case WEST:
+                setCurrentAnimation(animations.getWalkWestAnimation());
+                break;
+        }
     }
 
     public class Animations {

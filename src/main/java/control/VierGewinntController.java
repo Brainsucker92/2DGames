@@ -1,5 +1,6 @@
 package control;
 
+import control.impl.GameControllerImpl;
 import data.grid.Grid2D;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
@@ -8,7 +9,7 @@ import ui.EventGridPanel;
 import ui.RedToken;
 import ui.Token;
 
-public class VierGewinntController extends ControllerImpl<Token> {
+public class VierGewinntController extends GameControllerImpl<Token> {
 
     private static final Token BLUE = new BlueToken();
     private static final Token RED = new RedToken();
