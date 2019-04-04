@@ -56,4 +56,5 @@ public class Resources {
     public static final MP3SoundResource HITLER_NEIN_NEIN_NEIN = new MP3SoundResource(Paths.get("sound/hitler/nein_nein_nein.mp3"));
     public static final MP3SoundResource DIXIE_HORN = new MP3SoundResource(Paths.get("sound/other/dixie_horn.mp3"));
     public static final MP3SoundResource EARTH_WIND_FIRE = new MP3SoundResource(Paths.get("sound/other/earth_wind_fire_cut.mp3"));
+    public static final MP3SoundResource CELEBRATE = new MP3SoundResource(Paths.get("sound/other/celebrate_cut.mp3"));
 }

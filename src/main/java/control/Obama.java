@@ -2,6 +2,7 @@ package control;
 
 import data.ResourceLoader;
 import data.Resources;
+import data.grid.MP3SoundResource;
 import ui.AnimationDrawer;
 import ui.GameComponent;
 import ui.sprites.Sprite;
@@ -14,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.util.List;
+import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -32,7 +34,9 @@ public class Obama implements GameEntity {
     private void init() {
 
         ResourceLoader resourceLoader = ResourceLoader.getInstance();
-        Future<?> loadResources = resourceLoader.loadResources(List.of(Resources.OBAMA, Resources.EARTH_WIND_FIRE));
+        Future<?> loadResources = resourceLoader.loadResources(List.of(Resources.OBAMA, Resources.EARTH_WIND_FIRE,
+                Resources.CELEBRATE));
+        List<MP3SoundResource> soundResources = List.of(Resources.EARTH_WIND_FIRE, Resources.CELEBRATE);
 
         gameComponent = new GameComponent();
         gameComponent.setPreferredSize(new Dimension(128, 128));
@@ -56,7 +60,10 @@ public class Obama implements GameEntity {
         gameComponent.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                Clip clip = Resources.EARTH_WIND_FIRE.getData();
+                Random random = new Random();
+                int i = random.nextInt(soundResources.size());
+                MP3SoundResource mp3SoundResource = soundResources.get(i);
+                Clip clip = mp3SoundResource.getData();
                 clip.setMicrosecondPosition(0);
                 clip.start();
             }
