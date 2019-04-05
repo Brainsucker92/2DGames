@@ -97,7 +97,7 @@ public class Obama implements GameEntity {
             this.obamaDanceAnimation = obamaDanceAnimation;
         }
 
-        public SpriteAnimation getObamaDanceAnimation() {
+        public SpriteAnimation getDanceAnimation() {
             return obamaDanceAnimation;
         }
     }
