@@ -45,6 +45,12 @@ public class Animations {
         AnimationObject<Coin.Animations> c2AnimationObject = c2.getAnimationObject();
         Coin.Animations c2Animations = c2AnimationObject.getAnimations();
         c2AnimationObject.setCurrentAnimation(c2Animations.getCoinShineAnimation());
+
+        Coin c3 = new Coin();
+        AnimationObject<Coin.Animations> c3AnimationObject = c3.getAnimationObject();
+        Coin.Animations c3Animations = c3AnimationObject.getAnimations();
+        c3AnimationObject.setCurrentAnimation(c3Animations.getCoinBlinkAnimation());
+
         Trump t1 = new Trump();
         Trump t2 = new Trump();
         Trump t3 = new Trump();
@@ -52,9 +58,6 @@ public class Animations {
         Obama o1 = new Obama();
 
         Flappy f1 = new Flappy();
-
-        animationEntities.addAll(List.of(c1, c2, t1, t2, t3, t4, o1, f1));
-        gameEntities.addAll(List.of(c1, c2, t1, t2, t3, t4, o1, f1));
 
         AnimationObject<Trump.Animations> t2AnimationObject = t2.getAnimationObject();
         Trump.Animations t2Animations = t2AnimationObject.getAnimations();
@@ -69,6 +72,8 @@ public class Animations {
         t3AnimationObject.setCurrentAnimation(t3Animations.getWalkSouthAnimation());
         t4AnimationObject.setCurrentAnimation(t4Animations.getWalkWestAnimation());
 
+        animationEntities.addAll(List.of(c1, c2, c3, t1, t2, t3, t4, o1, f1));
+        gameEntities.addAll(List.of(c1, c2, c3, t1, t2, t3, t4, o1, f1));
 
         // panel.setLayout(null);
         // panel.setLayout(new FlowLayout());

@@ -27,6 +27,8 @@ public class Resources {
     public static final ImageResource STAR_COIN_SHINE5 = new ImageResource(Paths.get("ui/sprites/star coin animation Pack/star coin shine/star coin 5.png"));
     public static final ImageResource STAR_COIN_SHINE6 = new ImageResource(Paths.get("ui/sprites/star coin animation Pack/star coin shine/star coin 6.png"));
 
+    public static final ImageResource STAR_COIN_BLINK1 = new ImageResource(Paths.get("ui/sprites/star coin animation Pack/star coin blink/star coin normal.png"));
+    public static final ImageResource STAR_COIN_BLINK2 = new ImageResource(Paths.get("ui/sprites/star coin animation Pack/star coin blink/star coin white light.png"));
 
     public static final MP3SoundResource TRUMP_BELIEVE_IT_OR_NOT = new MP3SoundResource(Paths.get("sound/trump/believe_it_or_not.mp3"));
     public static final MP3SoundResource TRUMP_BETTER_THAN_EVER_BEFORE = new MP3SoundResource(Paths.get("sound/trump/better_than_ever_before.mp3"));

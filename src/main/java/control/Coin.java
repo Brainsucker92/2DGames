@@ -42,31 +42,32 @@ public class Coin implements GameEntity, MoveableEntity, AnimationEntity<Coin.An
         List<Resource<?>> coinShineResources = List.of(Resources.STAR_COIN_SHINE1, Resources.STAR_COIN_SHINE2,
                 Resources.STAR_COIN_SHINE3, Resources.STAR_COIN_SHINE4,
                 Resources.STAR_COIN_SHINE5, Resources.STAR_COIN_SHINE6);
-
+        List<Resource<?>> coinBlinkResources = List.of(Resources.STAR_COIN_BLINK1, Resources.STAR_COIN_BLINK2);
 
         ResourceLoader resourceLoader = ResourceLoader.getInstance();
         Future<?> futureRotateResources = resourceLoader.loadResources(coinRotateResources);
         Future<?> futureShineResources = resourceLoader.loadResources(coinShineResources);
+        Future<?> futureBlinkResources = resourceLoader.loadResources(coinBlinkResources);
 
         moveableObject = new MoveableObjectImpl();
 
-
         component = new GameComponent();
-        // component.setLocation(200, 50);
         component.setPreferredSize(new Dimension(100, 100));
         component.setMinimumSize(new Dimension(10, 10));
 
         try {
             futureRotateResources.get();
             futureShineResources.get();
+            futureBlinkResources.get();
         } catch (InterruptedException | ExecutionException e) {
             LOGGER.error("Error during resource loading", e);
         }
 
         Sprite[] coinRotateSprites = coinRotateResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
         Sprite[] coinShineSprites = coinShineResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
+        Sprite[] coinBlinkSprites = coinBlinkResources.stream().map(x -> new Sprite((BufferedImage) x.getData())).toArray(Sprite[]::new);
 
-        Animations animations = new Animations(coinRotateSprites, coinShineSprites);
+        Animations animations = new Animations(coinRotateSprites, coinShineSprites, coinBlinkSprites);
 
         SpriteAnimation startAnimation = animations.getCoinRotateAnimation();
         animationObject = new AnimationObjectImpl<>(startAnimation, animations);
@@ -102,10 +103,12 @@ public class Coin implements GameEntity, MoveableEntity, AnimationEntity<Coin.An
     public class Animations implements AnimationObjectImpl.Animations {
         private SpriteAnimation coinRotateAnimation;
         private SpriteAnimation coinShineAnimation;
+        private SpriteAnimation coinBlinkAnimation;
 
-        Animations(Sprite[] coinRotateSprites, Sprite[] coinShineSprites) {
+        Animations(Sprite[] coinRotateSprites, Sprite[] coinShineSprites, Sprite[] coinBlinkSprites) {
             coinRotateAnimation = new SpriteAnimation(coinRotateSprites);
             coinShineAnimation = new SpriteAnimation(coinShineSprites);
+            coinBlinkAnimation = new SpriteAnimation(coinBlinkSprites);
         }
 
         public SpriteAnimation getCoinRotateAnimation() {
@@ -114,6 +117,10 @@ public class Coin implements GameEntity, MoveableEntity, AnimationEntity<Coin.An
 
         public SpriteAnimation getCoinShineAnimation() {
             return coinShineAnimation;
+        }
+
+        public SpriteAnimation getCoinBlinkAnimation() {
+            return coinBlinkAnimation;
         }
     }
 }
