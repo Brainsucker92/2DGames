@@ -77,7 +77,7 @@ public class TrumpGameController extends GameControllerImpl {
         MovementController movementController = new KeyInputController(trumpMoveableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
         MovementController controller = new MouseMotionController(trumpMoveableObject);
         MovementController mouseController = new MouseClickController(trumpMoveableObject);
-        trumpMoveableObject.setMovementController(movementController);
+        trumpMoveableObject.setMovementController(mouseController);
         trumpMoveableObject.setMovementSpeed(5.0);
         trumpMoveableObject.getMovementController().register(this.container);
 
@@ -100,15 +100,14 @@ public class TrumpGameController extends GameControllerImpl {
         };
         animationTimer.scheduleAtFixedRate(animationUpdateTask, 0, 300);
         TimerTask gameTicker = new TimerTask() {
+
+            private long prevTime = System.nanoTime();
             @Override
             public void run() {
-                long prevTime = System.nanoTime();
-                while (true) {
-                    long currentTime = System.nanoTime();
-                    long diff = currentTime - prevTime;
-                    prevTime = currentTime;
-                    gameTick(diff, TimeUnit.NANOSECONDS);
-                }
+                long currentTime = System.nanoTime();
+                long diff = currentTime - prevTime;
+                prevTime = currentTime;
+                gameTick(diff, TimeUnit.NANOSECONDS);
             }
         };
 
@@ -134,7 +133,6 @@ public class TrumpGameController extends GameControllerImpl {
                 }
             }
         });
-
     }
 
     private void gameTick(long delta, TimeUnit timeUnit) {
