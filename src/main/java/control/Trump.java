@@ -1,6 +1,5 @@
 package control;
 
-import control.movement.Controllable;
 import control.movement.Direction;
 import control.movement.MoveableObject;
 import control.movement.impl.MoveableObjectImpl;
@@ -9,10 +8,14 @@ import data.Resource;
 import data.ResourceLoader;
 import data.Resources;
 import data.grid.MP3SoundResource;
+import data.grid.event.Event;
+import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.AnimationDrawer;
+import ui.AnimationObject;
 import ui.GameComponent;
+import ui.impl.AnimationObjectImpl;
 import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 import ui.sprites.SpriteSheet;
@@ -21,23 +24,20 @@ import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.geom.Point2D;
 import java.awt.image.BufferedImage;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
-public class Trump implements GameEntity, Controllable {
+public class Trump implements GameEntity, MoveableEntity, AnimationEntity<Trump.Animations> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trump.class);
 
     private GameComponent component;
     private Animations animations;
-    private AnimationDrawer animationDrawer;
-    private SpriteAnimation currentAnimation;
     private MoveableObject moveableObject;
+    private AnimationObject<Animations> animationObject;
 
     public Trump() {
         ImageResource resource = Resources.TRUMP;
@@ -78,6 +78,30 @@ public class Trump implements GameEntity, Controllable {
 
         moveableObject = new MoveableObjectImpl();
 
+        moveableObject.addEventListener(new EventListener() {
+            @Override
+            public void onEventFired(Event event) {
+                if (event instanceof MoveableObjectImpl.DirectionChangedEvent) {
+                    MoveableObjectImpl.DirectionChangedEvent evt = ((MoveableObjectImpl.DirectionChangedEvent) event);
+                    Direction newDirection = evt.getNewDirection();
+                    switch (newDirection) {
+                        case NORTH:
+                            animationObject.setCurrentAnimation(animations.getWalkNorthAnimation());
+                            break;
+                        case EAST:
+                            animationObject.setCurrentAnimation(animations.getWalkEastAnimation());
+                            break;
+                        case SOUTH:
+                            animationObject.setCurrentAnimation(animations.getWalkSouthAnimation());
+                            break;
+                        case WEST:
+                            animationObject.setCurrentAnimation(animations.getWalkWestAnimation());
+                            break;
+                    }
+                }
+            }
+        });
+
         component.setFocusable(true);
         component.requestFocus();
 
@@ -92,15 +116,18 @@ public class Trump implements GameEntity, Controllable {
 
         SpriteSheet spriteSheet = new SpriteSheet((BufferedImage) resource.getData(), 6, 4);
         animations = new Animations(spriteSheet);
-        currentAnimation = animations.walkEast;
-        animationDrawer = new AnimationDrawer(currentAnimation);
+        animationObject = new AnimationObjectImpl<>(animations.getWalkEastAnimation(), animations);
+        AnimationDrawer animationDrawer = animationObject.getAnimationDrawer();
         component.setDrawable(animationDrawer);
 
-    }
-
-    public void updateAnimation() {
-        currentAnimation.next();
-        component.repaint();
+        animationObject.addEventListener(new EventListener() {
+            @Override
+            public void onEventFired(Event event) {
+                if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
+                    component.repaint();
+                }
+            }
+        });
     }
 
     @Override
@@ -108,56 +135,16 @@ public class Trump implements GameEntity, Controllable {
         return this.component;
     }
 
-    public void setCurrentAnimation(SpriteAnimation animation) {
-        currentAnimation = animation;
-        animationDrawer.setImageSupplier(animation);
-    }
-
-    public Animations getAnimations() {
-        return this.animations;
-    }
-
     public MoveableObject getMoveableObject() {
         return this.moveableObject;
     }
 
     @Override
-    public Point2D getPosition() {
-        return component.getLocation();
+    public AnimationObject<Animations> getAnimationObject() {
+        return this.animationObject;
     }
 
-    @Override
-    public void setPosition(Point2D position) {
-        Point pos = new Point();
-        pos.setLocation(position.getX(), position.getY());
-        component.setLocation(pos);
-    }
-
-    public void gameTick(long delta, TimeUnit timeUnit) {
-        moveableObject.move(delta, timeUnit);
-        Point2D position = moveableObject.getPosition();
-        Point pos = new Point();
-        pos.setLocation(position);
-        component.setLocation(pos);
-
-        Direction direction = moveableObject.getDirection();
-        switch (direction) {
-            case NORTH:
-                setCurrentAnimation(animations.getWalkNorthAnimation());
-                break;
-            case EAST:
-                setCurrentAnimation(animations.getWalkEastAnimation());
-                break;
-            case SOUTH:
-                setCurrentAnimation(animations.getWalkSouthAnimation());
-                break;
-            case WEST:
-                setCurrentAnimation(animations.getWalkWestAnimation());
-                break;
-        }
-    }
-
-    public class Animations {
+    public class Animations implements AnimationObjectImpl.Animations {
         private SpriteAnimation walkSouth;
         private SpriteAnimation walkEast;
         private SpriteAnimation walkNorth;

@@ -1,14 +1,28 @@
 package control;
 
-public interface GameController<T> {
+import data.grid.event.EventListener;
 
-    boolean placeToken(int tileIndex);
+import java.util.concurrent.TimeUnit;
 
-    T getCurrentPly();
+public interface GameController {
 
-    T setNextPly();
+    GameState getGameState();
+
+    void addEventListener(EventListener eventListener);
+
+    void removeEventListener(EventListener eventListener);
+
+    void start();
+
+    void pause();
+
+    void resume();
 
     void checkGameEnd();
 
     void endGame();
+
+    long getElapsedTime();
+
+    long getElapsedTime(TimeUnit timeUnit);
 }

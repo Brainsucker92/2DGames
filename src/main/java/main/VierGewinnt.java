@@ -20,7 +20,7 @@ public class VierGewinnt {
         Grid2D<Token> dataGrid = new Grid2DImpl<>(9);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
-        GameController<Token> controller = new VierGewinntController(dataGrid, gridPanel);
+        GameController controller = new VierGewinntController(dataGrid, gridPanel);
 
         JFrame frame = new JFrame();
         frame.setSize(500, 500);

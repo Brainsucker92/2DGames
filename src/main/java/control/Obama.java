@@ -1,10 +1,16 @@
 package control;
 
+import control.movement.MoveableObject;
+import control.movement.impl.MoveableObjectImpl;
 import data.ResourceLoader;
 import data.Resources;
 import data.grid.MP3SoundResource;
+import data.grid.event.Event;
+import data.grid.event.EventListener;
 import ui.AnimationDrawer;
+import ui.AnimationObject;
 import ui.GameComponent;
+import ui.impl.AnimationObjectImpl;
 import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 import ui.sprites.SpriteSheet;
@@ -19,13 +25,11 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public class Obama implements GameEntity {
+public class Obama implements GameEntity, MoveableEntity, AnimationEntity<Obama.Animations> {
 
     private GameComponent gameComponent;
-    private Animations animations;
-    private AnimationDrawer animationDrawer;
-
-    private SpriteAnimation currentAnimation;
+    private MoveableObject moveableObject;
+    private AnimationObject<Animations> animationObject;
 
     public Obama() {
         init();
@@ -37,6 +41,8 @@ public class Obama implements GameEntity {
         Future<?> loadResources = resourceLoader.loadResources(List.of(Resources.OBAMA, Resources.EARTH_WIND_FIRE,
                 Resources.CELEBRATE));
         List<MP3SoundResource> soundResources = List.of(Resources.EARTH_WIND_FIRE, Resources.CELEBRATE);
+
+        moveableObject = new MoveableObjectImpl();
 
         gameComponent = new GameComponent();
         gameComponent.setPreferredSize(new Dimension(128, 128));
@@ -50,10 +56,9 @@ public class Obama implements GameEntity {
         Image obamaImage = Resources.OBAMA.getData();
         SpriteSheet obamaSheet = new SpriteSheet((BufferedImage) obamaImage, 8, 1);
         SpriteAnimation obamaAnimation = new SpriteAnimation(obamaSheet.getRow(0).toArray(Sprite[]::new));
-        currentAnimation = obamaAnimation;
-        animationDrawer = new AnimationDrawer(obamaAnimation);
-
-        animations = new Animations(obamaAnimation);
+        Animations animations = new Animations(obamaAnimation);
+        animationObject = new AnimationObjectImpl<>(animations.getDanceAnimation(), animations);
+        AnimationDrawer animationDrawer = animationObject.getAnimationDrawer();
         gameComponent.setDrawable(animationDrawer);
         gameComponent.setVisible(true);
 
@@ -68,29 +73,37 @@ public class Obama implements GameEntity {
                 clip.start();
             }
         });
-    }
 
-    public void updateAnimation() {
-        currentAnimation.next();
-        gameComponent.repaint();
+        animationObject.addEventListener(new EventListener() {
+            @Override
+            public void onEventFired(Event event) {
+                if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
+                    gameComponent.repaint();
+                } else if (event instanceof AnimationObjectImpl.AnimationChangedEvent) {
+                    AnimationObjectImpl.AnimationChangedEvent evt = ((AnimationObjectImpl.AnimationChangedEvent) event);
+                    SpriteAnimation newAnimation = evt.getNewAnimation();
+                    animationDrawer.setImageSupplier(newAnimation);
+                }
+            }
+        });
     }
-
-    public void setCurrentAnimation(SpriteAnimation animation) {
-        currentAnimation = animation;
-        animationDrawer.setImageSupplier(animation);
-    }
-
 
     @Override
     public GameComponent getGameComponent() {
         return this.gameComponent;
     }
 
-    public Animations getAnimations() {
-        return this.animations;
+    @Override
+    public MoveableObject getMoveableObject() {
+        return moveableObject;
     }
 
-    public class Animations {
+    @Override
+    public AnimationObject<Animations> getAnimationObject() {
+        return animationObject;
+    }
+
+    public class Animations implements AnimationObjectImpl.Animations {
         private SpriteAnimation obamaDanceAnimation;
 
         Animations(SpriteAnimation obamaDanceAnimation) {

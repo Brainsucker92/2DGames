@@ -1,5 +1,7 @@
 package control.movement;
 
+import data.grid.event.EventListener;
+
 import java.awt.geom.Point2D;
 import java.util.concurrent.TimeUnit;
 
@@ -22,4 +24,8 @@ public interface MoveableObject {
     double getMovementSpeed();
 
     void setMovementSpeed(double movementSpeed);
+
+    void addEventListener(EventListener eventListener);
+
+    void removeEventListener(EventListener eventListener);
 }

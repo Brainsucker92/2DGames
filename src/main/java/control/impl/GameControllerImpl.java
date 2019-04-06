@@ -1,76 +1,155 @@
 package control.impl;
 
 import control.GameController;
-import data.grid.Grid2D;
+import control.GameState;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
-import ui.Drawable;
-import ui.EventGridPanel;
+import data.grid.event.EventObject;
+import data.grid.event.impl.EventImpl;
+import data.grid.event.impl.EventObjectImpl;
 
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Dimension2D;
-import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
-public abstract class GameControllerImpl<T extends Drawable> implements GameController<T> {
+public abstract class GameControllerImpl implements GameController {
 
-    protected Grid2D<T> dataGrid;
-    protected JPanel panel;
-    private T currentPly;
+    private GameState gameState;
+    private long elapsedTime;
+    private long lastTime;
 
-    public GameControllerImpl(Grid2D<T> dataGrid, JPanel panel, T startToken) {
-        this.dataGrid = dataGrid;
-        this.panel = panel;
-        this.currentPly = startToken;
+    private EventObject eventObject;
 
+    public GameControllerImpl() {
+        elapsedTime = 0;
 
-        if(panel instanceof EventGridPanel) {
-            EventGridPanel pnl = (EventGridPanel) panel;
-            pnl.addListener(new EventListener() {
-                @Override
-                public void onEventFired(Event event) {
-                    if (event instanceof EventGridPanel.PanelRepaintEvent) {
-                        EventGridPanel.PanelRepaintEvent evnt = (EventGridPanel.PanelRepaintEvent) event;
-                        Graphics graphics = evnt.getGraphics();
-                        Dimension2D tileSize = pnl.getTileSize();
-                        for (int y = 0; y < dataGrid.getNumRows(); y++) {
-                            for (int x = 0; x < dataGrid.getNumColumns(); x++) {
-                                if (dataGrid.isEmpty(y, x)) {
-                                    continue;
-                                }
-                                Point position = pnl.getTilePosition(y, x);
-                                Drawable value = dataGrid.getValue(y, x);
-                                value.draw(graphics, position, tileSize);
-                            }
+        eventObject = new EventObjectImpl();
 
-                        }
-                    }
-                }
-            });
+        gameState = GameState.INITIALIZED;
+    }
+
+    @Override
+    public final void start() {
+        if (this.getGameState() != GameState.INITIALIZED) {
+            throw new IllegalStateException("Game has been started already.");
+        }
+        lastTime = System.nanoTime();
+
+        this.setGameState(GameState.RUNNING);
+    }
+
+    @Override
+    public final void pause() {
+        if (this.getGameState() == GameState.PAUSED) {
+            throw new IllegalStateException("Game is already paused");
+        } else if (this.getGameState() == GameState.STOPPED) {
+            throw new IllegalStateException("Game has been stopped already.");
+        } else if (this.getGameState() != GameState.RUNNING) {
+            throw new IllegalStateException("Game must be running to pause.");
+        }
+        updateElapsedTime();
+
+        this.setGameState(GameState.PAUSED);
+    }
+
+    @Override
+    public final void resume() {
+        if (this.getGameState() != GameState.PAUSED) {
+            throw new IllegalStateException("Cannot only resume if game is paused");
+        }
+        lastTime = System.nanoTime();
+
+        this.setGameState(GameState.RUNNING);
+    }
+
+    @Override
+    public final void endGame() {
+        updateElapsedTime();
+
+        this.setGameState(GameState.STOPPED);
+    }
+
+    @Override
+    public long getElapsedTime() {
+        updateElapsedTime();
+        return elapsedTime;
+    }
+
+    @Override
+    public long getElapsedTime(TimeUnit timeUnit) {
+        updateElapsedTime();
+        return timeUnit.convert(elapsedTime, TimeUnit.NANOSECONDS);
+    }
+
+    @Override
+    public GameState getGameState() {
+        return gameState;
+    }
+
+    private void setGameState(GameState gameState) {
+        GameState oldState = this.getGameState();
+        this.gameState = gameState;
+        GameStateChangedEvent event = new GameStateChangedEvent(this, oldState, gameState);
+        eventObject.fireEvent(event);
+    }
+
+    @Override
+    public void addEventListener(EventListener eventListener) {
+        eventObject.addListener(eventListener);
+    }
+
+    @Override
+    public void removeEventListener(EventListener eventListener) {
+        eventObject.removeListener(eventListener);
+    }
+
+    protected void fireEvent(Event event) {
+        eventObject.fireEvent(event);
+    }
+
+    private void updateElapsedTime() {
+        long currentTime = System.nanoTime();
+
+        long diff = currentTime - lastTime;
+        lastTime = System.nanoTime();
+        elapsedTime += diff;
+    }
+
+    public class GameStateChangedEvent extends EventImpl {
+
+        private GameState oldState;
+        private GameState newState;
+
+        GameStateChangedEvent(Object source, GameState oldState, GameState newState) {
+            super(source);
+            this.oldState = oldState;
+            this.newState = newState;
         }
 
-    }
-
-    public boolean placeToken(int tileIndex) {
-        int[] coordinates = dataGrid.getCoordinates(tileIndex);
-        int columnIndex = coordinates[0];
-        int rowIndex = coordinates[1];
-        if (dataGrid.isEmpty(rowIndex, columnIndex)) {
-            dataGrid.setValue(rowIndex, columnIndex, currentPly);
-            checkGameEnd();
-            changeCurrentPly();
-            this.panel.repaint();
-            return true;
+        public GameState getOldState() {
+            return oldState;
         }
-        return false;
+
+        public GameState getNewState() {
+            return newState;
+        }
     }
 
-    public T getCurrentPly() {
-        return currentPly;
-    }
+    public class GameTickEvent extends EventImpl {
 
-    private void changeCurrentPly() {
-        T next = setNextPly();
-        this.currentPly = Objects.requireNonNull(next);
+        private long timeDelta;
+        private TimeUnit timeUnit;
+
+        public GameTickEvent(Object source, long timeDelta, TimeUnit timeUnit) {
+            super(source);
+            this.timeDelta = timeDelta;
+            this.timeUnit = timeUnit;
+        }
+
+        public long getTimeDelta() {
+            return timeDelta;
+        }
+
+        public TimeUnit getTimeUnit() {
+            return timeUnit;
+        }
     }
 }

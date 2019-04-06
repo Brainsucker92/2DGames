@@ -3,6 +3,11 @@ package control.movement.impl;
 import control.movement.Direction;
 import control.movement.MoveableObject;
 import control.movement.MovementController;
+import data.grid.event.Event;
+import data.grid.event.EventListener;
+import data.grid.event.EventObject;
+import data.grid.event.impl.EventImpl;
+import data.grid.event.impl.EventObjectImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -18,8 +23,13 @@ public class MoveableObjectImpl implements MoveableObject {
     private double movementSpeed;
     private MovementController movementController;
 
+    private EventObject eventObject;
+
     public MoveableObjectImpl() {
         position = new Point2D.Double();
+        movementSpeed = 0.0;
+
+        eventObject = new EventObjectImpl();
     }
 
     @Override
@@ -71,7 +81,13 @@ public class MoveableObjectImpl implements MoveableObject {
 
     @Override
     public void setDirection(Direction direction) {
+        Direction oldDirection = this.direction;
         this.direction = direction;
+
+        if (oldDirection != direction) {
+            DirectionChangedEvent event = new DirectionChangedEvent(this, oldDirection, direction);
+            fireEvent(event);
+        }
     }
 
     @Override
@@ -81,7 +97,67 @@ public class MoveableObjectImpl implements MoveableObject {
 
     @Override
     public void setMovementSpeed(double movementSpeed) {
+        double oldSpeed = this.movementSpeed;
         this.movementSpeed = movementSpeed;
+
+        if (oldSpeed != movementSpeed) {
+            MovementSpeedChangedEvent event = new MovementSpeedChangedEvent(this, oldSpeed, movementSpeed);
+            fireEvent(event);
+        }
     }
 
+    @Override
+    public void addEventListener(EventListener eventListener) {
+        eventObject.addListener(eventListener);
+    }
+
+    @Override
+    public void removeEventListener(EventListener eventListener) {
+        eventObject.removeListener(eventListener);
+    }
+
+    protected void fireEvent(Event event) {
+        eventObject.fireEvent(event);
+    }
+
+
+    public class DirectionChangedEvent extends EventImpl {
+
+        private Direction oldDirection;
+        private Direction newDirection;
+
+        public DirectionChangedEvent(Object source, Direction oldDirection, Direction newDirection) {
+            super(source);
+            this.oldDirection = oldDirection;
+            this.newDirection = newDirection;
+        }
+
+        public Direction getOldDirection() {
+            return oldDirection;
+        }
+
+        public Direction getNewDirection() {
+            return newDirection;
+        }
+    }
+
+    public class MovementSpeedChangedEvent extends EventImpl {
+
+        private double oldSpeed;
+        private double newSpeed;
+
+        public MovementSpeedChangedEvent(Object source, double oldSpeed, double newSpeed) {
+            super(source);
+            this.oldSpeed = oldSpeed;
+            this.newSpeed = newSpeed;
+        }
+
+        public double getOldSpeed() {
+            return oldSpeed;
+        }
+
+        public double getNewSpeed() {
+            return newSpeed;
+        }
+    }
 }

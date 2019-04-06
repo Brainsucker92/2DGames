@@ -21,7 +21,7 @@ public class AnimationDrawer implements Drawable {
     }
 
     @Override
-    public void draw(Graphics g, Point position, Dimension2D size) {
+    public void draw(Graphics2D g, Point position, Dimension2D size) {
         Image image = imageSupplier.get();
         g.drawImage(image, position.x, position.y, (int) size.getWidth(), (int) size.getHeight(), null);
     }

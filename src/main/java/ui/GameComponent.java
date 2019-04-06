@@ -28,6 +28,7 @@ public class GameComponent extends JComponent {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Dimension2D dimension2D = this.getSize();
-        drawable.draw(g, new Point(), dimension2D);
+        Graphics2D g2d = ((Graphics2D) g);
+        drawable.draw(g2d, new Point(), dimension2D);
     }
 }

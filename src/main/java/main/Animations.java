@@ -1,17 +1,17 @@
 package main;
 
-import control.Coin;
-import control.Flappy;
-import control.Obama;
-import control.Trump;
+import control.*;
 import data.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ui.AnimationObject;
 import ui.GameComponent;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
@@ -33,10 +33,18 @@ public class Animations {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JPanel panel = new JPanel();
 
+        List<AnimationEntity<?>> animationEntities = new ArrayList<>();
+        List<GameEntity> gameEntities = new ArrayList<>();
+
         Coin c1 = new Coin();
-        c1.setCurrentAnimation(c1.getAnimations().getCoinRotateAnimation());
+        AnimationObject<Coin.Animations> c1AnimationObject = c1.getAnimationObject();
+        Coin.Animations coinAnimations = c1AnimationObject.getAnimations();
+
+        c1AnimationObject.setCurrentAnimation(coinAnimations.getCoinRotateAnimation());
         Coin c2 = new Coin();
-        c2.setCurrentAnimation(c2.getAnimations().getCoinShineAnimation());
+        AnimationObject<Coin.Animations> c2AnimationObject = c2.getAnimationObject();
+        Coin.Animations c2Animations = c2AnimationObject.getAnimations();
+        c2AnimationObject.setCurrentAnimation(c2Animations.getCoinShineAnimation());
         Trump t1 = new Trump();
         Trump t2 = new Trump();
         Trump t3 = new Trump();
@@ -45,49 +53,32 @@ public class Animations {
 
         Flappy f1 = new Flappy();
 
-        GameComponent f1GameComponent = f1.getGameComponent();
-        GameComponent c1GameComponent = c1.getGameComponent();
-        GameComponent c2GameComponent = c2.getGameComponent();
-        GameComponent t1GameComponent = t1.getGameComponent();
-        GameComponent t2GameComponent = t2.getGameComponent();
-        GameComponent t3GameComponent = t3.getGameComponent();
-        GameComponent t4GameComponent = t4.getGameComponent();
-        GameComponent o1GameComponent = o1.getGameComponent();
+        animationEntities.addAll(List.of(c1, c2, t1, t2, t3, t4, o1, f1));
+        gameEntities.addAll(List.of(c1, c2, t1, t2, t3, t4, o1, f1));
 
-        t2.setCurrentAnimation(t2.getAnimations().getWalkNorthAnimation());
-        t3.setCurrentAnimation(t3.getAnimations().getWalkSouthAnimation());
-        t4.setCurrentAnimation(t4.getAnimations().getWalkWestAnimation());
+        AnimationObject<Trump.Animations> t2AnimationObject = t2.getAnimationObject();
+        Trump.Animations t2Animations = t2AnimationObject.getAnimations();
 
+        AnimationObject<Trump.Animations> t3AnimationObject = t3.getAnimationObject();
+        Trump.Animations t3Animations = t3AnimationObject.getAnimations();
 
-        f1GameComponent.setSize(50, 50);
-        c1GameComponent.setSize(100, 100);
-        c2GameComponent.setSize(100, 100);
-        t1GameComponent.setSize(100, 100);
-        t2GameComponent.setSize(100, 100);
-        t3GameComponent.setSize(100, 100);
-        t4GameComponent.setSize(100, 100);
+        AnimationObject<Trump.Animations> t4AnimationObject = t4.getAnimationObject();
+        Trump.Animations t4Animations = t4AnimationObject.getAnimations();
 
-        f1GameComponent.setLocation(0, 0);
-        t1GameComponent.setLocation(150, 50);
-        t2GameComponent.setLocation(150, 150);
-        t3GameComponent.setLocation(150, 250);
-        t4GameComponent.setLocation(150, 350);
-        c1GameComponent.setLocation(0, 100);
-        c2GameComponent.setLocation(0, 200);
+        t2AnimationObject.setCurrentAnimation(t2Animations.getWalkNorthAnimation());
+        t3AnimationObject.setCurrentAnimation(t3Animations.getWalkSouthAnimation());
+        t4AnimationObject.setCurrentAnimation(t4Animations.getWalkWestAnimation());
+
 
         // panel.setLayout(null);
         // panel.setLayout(new FlowLayout());
         panel.setBounds(0, 0, 600, 600);
         // panel.setSize(600, 600);
 
-        panel.add(o1GameComponent);
-        panel.add(c1GameComponent);
-        panel.add(c2GameComponent);
-        panel.add(f1GameComponent);
-        panel.add(t1GameComponent);
-        panel.add(t2GameComponent);
-        panel.add(t3GameComponent);
-        panel.add(t4GameComponent);
+        for (GameEntity entity : gameEntities) {
+            GameComponent gameComponent = entity.getGameComponent();
+            panel.add(gameComponent);
+        }
 
         panel.setVisible(true);
 
@@ -108,14 +99,10 @@ public class Animations {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                c1.updateAnimation();
-                c2.updateAnimation();
-                t1.updateAnimation();
-                t2.updateAnimation();
-                t3.updateAnimation();
-                t4.updateAnimation();
-                f1.updateAnimation();
-                o1.updateAnimation();
+                for (AnimationEntity<?> animationEntity : animationEntities) {
+                    AnimationObject<?> entityAnimationObject = animationEntity.getAnimationObject();
+                    entityAnimationObject.updateAnimation();
+                }
             }
         };
 

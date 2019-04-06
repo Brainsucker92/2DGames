@@ -1,7 +1,10 @@
 package main;
 
 import control.TrumpGameController;
+import control.impl.GameControllerImpl;
 import data.GameData;
+import data.grid.event.Event;
+import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,12 +28,25 @@ public class TrumpGame {
     private void start() {
         logger.info("Initializing application.");
         ExecutorService executorService = Executors.newCachedThreadPool();
-
+        TrumpGameController controller;
         try {
             GameData gameData = new GameData(executorService);
             JPanel panel = new JPanel();
             panel.setLayout(null);
-            TrumpGameController controller = new TrumpGameController(executorService, panel, gameData);
+
+            controller = new TrumpGameController(executorService, panel, gameData);
+
+            JTextField textField = new JTextField();
+            textField.setEditable(false);
+
+            controller.addEventListener(new EventListener() {
+                @Override
+                public void onEventFired(Event event) {
+                    if (event instanceof GameControllerImpl.GameTickEvent) {
+                        textField.setText(String.valueOf(TimeUnit.NANOSECONDS.toSeconds(controller.getElapsedTime())));
+                    }
+                }
+            });
 
             JFrame frame = new JFrame();
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -46,14 +62,17 @@ public class TrumpGame {
                         logger.error("Interrupted termination of ExecutorService", e1);
                     }
                     executorService.shutdown();
+                    controller.shutdown();
                     logger.info("ExecutorService has been shutdown");
                 }
             });
 
             frame.add(panel);
+            // frame.add(textField);
             frame.setLocation(500, 500);
             frame.pack();
             frame.setVisible(true);
+            controller.start();
             logger.info("Finished initializing application");
         } finally {
             executorService.shutdown();
