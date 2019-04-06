@@ -63,7 +63,6 @@ public abstract class GameControllerImpl implements GameController {
     @Override
     public final void endGame() {
         updateElapsedTime();
-
         this.setGameState(GameState.STOPPED);
     }
 
@@ -109,11 +108,13 @@ public abstract class GameControllerImpl implements GameController {
     }
 
     private void updateElapsedTime() {
-        long currentTime = System.nanoTime();
+        if (this.getGameState() == GameState.RUNNING) {
+            long currentTime = System.nanoTime();
 
-        long diff = currentTime - lastTime;
-        lastTime = System.nanoTime();
-        elapsedTime += diff;
+            long diff = currentTime - lastTime;
+            lastTime = System.nanoTime();
+            elapsedTime += diff;
+        }
     }
 
     public class GameStateChangedEvent extends EventImpl {
