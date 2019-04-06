@@ -87,8 +87,11 @@ public abstract class GameControllerImpl implements GameController {
     private void setGameState(GameState gameState) {
         GameState oldState = this.getGameState();
         this.gameState = gameState;
-        GameStateChangedEvent event = new GameStateChangedEvent(this, oldState, gameState);
-        eventObject.fireEvent(event);
+        if (oldState != gameState) {
+            GameStateChangedEvent event = new GameStateChangedEvent(this, oldState, gameState);
+            eventObject.fireEvent(event);
+        }
+
     }
 
     @Override
