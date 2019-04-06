@@ -20,7 +20,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.function.Function;
+import java.util.function.BiFunction;
 
 public class TrumpGameController extends GameControllerImpl {
 
@@ -34,6 +34,8 @@ public class TrumpGameController extends GameControllerImpl {
 
     private Trump trump;
     private Coin coin;
+
+    private int coinsCollected;
 
     private List<GameEntity> gameEntityList;
     private List<AnimationEntity<?>> animationEntityList;
@@ -51,6 +53,7 @@ public class TrumpGameController extends GameControllerImpl {
         ResourceLoader resourceLoader = ResourceLoader.getInstance();
         resourceLoader.setExecutorService(this.executorService);
 
+        coinsCollected = 0;
         gameEntityList = new ArrayList<>();
         animationEntityList = new ArrayList<>();
         moveableEntityList = new ArrayList<>();
@@ -151,8 +154,8 @@ public class TrumpGameController extends GameControllerImpl {
         }
         long elapsedTime = this.getElapsedTime();
         MoveableObject moveableObject = trump.getMoveableObject();
-        Function<Long, Double> movementFunction = x -> (((1 / (double) 400) * Math.pow(x * Math.pow(10, -9), 2)) + 20.0);
-        Double movementSpeed = movementFunction.apply(elapsedTime);
+        BiFunction<Long, Integer, Double> movementFunction = (x, y) -> (((1 / (double) 400) * Math.pow(x * Math.pow(10, -9), 2)) + 0.25 * y + 20.0);
+        Double movementSpeed = movementFunction.apply(elapsedTime, coinsCollected);
         moveableObject.setMovementSpeed(movementSpeed);
 
         GameTickEvent event = new GameTickEvent(this, delta, timeUnit);
