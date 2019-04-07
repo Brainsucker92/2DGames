@@ -1,6 +1,5 @@
 package control.controllers.game.impl;
 
-import control.TimeCounter;
 import control.controllers.game.GameController;
 import control.controllers.game.GameState;
 import control.controllers.input.InputTypeController;
@@ -10,6 +9,7 @@ import data.grid.event.EventListener;
 import data.grid.event.EventObject;
 import data.grid.event.impl.EventImpl;
 import data.grid.event.impl.EventObjectImpl;
+import data.time.TimeCounter;
 
 import java.util.concurrent.TimeUnit;
 
