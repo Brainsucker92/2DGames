@@ -2,8 +2,6 @@ package control.movement.impl;
 
 import control.movement.MovableGameEntity;
 import control.movement.MovableObject;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.GameComponent;
@@ -21,15 +19,12 @@ public class MovableGameEntityImpl implements MovableGameEntity {
         gameComponent = new GameComponent();
         movableObject = new MovableObjectImpl();
 
-        movableObject.addEventListener(new EventListener() {
-            @Override
-            public void onEventFired(Event event) {
-                if (event instanceof MovableObjectImpl.PositionChangedEvent) {
-                    // keep position of MovableObject and GameComponent in sync.
-                    MovableObjectImpl.PositionChangedEvent evt = ((MovableObjectImpl.PositionChangedEvent) event);
-                    Point2D newPosition = evt.getNewPosition();
-                    gameComponent.setLocation(((int) newPosition.getX()), ((int) newPosition.getY()));
-                }
+        movableObject.addEventListener(event -> {
+            if (event instanceof MovableObjectImpl.PositionChangedEvent) {
+                // keep position of MovableObject and GameComponent in sync.
+                MovableObjectImpl.PositionChangedEvent evt = ((MovableObjectImpl.PositionChangedEvent) event);
+                Point2D newPosition = evt.getNewPosition();
+                gameComponent.setLocation(((int) newPosition.getX()), ((int) newPosition.getY()));
             }
         });
     }
