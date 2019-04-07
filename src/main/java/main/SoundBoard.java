@@ -1,6 +1,6 @@
 package main;
 
-import data.grid.MP3SoundResource;
+import data.resources.MP3SoundResource;
 import data.resources.Resource;
 import data.resources.ResourceLoader;
 import data.resources.Resources;

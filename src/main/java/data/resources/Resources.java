@@ -1,7 +1,5 @@
 package data.resources;
 
-import data.grid.MP3SoundResource;
-
 import java.nio.file.Paths;
 
 public class Resources {

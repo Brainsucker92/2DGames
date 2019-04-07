@@ -1,6 +1,4 @@
-package data.grid;
-
-import data.resources.Resource;
+package data.resources;
 
 import javax.sound.sampled.*;
 import java.io.ByteArrayInputStream;
