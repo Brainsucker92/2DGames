@@ -103,6 +103,7 @@ public class TrumpGameController extends GameControllerImpl {
                 LOGGER.debug("Received GameStateChangedEvent: " + newState);
                 switch (newState) {
                     case INITIALIZED:
+                        trumpMovableObject.setPosition(0, 0);
                         break;
                     case RUNNING:
                         timer = new Timer();
