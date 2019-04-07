@@ -1,9 +1,9 @@
 package control.controllers.game;
 
 import control.controllers.game.impl.GameControllerImpl;
+import data.event.Event;
+import data.event.EventListener;
 import data.grid.Grid2D;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import ui.Drawable;
 import ui.drawings.BlueToken;
 import ui.drawings.RedToken;

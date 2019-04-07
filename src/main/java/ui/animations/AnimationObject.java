@@ -1,6 +1,6 @@
 package ui.animations;
 
-import data.grid.event.EventListener;
+import data.event.EventListener;
 import ui.sprites.SpriteAnimation;
 
 public interface AnimationObject<T> {

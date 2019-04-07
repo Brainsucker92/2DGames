@@ -1,10 +1,10 @@
 package ui.panels;
 
+import data.event.EventListener;
+import data.event.EventObject;
+import data.event.impl.EventImpl;
+import data.event.impl.EventObjectImpl;
 import data.grid.Grid2D;
-import data.grid.event.EventListener;
-import data.grid.event.EventObject;
-import data.grid.event.impl.EventImpl;
-import data.grid.event.impl.EventObjectImpl;
 
 import java.awt.*;
 import java.awt.geom.Dimension2D;

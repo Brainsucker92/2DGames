@@ -3,7 +3,7 @@ package ui.panels;
 import control.controllers.game.GameController;
 import control.controllers.game.GameState;
 import control.controllers.game.impl.GameControllerImpl;
-import data.grid.event.EventListener;
+import data.event.EventListener;
 
 import javax.swing.*;
 

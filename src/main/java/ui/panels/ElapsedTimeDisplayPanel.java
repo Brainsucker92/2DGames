@@ -1,7 +1,7 @@
 package ui.panels;
 
 import control.controllers.game.GameController;
-import data.grid.event.EventListener;
+import data.event.EventListener;
 
 import javax.swing.*;
 import javax.swing.text.JTextComponent;

@@ -1,6 +1,6 @@
-package data.grid.event.impl;
+package data.event.impl;
 
-import data.grid.event.Event;
+import data.event.Event;
 
 public class EventImpl implements Event {
 

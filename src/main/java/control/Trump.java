@@ -33,6 +33,8 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
     private Animations animations;
     private AnimationObject<Animations> animationObject;
 
+    private Random random;
+
     public Trump() {
         ImageResource resource = Resources.TRUMP;
 
@@ -53,6 +55,7 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
         Future<?> futureSounds = resourceLoader.loadResources(soundResources);
 
         // Do some other stuff while resources are loading.
+        random = new Random();
         GameComponent component = this.getGameComponent();
         component.setPreferredSize(new Dimension(100, 100));
         component.setMinimumSize(new Dimension(10, 10));
@@ -60,7 +63,6 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
         component.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                Random random = new Random();
                 int i = random.nextInt(soundResources.size());
                 MP3SoundResource mP3SoundResource = (MP3SoundResource) soundResources.get(i);
                 Clip clip = mP3SoundResource.getData();

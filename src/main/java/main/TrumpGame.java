@@ -3,13 +3,9 @@ package main;
 import control.controllers.game.TrumpGameController;
 import control.controllers.game.impl.GameControllerImpl;
 import control.controllers.input.InputTypeController;
-import data.GameData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ui.panels.ControlPanel;
-import ui.panels.ElapsedTimeDisplayPanel;
-import ui.panels.MovementControlPanel;
-import ui.panels.MovementSpeedDisplayPanel;
+import ui.panels.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -33,7 +29,6 @@ public class TrumpGame {
         ExecutorService executorService = Executors.newCachedThreadPool();
         TrumpGameController controller;
         try {
-            GameData gameData = new GameData(executorService);
             JPanel gamePanel = new JPanel();
             gamePanel.setPreferredSize(new Dimension(500, 500));
             gamePanel.setBackground(Color.WHITE);
@@ -45,19 +40,21 @@ public class TrumpGame {
 
             MovementSpeedDisplayPanel movementSpeedDisplayPanel = new MovementSpeedDisplayPanel();
             ElapsedTimeDisplayPanel elapsedTimeDisplayPanel = new ElapsedTimeDisplayPanel();
+            AmountCoinsCollectedDisplayPanel amountCoinsCollectedDisplayPanel = new AmountCoinsCollectedDisplayPanel();
 
             // TODO
             //movementSpeedDisplayPanel.displayEntityValue();
 
             statisticsPanel.add(movementSpeedDisplayPanel);
             statisticsPanel.add(elapsedTimeDisplayPanel);
+            statisticsPanel.add(amountCoinsCollectedDisplayPanel);
 
             ControlPanel controlPanel = new ControlPanel();
             controlPanel.setSize(150, 50);
 
             configPanel.add(controlPanel);
 
-            controller = new TrumpGameController(executorService, gamePanel, gameData);
+            controller = new TrumpGameController(executorService, gamePanel);
             controlPanel.setGameController(controller);
             InputTypeController inputTypeController = controller.getInputTypeController();
 
@@ -70,6 +67,8 @@ public class TrumpGame {
             controller.addEventListener(event -> {
                 if (event instanceof GameControllerImpl.GameTickEvent) {
                     elapsedTimeDisplayPanel.displayEntityValue(controller);
+                } else if (event instanceof TrumpGameController.CoinCollectedEvent) {
+                    amountCoinsCollectedDisplayPanel.displayEntityValue(controller);
                 }
             });
 

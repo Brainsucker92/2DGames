@@ -4,11 +4,11 @@ import control.controllers.game.GameController;
 import control.controllers.game.GameState;
 import control.controllers.input.InputTypeController;
 import control.controllers.input.impl.InputTypeControllerImpl;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
-import data.grid.event.EventObject;
-import data.grid.event.impl.EventImpl;
-import data.grid.event.impl.EventObjectImpl;
+import data.event.Event;
+import data.event.EventListener;
+import data.event.EventObject;
+import data.event.impl.EventImpl;
+import data.event.impl.EventObjectImpl;
 import data.time.TimeCounter;
 
 import java.util.concurrent.TimeUnit;

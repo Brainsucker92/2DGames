@@ -1,8 +1,8 @@
-package data.grid.event.impl;
+package data.event.impl;
 
-import data.grid.event.Event;
-import data.grid.event.EventListener;
-import data.grid.event.EventObject;
+import data.event.Event;
+import data.event.EventListener;
+import data.event.EventObject;
 
 import java.util.ArrayList;
 import java.util.List;

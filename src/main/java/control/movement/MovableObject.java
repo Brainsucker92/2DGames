@@ -1,6 +1,6 @@
 package control.movement;
 
-import data.grid.event.EventListener;
+import data.event.EventListener;
 
 import java.awt.geom.Point2D;
 import java.util.concurrent.TimeUnit;

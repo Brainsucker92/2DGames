@@ -3,11 +3,11 @@ package control.movement.impl;
 import control.movement.Direction;
 import control.movement.MovableObject;
 import control.movement.MovementController;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
-import data.grid.event.EventObject;
-import data.grid.event.impl.EventImpl;
-import data.grid.event.impl.EventObjectImpl;
+import data.event.Event;
+import data.event.EventListener;
+import data.event.EventObject;
+import data.event.impl.EventImpl;
+import data.event.impl.EventObjectImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,4 +1,4 @@
-package data.grid.event;
+package data.event;
 
 public interface EventObject {
 

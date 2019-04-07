@@ -1,7 +1,7 @@
 package control.controllers.game;
 
 import control.controllers.input.InputTypeController;
-import data.grid.event.EventListener;
+import data.event.EventListener;
 
 import java.util.concurrent.TimeUnit;
 

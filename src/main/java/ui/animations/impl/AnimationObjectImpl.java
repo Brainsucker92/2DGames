@@ -1,10 +1,10 @@
 package ui.animations.impl;
 
-import data.grid.event.Event;
-import data.grid.event.EventListener;
-import data.grid.event.EventObject;
-import data.grid.event.impl.EventImpl;
-import data.grid.event.impl.EventObjectImpl;
+import data.event.Event;
+import data.event.EventListener;
+import data.event.EventObject;
+import data.event.impl.EventImpl;
+import data.event.impl.EventObjectImpl;
 import ui.animations.AnimationDrawer;
 import ui.animations.AnimationObject;
 import ui.sprites.SpriteAnimation;

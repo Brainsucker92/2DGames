@@ -27,6 +27,7 @@ public class Obama extends MovableGameEntityImpl implements AnimationEntity<Obam
 
     private AnimationObject<Animations> animationObject;
 
+    private Random random;
     public Obama() {
         init();
     }
@@ -38,6 +39,7 @@ public class Obama extends MovableGameEntityImpl implements AnimationEntity<Obam
                 Resources.CELEBRATE));
         List<MP3SoundResource> soundResources = List.of(Resources.EARTH_WIND_FIRE, Resources.CELEBRATE);
 
+        random = new Random();
         GameComponent gameComponent = this.getGameComponent();
         gameComponent.setPreferredSize(new Dimension(128, 128));
         gameComponent.setSize(128, 128);
@@ -59,7 +61,6 @@ public class Obama extends MovableGameEntityImpl implements AnimationEntity<Obam
         gameComponent.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseReleased(MouseEvent e) {
-                Random random = new Random();
                 int i = random.nextInt(soundResources.size());
                 MP3SoundResource mp3SoundResource = soundResources.get(i);
                 Clip clip = mp3SoundResource.getData();

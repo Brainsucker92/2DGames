@@ -1,9 +1,11 @@
 package data.grid.event.impl;
 
+import data.event.EventListener;
+import data.event.EventObject;
+import data.event.impl.EventImpl;
+import data.event.impl.EventObjectImpl;
 import data.grid.Grid2D;
 import data.grid.event.EventGrid2D;
-import data.grid.event.EventListener;
-import data.grid.event.EventObject;
 import data.grid.impl.Grid2DImpl;
 
 @SuppressWarnings("unused")
