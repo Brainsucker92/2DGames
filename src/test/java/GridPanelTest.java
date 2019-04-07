@@ -1,6 +1,6 @@
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
-import ui.GridPanel;
+import ui.panels.GridPanel;
 
 import javax.swing.*;
 

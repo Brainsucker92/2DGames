@@ -4,7 +4,7 @@ import control.movement.MovableGameEntity;
 import control.movement.MovableObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ui.GameComponent;
+import ui.components.GameComponent;
 
 import java.awt.geom.Point2D;
 

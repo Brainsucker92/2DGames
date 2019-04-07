@@ -1,4 +1,6 @@
-package ui;
+package ui.drawings;
+
+import ui.Drawable;
 
 import java.awt.*;
 import java.awt.geom.Dimension2D;

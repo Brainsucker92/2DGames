@@ -1,6 +1,6 @@
 package control;
 
-import ui.AnimationObject;
+import ui.animations.AnimationObject;
 
 public interface AnimationEntity<T> {
 

@@ -4,7 +4,11 @@ import control.impl.GameControllerImpl;
 import data.grid.Grid2D;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
-import ui.*;
+import ui.Drawable;
+import ui.drawings.BlueToken;
+import ui.drawings.RedToken;
+import ui.drawings.Token;
+import ui.panels.EventGridPanel;
 
 import java.awt.*;
 import java.awt.geom.Dimension2D;

@@ -1,4 +1,7 @@
-package ui;
+package ui.components;
+
+import ui.Drawable;
+import ui.drawings.ErrorDrawing;
 
 import javax.swing.*;
 import java.awt.*;

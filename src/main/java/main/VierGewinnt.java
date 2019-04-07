@@ -4,8 +4,8 @@ import control.GameController;
 import control.VierGewinntController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
-import ui.EventGridPanel;
-import ui.Token;
+import ui.drawings.Token;
+import ui.panels.EventGridPanel;
 
 import javax.swing.*;
 

@@ -1,4 +1,4 @@
-package ui;
+package ui.animations;
 
 import data.grid.event.EventListener;
 import ui.sprites.SpriteAnimation;

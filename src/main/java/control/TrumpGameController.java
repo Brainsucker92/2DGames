@@ -7,8 +7,8 @@ import data.GameData;
 import data.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ui.AnimationObject;
-import ui.GameComponent;
+import ui.animations.AnimationObject;
+import ui.components.GameComponent;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;

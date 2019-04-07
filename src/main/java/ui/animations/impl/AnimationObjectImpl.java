@@ -1,12 +1,12 @@
-package ui.impl;
+package ui.animations.impl;
 
 import data.grid.event.Event;
 import data.grid.event.EventListener;
 import data.grid.event.EventObject;
 import data.grid.event.impl.EventImpl;
 import data.grid.event.impl.EventObjectImpl;
-import ui.AnimationDrawer;
-import ui.AnimationObject;
+import ui.animations.AnimationDrawer;
+import ui.animations.AnimationObject;
 import ui.sprites.SpriteAnimation;
 
 public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> implements AnimationObject<T> {

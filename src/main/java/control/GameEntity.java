@@ -1,6 +1,6 @@
 package control;
 
-import ui.GameComponent;
+import ui.components.GameComponent;
 
 public interface GameEntity {
 

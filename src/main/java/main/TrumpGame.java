@@ -6,8 +6,8 @@ import control.impl.GameControllerImpl;
 import data.GameData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ui.ControlPanel;
-import ui.MovementControlPanel;
+import ui.panels.ControlPanel;
+import ui.panels.MovementControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -56,7 +56,7 @@ public class TrumpGame {
 
             controller.addEventListener(event -> {
                 if (event instanceof GameControllerImpl.GameTickEvent) {
-                    textField.setText(String.valueOf(controller.getElapsedTime(TimeUnit.SECONDS)));
+                    textField.setText(String.valueOf(controller.getElapsedTime(TimeUnit.NANOSECONDS)));
                 }
             });
 

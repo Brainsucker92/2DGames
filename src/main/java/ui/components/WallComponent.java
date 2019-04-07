@@ -1,4 +1,6 @@
-package ui;
+package ui.components;
+
+import ui.Drawable;
 
 public class WallComponent extends GameComponent {
 

@@ -6,10 +6,10 @@ import data.ResourceLoader;
 import data.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ui.AnimationDrawer;
-import ui.AnimationObject;
-import ui.GameComponent;
-import ui.impl.AnimationObjectImpl;
+import ui.animations.AnimationDrawer;
+import ui.animations.AnimationObject;
+import ui.animations.impl.AnimationObjectImpl;
+import ui.components.GameComponent;
 import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
 
