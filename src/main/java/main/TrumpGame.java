@@ -98,8 +98,9 @@ public class TrumpGame {
             frame.add(configPanel);
             frame.add(statisticsPanel);
 
-            frame.setLocation(500, 500);
             frame.pack();
+            Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+            frame.setLocation((screenSize.width / 2) - (frame.getWidth() / 2), (screenSize.height / 2) - (frame.getHeight() / 2));
             frame.setVisible(true);
             logger.info("Finished initializing application");
         } finally {
