@@ -7,7 +7,9 @@ import data.GameData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.panels.ControlPanel;
+import ui.panels.ElapsedTimeDisplayPanel;
 import ui.panels.MovementControlPanel;
+import ui.panels.MovementSpeedDisplayPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,31 +34,43 @@ public class TrumpGame {
         TrumpGameController controller;
         try {
             GameData gameData = new GameData(executorService);
-            JPanel panel = new JPanel();
-            panel.setPreferredSize(new Dimension(300, 300));
-            // panel.setSize(300, 300);
-            panel.setBackground(Color.WHITE);
-            panel.setLayout(null);
+            JPanel gamePanel = new JPanel();
+            gamePanel.setPreferredSize(new Dimension(300, 300));
+            // gamePanel.setSize(300, 300);
+            gamePanel.setBackground(Color.WHITE);
+            gamePanel.setLayout(null);
+
+            JPanel configPanel = new JPanel();
+
+            JPanel statisticsPanel = new JPanel();
+
+            MovementSpeedDisplayPanel movementSpeedDisplayPanel = new MovementSpeedDisplayPanel();
+            ElapsedTimeDisplayPanel elapsedTimeDisplayPanel = new ElapsedTimeDisplayPanel();
+
+            // TODO
+            //movementSpeedDisplayPanel.displayEntityValue();
+
+            statisticsPanel.add(movementSpeedDisplayPanel);
+            statisticsPanel.add(elapsedTimeDisplayPanel);
 
             ControlPanel controlPanel = new ControlPanel();
             controlPanel.setSize(150, 50);
-            controlPanel.setBackground(Color.GRAY);
 
-            controller = new TrumpGameController(executorService, panel, gameData);
+            configPanel.add(controlPanel);
+
+            controller = new TrumpGameController(executorService, gamePanel, gameData);
             controlPanel.setGameController(controller);
             InputTypeController inputTypeController = controller.getInputTypeController();
 
             MovementControlPanel movementControlPanel = new MovementControlPanel();
             movementControlPanel.setSize(150, 50);
-            movementControlPanel.setBackground(Color.BLUE);
             movementControlPanel.setInputTypeController(inputTypeController);
 
-            JTextField textField = new JTextField();
-            textField.setEditable(false);
+            configPanel.add(movementControlPanel);
 
             controller.addEventListener(event -> {
                 if (event instanceof GameControllerImpl.GameTickEvent) {
-                    textField.setText(String.valueOf(controller.getElapsedTime(TimeUnit.NANOSECONDS)));
+                    elapsedTimeDisplayPanel.displayEntityValue(controller);
                 }
             });
 
@@ -82,10 +96,9 @@ public class TrumpGame {
 
             frame.setLayout(new FlowLayout());
 
-            frame.add(panel);
-            frame.add(controlPanel);
-            frame.add(movementControlPanel);
-            frame.add(textField);
+            frame.add(gamePanel);
+            frame.add(configPanel);
+            frame.add(statisticsPanel);
 
             frame.setLocation(500, 500);
             frame.pack();
