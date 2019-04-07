@@ -4,8 +4,6 @@ import control.movement.impl.MovableGameEntityImpl;
 import data.ResourceLoader;
 import data.Resources;
 import data.grid.MP3SoundResource;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import ui.AnimationDrawer;
 import ui.AnimationObject;
 import ui.GameComponent;
@@ -69,16 +67,13 @@ public class Obama extends MovableGameEntityImpl implements AnimationEntity<Obam
             }
         });
 
-        animationObject.addEventListener(new EventListener() {
-            @Override
-            public void onEventFired(Event event) {
-                if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
-                    gameComponent.repaint();
-                } else if (event instanceof AnimationObjectImpl.AnimationChangedEvent) {
-                    AnimationObjectImpl.AnimationChangedEvent evt = ((AnimationObjectImpl.AnimationChangedEvent) event);
-                    SpriteAnimation newAnimation = evt.getNewAnimation();
-                    animationDrawer.setImageSupplier(newAnimation);
-                }
+        animationObject.addEventListener(event -> {
+            if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
+                gameComponent.repaint();
+            } else if (event instanceof AnimationObjectImpl.AnimationChangedEvent) {
+                AnimationObjectImpl.AnimationChangedEvent evt = ((AnimationObjectImpl.AnimationChangedEvent) event);
+                SpriteAnimation newAnimation = evt.getNewAnimation();
+                animationDrawer.setImageSupplier(newAnimation);
             }
         });
     }

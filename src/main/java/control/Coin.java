@@ -4,8 +4,6 @@ import control.movement.impl.MovableGameEntityImpl;
 import data.Resource;
 import data.ResourceLoader;
 import data.Resources;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.AnimationDrawer;
@@ -70,12 +68,9 @@ public class Coin extends MovableGameEntityImpl implements AnimationEntity<Coin.
         component.setDrawable(animationDrawer);
         component.setVisible(true);
 
-        animationObject.addEventListener(new EventListener() {
-            @Override
-            public void onEventFired(Event event) {
-                if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
-                    component.repaint();
-                }
+        animationObject.addEventListener(event -> {
+            if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
+                component.repaint();
             }
         });
     }

@@ -9,8 +9,6 @@ import data.Resource;
 import data.ResourceLoader;
 import data.Resources;
 import data.grid.MP3SoundResource;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.AnimationDrawer;
@@ -76,26 +74,23 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
 
         MovableObject movableObject = this.getMovableObject();
 
-        movableObject.addEventListener(new EventListener() {
-            @Override
-            public void onEventFired(Event event) {
-                if (event instanceof MovableObjectImpl.DirectionChangedEvent) {
-                    MovableObjectImpl.DirectionChangedEvent evt = ((MovableObjectImpl.DirectionChangedEvent) event);
-                    Direction newDirection = evt.getNewDirection();
-                    switch (newDirection) {
-                        case NORTH:
-                            animationObject.setCurrentAnimation(animations.getWalkNorthAnimation());
-                            break;
-                        case EAST:
-                            animationObject.setCurrentAnimation(animations.getWalkEastAnimation());
-                            break;
-                        case SOUTH:
-                            animationObject.setCurrentAnimation(animations.getWalkSouthAnimation());
-                            break;
-                        case WEST:
-                            animationObject.setCurrentAnimation(animations.getWalkWestAnimation());
-                            break;
-                    }
+        movableObject.addEventListener(event -> {
+            if (event instanceof MovableObjectImpl.DirectionChangedEvent) {
+                MovableObjectImpl.DirectionChangedEvent evt = ((MovableObjectImpl.DirectionChangedEvent) event);
+                Direction newDirection = evt.getNewDirection();
+                switch (newDirection) {
+                    case NORTH:
+                        animationObject.setCurrentAnimation(animations.getWalkNorthAnimation());
+                        break;
+                    case EAST:
+                        animationObject.setCurrentAnimation(animations.getWalkEastAnimation());
+                        break;
+                    case SOUTH:
+                        animationObject.setCurrentAnimation(animations.getWalkSouthAnimation());
+                        break;
+                    case WEST:
+                        animationObject.setCurrentAnimation(animations.getWalkWestAnimation());
+                        break;
                 }
             }
         });
@@ -118,12 +113,9 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
         AnimationDrawer animationDrawer = animationObject.getAnimationDrawer();
         component.setDrawable(animationDrawer);
 
-        animationObject.addEventListener(new EventListener() {
-            @Override
-            public void onEventFired(Event event) {
-                if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
-                    component.repaint();
-                }
+        animationObject.addEventListener(event -> {
+            if (event instanceof AnimationObjectImpl.AnimationUpdatedEvent) {
+                component.repaint();
             }
         });
     }
