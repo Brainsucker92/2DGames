@@ -56,7 +56,7 @@ public class TrumpGame {
 
             controller.addEventListener(event -> {
                 if (event instanceof GameControllerImpl.GameTickEvent) {
-                    textField.setText(String.valueOf(TimeUnit.NANOSECONDS.toSeconds(controller.getElapsedTime())));
+                    textField.setText(String.valueOf(controller.getElapsedTime(TimeUnit.SECONDS)));
                 }
             });
 

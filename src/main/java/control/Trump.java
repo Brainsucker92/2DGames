@@ -95,9 +95,6 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
             }
         });
 
-        component.setFocusable(true);
-        component.requestFocus();
-
         // It's time to access the resources.
         try {
             // make sure all resources have been loaded.

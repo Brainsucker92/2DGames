@@ -162,10 +162,10 @@ public class TrumpGameController extends GameControllerImpl {
             pos.setLocation(position);
         }
 
-        long elapsedTime = this.getElapsedTime();
+        long elapsedSeconds = this.getElapsedTime(TimeUnit.SECONDS);
         MovableObject movableObject = trump.getMovableObject();
         BiFunction<Long, Integer, Double> movementFunction = (x, y) -> (((1 / (double) 400) * Math.pow(x * Math.pow(10, -9), 2)) + 0.25 * y + 20.0);
-        Double movementSpeed = movementFunction.apply(elapsedTime, coinsCollected);
+        Double movementSpeed = movementFunction.apply(elapsedSeconds, coinsCollected);
         movableObject.setMovementSpeed(movementSpeed);
 
         GameTickEvent event = new GameTickEvent(this, delta, timeUnit);

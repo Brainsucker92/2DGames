@@ -3,6 +3,7 @@ package control.impl;
 import control.GameController;
 import control.GameState;
 import control.InputTypeController;
+import control.TimeCounter;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
 import data.grid.event.EventObject;
@@ -15,13 +16,11 @@ public abstract class GameControllerImpl implements GameController {
 
     private GameState gameState;
     private InputTypeController inputTypeController;
-    private long elapsedTime;
-    private long lastTime;
-
+    private TimeCounter timeCounter;
     private EventObject eventObject;
 
     public GameControllerImpl() {
-        elapsedTime = 0;
+        timeCounter = new TimeCounter();
         eventObject = new EventObjectImpl();
         inputTypeController = new InputTypeControllerImpl();
         gameState = GameState.INITIALIZED;
@@ -32,7 +31,7 @@ public abstract class GameControllerImpl implements GameController {
         if (this.getGameState() != GameState.INITIALIZED) {
             throw new IllegalStateException("Game has been started already.");
         }
-        lastTime = System.nanoTime();
+        timeCounter.start();
 
         this.setGameState(GameState.RUNNING);
     }
@@ -46,7 +45,7 @@ public abstract class GameControllerImpl implements GameController {
         } else if (this.getGameState() != GameState.RUNNING) {
             throw new IllegalStateException("Game must be running to pause.");
         }
-        updateElapsedTime();
+        timeCounter.stop();
 
         this.setGameState(GameState.PAUSED);
     }
@@ -56,7 +55,7 @@ public abstract class GameControllerImpl implements GameController {
         if (this.getGameState() != GameState.PAUSED) {
             throw new IllegalStateException("Cannot only resume if game is paused");
         }
-        lastTime = System.nanoTime();
+        timeCounter.start();
         this.setGameState(GameState.RUNNING);
     }
 
@@ -75,26 +74,24 @@ public abstract class GameControllerImpl implements GameController {
         if (this.getGameState() != GameState.STOPPED) {
             throw new IllegalStateException("Game must be stopped first to reset.");
         }
-        elapsedTime = 0;
+        timeCounter.reset();
         this.setGameState(GameState.INITIALIZED);
     }
 
     @Override
     public final void endGame() {
-        updateElapsedTime();
         this.setGameState(GameState.STOPPED);
+        timeCounter.stop();
     }
 
     @Override
     public long getElapsedTime() {
-        updateElapsedTime();
-        return elapsedTime;
+        return getElapsedTime(TimeUnit.SECONDS);
     }
 
     @Override
     public long getElapsedTime(TimeUnit timeUnit) {
-        updateElapsedTime();
-        return timeUnit.convert(elapsedTime, TimeUnit.NANOSECONDS);
+        return timeCounter.getElapsedTime(timeUnit);
     }
 
     @Override
@@ -130,15 +127,6 @@ public abstract class GameControllerImpl implements GameController {
         eventObject.fireEvent(event);
     }
 
-    private void updateElapsedTime() {
-        if (this.getGameState() == GameState.RUNNING) {
-            long currentTime = System.nanoTime();
-
-            long diff = currentTime - lastTime;
-            lastTime = System.nanoTime();
-            elapsedTime += diff;
-        }
-    }
     public class GameStateChangedEvent extends EventImpl {
 
 
