@@ -5,7 +5,7 @@ import data.grid.event.EventListener;
 import java.awt.geom.Point2D;
 import java.util.concurrent.TimeUnit;
 
-public interface MoveableObject {
+public interface MovableObject {
 
     void move();
 
@@ -14,6 +14,10 @@ public interface MoveableObject {
     Direction getDirection();
 
     Point2D getPosition();
+
+    void setPosition(Point2D position);
+
+    void setPosition(double x, double y);
 
     MovementController getMovementController();
 

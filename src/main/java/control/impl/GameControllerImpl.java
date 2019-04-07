@@ -2,6 +2,7 @@ package control.impl;
 
 import control.GameController;
 import control.GameState;
+import control.InputTypeController;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
 import data.grid.event.EventObject;
@@ -13,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 public abstract class GameControllerImpl implements GameController {
 
     private GameState gameState;
+    private InputTypeController inputTypeController;
     private long elapsedTime;
     private long lastTime;
 
@@ -20,9 +22,8 @@ public abstract class GameControllerImpl implements GameController {
 
     public GameControllerImpl() {
         elapsedTime = 0;
-
         eventObject = new EventObjectImpl();
-
+        inputTypeController = new InputTypeControllerImpl();
         gameState = GameState.INITIALIZED;
     }
 
@@ -56,8 +57,26 @@ public abstract class GameControllerImpl implements GameController {
             throw new IllegalStateException("Cannot only resume if game is paused");
         }
         lastTime = System.nanoTime();
-
         this.setGameState(GameState.RUNNING);
+    }
+
+    @Override
+    public final void stop() {
+        if (this.getGameState() == GameState.STOPPED) {
+            throw new IllegalStateException("Game has been stopped already.");
+        } else if (this.getGameState() == GameState.INITIALIZED) {
+            throw new IllegalStateException("Game has not been started yet.");
+        }
+        this.setGameState(GameState.STOPPED);
+    }
+
+    @Override
+    public void reset() {
+        if (this.getGameState() != GameState.STOPPED) {
+            throw new IllegalStateException("Game must be stopped first to reset.");
+        }
+        elapsedTime = 0;
+        this.setGameState(GameState.INITIALIZED);
     }
 
     @Override
@@ -90,7 +109,6 @@ public abstract class GameControllerImpl implements GameController {
             GameStateChangedEvent event = new GameStateChangedEvent(this, oldState, gameState);
             eventObject.fireEvent(event);
         }
-
     }
 
     @Override
@@ -101,6 +119,11 @@ public abstract class GameControllerImpl implements GameController {
     @Override
     public void removeEventListener(EventListener eventListener) {
         eventObject.removeListener(eventListener);
+    }
+
+    @Override
+    public InputTypeController getInputTypeController() {
+        return inputTypeController;
     }
 
     protected void fireEvent(Event event) {
@@ -116,8 +139,8 @@ public abstract class GameControllerImpl implements GameController {
             elapsedTime += diff;
         }
     }
-
     public class GameStateChangedEvent extends EventImpl {
+
 
         private GameState oldState;
         private GameState newState;

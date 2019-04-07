@@ -1,7 +1,6 @@
 package control;
 
-import control.movement.MoveableObject;
-import control.movement.impl.MoveableObjectImpl;
+import control.movement.impl.MovableGameEntityImpl;
 import data.ImageResource;
 import data.ResourceLoader;
 import data.Resources;
@@ -24,12 +23,10 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 
-public class Flappy implements GameEntity, MoveableEntity, AnimationEntity<Flappy.Animations> {
+public class Flappy extends MovableGameEntityImpl implements AnimationEntity<Flappy.Animations> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Flappy.class);
 
-    private GameComponent component;
-    private MoveableObject moveableObject;
     private AnimationObject<Animations> animationObject;
 
     public Flappy() {
@@ -43,9 +40,7 @@ public class Flappy implements GameEntity, MoveableEntity, AnimationEntity<Flapp
         ResourceLoader resourceLoader = ResourceLoader.getInstance();
         Future<?> futureResources = resourceLoader.loadResources(List.of(flappyResource));
 
-        moveableObject = new MoveableObjectImpl();
-
-        component = new GameComponent();
+        GameComponent component = this.getGameComponent();
         component.setPreferredSize(new Dimension(150, 150));
         component.setMinimumSize(new Dimension(10, 10));
         try {
@@ -75,16 +70,6 @@ public class Flappy implements GameEntity, MoveableEntity, AnimationEntity<Flapp
     @Override
     public AnimationObject<Animations> getAnimationObject() {
         return animationObject;
-    }
-
-    @Override
-    public MoveableObject getMoveableObject() {
-        return this.moveableObject;
-    }
-
-    @Override
-    public GameComponent getGameComponent() {
-        return this.component;
     }
 
     public class Animations implements AnimationObjectImpl.Animations {

@@ -10,8 +10,8 @@ public interface MovementController {
 
     void unregister(Component component);
 
-    MoveableObject getMoveableObject();
+    MovableObject getMovableObject();
 
-    void setMoveableObject(MoveableObject moveableObject);
+    void setMovableObject(MovableObject movableObject);
 
 }

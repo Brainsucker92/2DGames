@@ -1,7 +1,6 @@
 package control;
 
-import control.movement.MoveableObject;
-import control.movement.impl.MoveableObjectImpl;
+import control.movement.impl.MovableGameEntityImpl;
 import data.ResourceLoader;
 import data.Resources;
 import data.grid.MP3SoundResource;
@@ -25,10 +24,8 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public class Obama implements GameEntity, MoveableEntity, AnimationEntity<Obama.Animations> {
+public class Obama extends MovableGameEntityImpl implements AnimationEntity<Obama.Animations> {
 
-    private GameComponent gameComponent;
-    private MoveableObject moveableObject;
     private AnimationObject<Animations> animationObject;
 
     public Obama() {
@@ -42,9 +39,7 @@ public class Obama implements GameEntity, MoveableEntity, AnimationEntity<Obama.
                 Resources.CELEBRATE));
         List<MP3SoundResource> soundResources = List.of(Resources.EARTH_WIND_FIRE, Resources.CELEBRATE);
 
-        moveableObject = new MoveableObjectImpl();
-
-        gameComponent = new GameComponent();
+        GameComponent gameComponent = this.getGameComponent();
         gameComponent.setPreferredSize(new Dimension(128, 128));
         gameComponent.setSize(128, 128);
         try {
@@ -86,16 +81,6 @@ public class Obama implements GameEntity, MoveableEntity, AnimationEntity<Obama.
                 }
             }
         });
-    }
-
-    @Override
-    public GameComponent getGameComponent() {
-        return this.gameComponent;
-    }
-
-    @Override
-    public MoveableObject getMoveableObject() {
-        return moveableObject;
     }
 
     @Override

@@ -11,8 +11,8 @@ public class MouseMotionController extends DestinationMovementControllerImpl {
 
     private MouseMotionListener listener;
 
-    public MouseMotionController(MoveableObject moveableObject) {
-        super(moveableObject);
+    public MouseMotionController(MovableObject movableObject) {
+        super(movableObject);
         init();
     }
 

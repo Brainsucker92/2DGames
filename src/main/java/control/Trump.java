@@ -1,8 +1,9 @@
 package control;
 
 import control.movement.Direction;
-import control.movement.MoveableObject;
-import control.movement.impl.MoveableObjectImpl;
+import control.movement.MovableObject;
+import control.movement.impl.MovableGameEntityImpl;
+import control.movement.impl.MovableObjectImpl;
 import data.ImageResource;
 import data.Resource;
 import data.ResourceLoader;
@@ -30,13 +31,11 @@ import java.util.Random;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public class Trump implements GameEntity, MoveableEntity, AnimationEntity<Trump.Animations> {
+public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trump.Animations> {
 
     public static final Logger LOGGER = LoggerFactory.getLogger(Trump.class);
 
-    private GameComponent component;
     private Animations animations;
-    private MoveableObject moveableObject;
     private AnimationObject<Animations> animationObject;
 
     public Trump() {
@@ -59,10 +58,9 @@ public class Trump implements GameEntity, MoveableEntity, AnimationEntity<Trump.
         Future<?> futureSounds = resourceLoader.loadResources(soundResources);
 
         // Do some other stuff while resources are loading.
-        component = new GameComponent();
+        GameComponent component = this.getGameComponent();
         component.setPreferredSize(new Dimension(100, 100));
         component.setMinimumSize(new Dimension(10, 10));
-        // component.setLocation(200, 50);
         component.setVisible(true);
         component.addMouseListener(new MouseAdapter() {
             @Override
@@ -76,13 +74,13 @@ public class Trump implements GameEntity, MoveableEntity, AnimationEntity<Trump.
             }
         });
 
-        moveableObject = new MoveableObjectImpl();
+        MovableObject movableObject = this.getMovableObject();
 
-        moveableObject.addEventListener(new EventListener() {
+        movableObject.addEventListener(new EventListener() {
             @Override
             public void onEventFired(Event event) {
-                if (event instanceof MoveableObjectImpl.DirectionChangedEvent) {
-                    MoveableObjectImpl.DirectionChangedEvent evt = ((MoveableObjectImpl.DirectionChangedEvent) event);
+                if (event instanceof MovableObjectImpl.DirectionChangedEvent) {
+                    MovableObjectImpl.DirectionChangedEvent evt = ((MovableObjectImpl.DirectionChangedEvent) event);
                     Direction newDirection = evt.getNewDirection();
                     switch (newDirection) {
                         case NORTH:
@@ -128,15 +126,6 @@ public class Trump implements GameEntity, MoveableEntity, AnimationEntity<Trump.
                 }
             }
         });
-    }
-
-    @Override
-    public GameComponent getGameComponent() {
-        return this.component;
-    }
-
-    public MoveableObject getMoveableObject() {
-        return this.moveableObject;
     }
 
     @Override

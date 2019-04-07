@@ -11,8 +11,8 @@ public class MouseClickController extends DestinationMovementControllerImpl {
 
     private MouseListener listener;
 
-    public MouseClickController(MoveableObject moveableObject) {
-        super(moveableObject);
+    public MouseClickController(MovableObject movableObject) {
+        super(movableObject);
 
         listener = new MouseAdapter() {
             @Override

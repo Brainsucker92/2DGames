@@ -1,23 +1,23 @@
 package control.movement.impl;
 
-import control.movement.MoveableObject;
+import control.movement.MovableObject;
 import control.movement.MovementController;
 
 public abstract class MovementControllerImpl implements MovementController {
 
-    private MoveableObject moveableObject;
+    private MovableObject movableObject;
 
-    public MovementControllerImpl(MoveableObject moveableObject) {
-        this.moveableObject = moveableObject;
+    public MovementControllerImpl(MovableObject movableObject) {
+        this.movableObject = movableObject;
     }
 
     @Override
-    public MoveableObject getMoveableObject() {
-        return this.moveableObject;
+    public MovableObject getMovableObject() {
+        return this.movableObject;
     }
 
     @Override
-    public void setMoveableObject(MoveableObject moveableObject) {
-        this.moveableObject = moveableObject;
+    public void setMovableObject(MovableObject movableObject) {
+        this.movableObject = movableObject;
     }
 }

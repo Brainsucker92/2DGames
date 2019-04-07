@@ -16,8 +16,9 @@ public class KeyInputController extends MovementControllerImpl {
     private int southKeyCode;
     private int westKeyCode;
 
-    public KeyInputController(MoveableObject moveableObject, int northKeyCode, int eastKeyCode, int southKeyCode, int westKeyCode) {
-        super(moveableObject);
+    public KeyInputController(MovableObject movableObject, int northKeyCode, int eastKeyCode, int southKeyCode, int westKeyCode) {
+        super(movableObject);
+        // TODO make sure input keys are different.
         this.northKeyCode = northKeyCode;
         this.eastKeyCode = eastKeyCode;
         this.southKeyCode = southKeyCode;
@@ -30,15 +31,15 @@ public class KeyInputController extends MovementControllerImpl {
             @Override
             public void keyReleased(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                MoveableObject moveableObject = getMoveableObject();
+                MovableObject movableObject = getMovableObject();
                 if (keyCode == northKeyCode) {
-                    moveableObject.setDirection(Direction.NORTH);
+                    movableObject.setDirection(Direction.NORTH);
                 } else if (keyCode == eastKeyCode) {
-                    moveableObject.setDirection(Direction.EAST);
+                    movableObject.setDirection(Direction.EAST);
                 } else if (keyCode == southKeyCode) {
-                    moveableObject.setDirection(Direction.SOUTH);
+                    movableObject.setDirection(Direction.SOUTH);
                 } else if (keyCode == westKeyCode) {
-                    moveableObject.setDirection(Direction.WEST);
+                    movableObject.setDirection(Direction.WEST);
                 }
             }
         };

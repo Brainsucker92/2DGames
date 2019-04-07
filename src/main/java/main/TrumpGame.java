@@ -1,12 +1,13 @@
 package main;
 
+import control.InputTypeController;
 import control.TrumpGameController;
 import control.impl.GameControllerImpl;
 import data.GameData;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import ui.ControlPanel;
+import ui.MovementControlPanel;
 
 import javax.swing.*;
 import java.awt.*;
@@ -32,23 +33,35 @@ public class TrumpGame {
         try {
             GameData gameData = new GameData(executorService);
             JPanel panel = new JPanel();
+            panel.setPreferredSize(new Dimension(300, 300));
+            // panel.setSize(300, 300);
+            panel.setBackground(Color.WHITE);
             panel.setLayout(null);
 
+            ControlPanel controlPanel = new ControlPanel();
+            controlPanel.setSize(150, 50);
+            controlPanel.setBackground(Color.GRAY);
+
             controller = new TrumpGameController(executorService, panel, gameData);
+            controlPanel.setGameController(controller);
+            InputTypeController inputTypeController = controller.getInputTypeController();
+
+            MovementControlPanel movementControlPanel = new MovementControlPanel();
+            movementControlPanel.setSize(150, 50);
+            movementControlPanel.setBackground(Color.BLUE);
+            movementControlPanel.setInputTypeController(inputTypeController);
 
             JTextField textField = new JTextField();
             textField.setEditable(false);
 
-            controller.addEventListener(new EventListener() {
-                @Override
-                public void onEventFired(Event event) {
-                    if (event instanceof GameControllerImpl.GameTickEvent) {
-                        textField.setText(String.valueOf(TimeUnit.NANOSECONDS.toSeconds(controller.getElapsedTime())));
-                    }
+            controller.addEventListener(event -> {
+                if (event instanceof GameControllerImpl.GameTickEvent) {
+                    textField.setText(String.valueOf(TimeUnit.NANOSECONDS.toSeconds(controller.getElapsedTime())));
                 }
             });
 
             JFrame frame = new JFrame();
+            frame.setTitle("Trump Game");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setPreferredSize(new Dimension(500, 500));
 
@@ -67,12 +80,16 @@ public class TrumpGame {
                 }
             });
 
+            frame.setLayout(new FlowLayout());
+
             frame.add(panel);
-            // frame.add(textField);
+            frame.add(controlPanel);
+            frame.add(movementControlPanel);
+            frame.add(textField);
+
             frame.setLocation(500, 500);
             frame.pack();
             frame.setVisible(true);
-            controller.start();
             logger.info("Finished initializing application");
         } finally {
             executorService.shutdown();

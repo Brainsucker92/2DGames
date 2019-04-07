@@ -2,7 +2,7 @@ package control.movement.impl;
 
 import control.movement.DestinationMovementController;
 import control.movement.Direction;
-import control.movement.MoveableObject;
+import control.movement.MovableObject;
 
 import java.awt.geom.Point2D;
 
@@ -10,15 +10,15 @@ public abstract class DestinationMovementControllerImpl extends MovementControll
 
     private Point2D destination;
 
-    public DestinationMovementControllerImpl(MoveableObject moveableObject) {
-        super(moveableObject);
+    public DestinationMovementControllerImpl(MovableObject movableObject) {
+        super(movableObject);
         destination = new Point2D.Double();
     }
 
     @Override
     public void requestMovementInput() {
-        MoveableObject moveableObject = this.getMoveableObject();
-        Point2D currentPosition = moveableObject.getPosition();
+        MovableObject movableObject = this.getMovableObject();
+        Point2D currentPosition = movableObject.getPosition();
 
         double dx = currentPosition.getX() - destination.getX();
         double dy = currentPosition.getY() - destination.getY();
@@ -26,16 +26,16 @@ public abstract class DestinationMovementControllerImpl extends MovementControll
         if (Math.abs(dx) > Math.abs(dy)) {
             // Keep walking in x direction
             if (dx > 0) {
-                moveableObject.setDirection(Direction.WEST);
+                movableObject.setDirection(Direction.WEST);
             } else {
-                moveableObject.setDirection(Direction.EAST);
+                movableObject.setDirection(Direction.EAST);
             }
         } else {
             // Keep walking in y direction
             if (dy > 0) {
-                moveableObject.setDirection(Direction.NORTH);
+                movableObject.setDirection(Direction.NORTH);
             } else {
-                moveableObject.setDirection(Direction.SOUTH);
+                movableObject.setDirection(Direction.SOUTH);
             }
         }
     }

@@ -8,6 +8,8 @@ public interface GameController {
 
     GameState getGameState();
 
+    InputTypeController getInputTypeController();
+
     void addEventListener(EventListener eventListener);
 
     void removeEventListener(EventListener eventListener);
@@ -17,6 +19,10 @@ public interface GameController {
     void pause();
 
     void resume();
+
+    void stop();
+
+    void reset();
 
     void checkGameEnd();
 

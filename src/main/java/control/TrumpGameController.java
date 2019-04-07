@@ -2,10 +2,9 @@ package control;
 
 import control.impl.GameControllerImpl;
 import control.movement.*;
+import control.movement.impl.MovableObjectImpl;
 import data.GameData;
 import data.ResourceLoader;
-import data.grid.event.Event;
-import data.grid.event.EventListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.AnimationObject;
@@ -39,7 +38,7 @@ public class TrumpGameController extends GameControllerImpl {
 
     private List<GameEntity> gameEntityList;
     private List<AnimationEntity<?>> animationEntityList;
-    private List<MoveableEntity> moveableEntityList;
+    private List<MovableEntity> movableEntityList;
 
     public TrumpGameController(ExecutorService executorService, Container container, GameData gameData) {
         this.executorService = executorService;
@@ -56,11 +55,11 @@ public class TrumpGameController extends GameControllerImpl {
         coinsCollected = 0;
         gameEntityList = new ArrayList<>();
         animationEntityList = new ArrayList<>();
-        moveableEntityList = new ArrayList<>();
+        movableEntityList = new ArrayList<>();
         animationTimer = new Timer();
         trump = new Trump();
         coin = new Coin();
-        timer = new Timer();
+        container.setFocusable(true);
 
         gameEntityList.add(trump);
         gameEntityList.add(coin);
@@ -68,43 +67,116 @@ public class TrumpGameController extends GameControllerImpl {
         animationEntityList.add(trump);
         animationEntityList.add(coin);
 
-        moveableEntityList.add(trump);
+        movableEntityList.add(trump);
 
         GameComponent trumpComponent = trump.getGameComponent();
         trumpComponent.setSize(100, 100);
+
         GameComponent coinGameComponent = coin.getGameComponent();
         coinGameComponent.setSize(20, 20);
         coinGameComponent.setLocation(150, 150);
 
-        MoveableObject trumpMoveableObject = trump.getMoveableObject();
-        MovementController movementController = new KeyInputController(trumpMoveableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
-        MovementController controller = new MouseMotionController(trumpMoveableObject);
-        MovementController mouseController = new MouseClickController(trumpMoveableObject);
-        trumpMoveableObject.setMovementController(mouseController);
-        trumpMoveableObject.setMovementSpeed(5.0);
-        trumpMoveableObject.getMovementController().register(this.container);
+        MovableObject trumpMovableObject = trump.getMovableObject();
+        MovementController movementController = new KeyInputController(trumpMovableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
+        MovementController controller = new MouseMotionController(trumpMovableObject);
+        MovementController mouseController = new MouseClickController(trumpMovableObject);
+
+        InputTypeController inputTypeController = this.getInputTypeController();
+        inputTypeController.setMovableObject(trumpMovableObject);
+        inputTypeController.registerInputController(InputType.KEY, movementController);
+        inputTypeController.registerInputController(InputType.MOUSE_CLICK, mouseController);
+        inputTypeController.registerInputController(InputType.MOUSE_MOTION, controller);
+
 
         for (GameEntity entity : gameEntityList) {
             GameComponent gameComponent = entity.getGameComponent();
             container.add(gameComponent);
         }
-        container.setFocusable(true);
-        container.requestFocus();
 
+        TimerTask animationUpdateTask = getAnimationUpdateTask();
+        animationTimer.scheduleAtFixedRate(animationUpdateTask, 0, 300);
 
-        TimerTask animationUpdateTask = new TimerTask() {
-            @Override
-            public void run() {
-                for (AnimationEntity<?> animationEntity : animationEntityList) {
-                    AnimationObject<?> animationObject = animationEntity.getAnimationObject();
-                    animationObject.updateAnimation();
+        this.addEventListener(event -> {
+            if (event instanceof GameStateChangedEvent) {
+                GameStateChangedEvent evt = ((GameStateChangedEvent) event);
+                GameState newState = evt.getNewState();
+                LOGGER.debug("Received GameStateChangedEvent: " + newState);
+                switch (newState) {
+                    case INITIALIZED:
+                        break;
+                    case RUNNING:
+                        timer = new Timer();
+                        TimerTask gameTicker = getGameTicker();
+                        timer.scheduleAtFixedRate(gameTicker, 0, 10);
+                        container.requestFocus();
+                        break;
+
+                    case STOPPED:
+                        // fall through
+                    case PAUSED:
+                        timer.cancel();
+                        break;
                 }
             }
-        };
-        animationTimer.scheduleAtFixedRate(animationUpdateTask, 0, 300);
-        TimerTask gameTicker = new TimerTask() {
+        });
+        trumpMovableObject.addEventListener(event -> {
+            if (event instanceof MovableObjectImpl.MovementControllerChangedEvent) {
+                MovableObjectImpl.MovementControllerChangedEvent evt = ((MovableObjectImpl.MovementControllerChangedEvent) event);
+                MovementController oldController = evt.getOldController();
+                MovementController newController = evt.getNewController();
+                if (oldController != null) {
+                    oldController.unregister(container);
+                }
+                if (newController != null) {
+                    newController.register(container);
+                }
+
+                if (newController instanceof KeyInputController) {
+                    container.requestFocus();
+                }
+            }
+        });
+        inputTypeController.useController(InputType.KEY);
+    }
+
+    public void shutdown() {
+        if (timer != null) {
+            timer.cancel();
+        }
+        if (animationTimer != null) {
+            animationTimer.cancel();
+        }
+    }
+
+    @Override
+    public void checkGameEnd() {
+        // TODO
+    }
+
+    private void gameTick(long delta, TimeUnit timeUnit) {
+        for (MovableEntity entity : movableEntityList) {
+            MovableObject movableObject = entity.getMovableObject();
+            movableObject.move(delta, timeUnit);
+            Point2D position = movableObject.getPosition();
+            Point pos = new Point();
+            pos.setLocation(position);
+        }
+
+        long elapsedTime = this.getElapsedTime();
+        MovableObject movableObject = trump.getMovableObject();
+        BiFunction<Long, Integer, Double> movementFunction = (x, y) -> (((1 / (double) 400) * Math.pow(x * Math.pow(10, -9), 2)) + 0.25 * y + 20.0);
+        Double movementSpeed = movementFunction.apply(elapsedTime, coinsCollected);
+        movableObject.setMovementSpeed(movementSpeed);
+
+        GameTickEvent event = new GameTickEvent(this, delta, timeUnit);
+        this.fireEvent(event);
+    }
+
+    private TimerTask getGameTicker() {
+        return new TimerTask() {
 
             private long prevTime = System.nanoTime();
+
             @Override
             public void run() {
                 long currentTime = System.nanoTime();
@@ -113,61 +185,17 @@ public class TrumpGameController extends GameControllerImpl {
                 gameTick(diff, TimeUnit.NANOSECONDS);
             }
         };
+    }
 
-        this.addEventListener(new EventListener() {
+    private TimerTask getAnimationUpdateTask() {
+        return new TimerTask() {
             @Override
-            public void onEventFired(Event event) {
-                if (event instanceof GameStateChangedEvent) {
-                    GameStateChangedEvent evt = ((GameStateChangedEvent) event);
-                    GameState newState = evt.getNewState();
-                    LOGGER.debug("Received GameStateChangedEvent: " + newState);
-                    switch (newState) {
-                        case RUNNING:
-                            timer = new Timer();
-                            timer.scheduleAtFixedRate(gameTicker, 0, 10);
-                            break;
-
-                        case STOPPED:
-                            // fall through
-                        case PAUSED:
-                            timer.cancel();
-                            break;
-                    }
+            public void run() {
+                for (AnimationEntity<?> animationEntity : animationEntityList) {
+                    AnimationObject<?> animationObject = animationEntity.getAnimationObject();
+                    animationObject.updateAnimation();
                 }
             }
-        });
-    }
-
-    private void gameTick(long delta, TimeUnit timeUnit) {
-        for (MoveableEntity entity : moveableEntityList) {
-            MoveableObject moveableObject = entity.getMoveableObject();
-            moveableObject.move(delta, timeUnit);
-            Point2D position = moveableObject.getPosition();
-            Point pos = new Point();
-            pos.setLocation(position);
-            if (gameEntityList.contains(entity)) {
-                GameEntity gameEntity = ((GameEntity) entity);
-                GameComponent component = gameEntity.getGameComponent();
-                component.setLocation(pos);
-            }
-
-        }
-        long elapsedTime = this.getElapsedTime();
-        MoveableObject moveableObject = trump.getMoveableObject();
-        BiFunction<Long, Integer, Double> movementFunction = (x, y) -> (((1 / (double) 400) * Math.pow(x * Math.pow(10, -9), 2)) + 0.25 * y + 20.0);
-        Double movementSpeed = movementFunction.apply(elapsedTime, coinsCollected);
-        moveableObject.setMovementSpeed(movementSpeed);
-
-        GameTickEvent event = new GameTickEvent(this, delta, timeUnit);
-        this.fireEvent(event);
-    }
-
-    public void shutdown() {
-        timer.cancel();
-        animationTimer.cancel();
-    }
-
-    @Override
-    public void checkGameEnd() {
+        };
     }
 }

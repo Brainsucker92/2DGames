@@ -15,5 +15,8 @@ public class FlappyBird {
         ExecutorService executorService = Executors.newCachedThreadPool();
         ResourceLoader resourceLoader = ResourceLoader.getInstance();
         resourceLoader.setExecutorService(executorService);
+
+
+        executorService.shutdown();
     }
 }

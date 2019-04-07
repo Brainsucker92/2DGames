@@ -1,7 +1,6 @@
 package control;
 
-import control.movement.MoveableObject;
-import control.movement.impl.MoveableObjectImpl;
+import control.movement.impl.MovableGameEntityImpl;
 import data.Resource;
 import data.ResourceLoader;
 import data.Resources;
@@ -22,12 +21,10 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
-public class Coin implements GameEntity, MoveableEntity, AnimationEntity<Coin.Animations> {
+public class Coin extends MovableGameEntityImpl implements AnimationEntity<Coin.Animations> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Coin.class);
 
-    private GameComponent component;
-    private MoveableObject moveableObject;
     private AnimationObject<Animations> animationObject;
 
     public Coin() {
@@ -49,9 +46,7 @@ public class Coin implements GameEntity, MoveableEntity, AnimationEntity<Coin.An
         Future<?> futureShineResources = resourceLoader.loadResources(coinShineResources);
         Future<?> futureBlinkResources = resourceLoader.loadResources(coinBlinkResources);
 
-        moveableObject = new MoveableObjectImpl();
-
-        component = new GameComponent();
+        GameComponent component = this.getGameComponent();
         component.setPreferredSize(new Dimension(100, 100));
         component.setMinimumSize(new Dimension(10, 10));
 
@@ -83,16 +78,6 @@ public class Coin implements GameEntity, MoveableEntity, AnimationEntity<Coin.An
                 }
             }
         });
-    }
-
-    @Override
-    public GameComponent getGameComponent() {
-        return this.component;
-    }
-
-    @Override
-    public MoveableObject getMoveableObject() {
-        return moveableObject;
     }
 
     @Override

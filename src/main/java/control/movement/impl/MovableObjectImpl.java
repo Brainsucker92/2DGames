@@ -1,7 +1,7 @@
 package control.movement.impl;
 
 import control.movement.Direction;
-import control.movement.MoveableObject;
+import control.movement.MovableObject;
 import control.movement.MovementController;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
@@ -14,9 +14,9 @@ import org.slf4j.LoggerFactory;
 import java.awt.geom.Point2D;
 import java.util.concurrent.TimeUnit;
 
-public class MoveableObjectImpl implements MoveableObject {
+public class MovableObjectImpl implements MovableObject {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(MoveableObject.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MovableObject.class);
 
     private Direction direction = Direction.EAST;
     private Point2D position;
@@ -25,7 +25,7 @@ public class MoveableObjectImpl implements MoveableObject {
 
     private EventObject eventObject;
 
-    public MoveableObjectImpl() {
+    public MovableObjectImpl() {
         position = new Point2D.Double();
         movementSpeed = 0.0;
 
@@ -45,16 +45,16 @@ public class MoveableObjectImpl implements MoveableObject {
         double y = position.getY();
         switch (this.getDirection()) {
             case NORTH:
-                position.setLocation(x, y - diff);
+                setPosition(x, y - diff);
                 break;
             case EAST:
-                position.setLocation(x + diff, y);
+                setPosition(x + diff, y);
                 break;
             case SOUTH:
-                position.setLocation(x, y + diff);
+                setPosition(x, y + diff);
                 break;
             case WEST:
-                position.setLocation(x - diff, y);
+                setPosition(x - diff, y);
         }
     }
 
@@ -69,14 +69,35 @@ public class MoveableObjectImpl implements MoveableObject {
     }
 
     @Override
+    public void setPosition(Point2D position) {
+        Point2D oldPosition = (Point2D) this.position.clone();
+        this.position.setLocation(position);
+        // LOGGER.debug("Position: " + position.toString());
+        if (!oldPosition.equals(position)) {
+            PositionChangedEvent event = new PositionChangedEvent(this, oldPosition, position);
+            fireEvent(event);
+        }
+    }
+
+    @Override
+    public void setPosition(double x, double y) {
+        setPosition(new Point2D.Double(x, y));
+    }
+
+    @Override
     public MovementController getMovementController() {
         return this.movementController;
     }
 
     @Override
     public void setMovementController(MovementController movementController) {
+        MovementController oldController = this.movementController;
         this.movementController = movementController;
-        movementController.setMoveableObject(this);
+        movementController.setMovableObject(this);
+        if (oldController != movementController) {
+            MovementControllerChangedEvent event = new MovementControllerChangedEvent(this, oldController, movementController);
+            fireEvent(event);
+        }
     }
 
     @Override
@@ -120,13 +141,32 @@ public class MoveableObjectImpl implements MoveableObject {
         eventObject.fireEvent(event);
     }
 
+    public class PositionChangedEvent extends EventImpl {
+
+        private Point2D oldPosition;
+        private Point2D newPosition;
+
+        public PositionChangedEvent(Object source, Point2D oldPosition, Point2D newPosition) {
+            super(source);
+            this.oldPosition = oldPosition;
+            this.newPosition = newPosition;
+        }
+
+        public Point2D getOldPosition() {
+            return oldPosition;
+        }
+
+        public Point2D getNewPosition() {
+            return newPosition;
+        }
+    }
 
     public class DirectionChangedEvent extends EventImpl {
 
         private Direction oldDirection;
         private Direction newDirection;
 
-        public DirectionChangedEvent(Object source, Direction oldDirection, Direction newDirection) {
+        DirectionChangedEvent(Object source, Direction oldDirection, Direction newDirection) {
             super(source);
             this.oldDirection = oldDirection;
             this.newDirection = newDirection;
@@ -146,7 +186,7 @@ public class MoveableObjectImpl implements MoveableObject {
         private double oldSpeed;
         private double newSpeed;
 
-        public MovementSpeedChangedEvent(Object source, double oldSpeed, double newSpeed) {
+        MovementSpeedChangedEvent(Object source, double oldSpeed, double newSpeed) {
             super(source);
             this.oldSpeed = oldSpeed;
             this.newSpeed = newSpeed;
@@ -158,6 +198,26 @@ public class MoveableObjectImpl implements MoveableObject {
 
         public double getNewSpeed() {
             return newSpeed;
+        }
+    }
+
+    public class MovementControllerChangedEvent extends EventImpl {
+
+        private MovementController oldController;
+        private MovementController newControlller;
+
+        public MovementControllerChangedEvent(Object source, MovementController oldController, MovementController newControlller) {
+            super(source);
+            this.oldController = oldController;
+            this.newControlller = newControlller;
+        }
+
+        public MovementController getOldController() {
+            return oldController;
+        }
+
+        public MovementController getNewController() {
+            return newControlller;
         }
     }
 }
