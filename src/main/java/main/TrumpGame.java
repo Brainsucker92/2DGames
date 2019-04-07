@@ -73,7 +73,7 @@ public class TrumpGame {
             });
 
             JFrame frame = new JFrame();
-            frame.setTitle("Trump Game");
+            frame.setTitle("Trump on the hunt");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             //frame.setPreferredSize(new Dimension(500, 500));
 
