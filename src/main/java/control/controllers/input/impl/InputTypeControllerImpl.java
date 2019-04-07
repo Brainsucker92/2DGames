@@ -12,6 +12,7 @@ public class InputTypeControllerImpl implements InputTypeController {
 
     private Map<InputType, MovementController> inputTypeMovementControllerMap = new HashMap<>();
     private MovableObject movableObject;
+    private InputType currentInputType;
 
     @Override
     public void registerInputController(InputType inputType, MovementController movementController) {
@@ -27,6 +28,17 @@ public class InputTypeControllerImpl implements InputTypeController {
     public void useController(InputType inputType) {
         MovementController controller = inputTypeMovementControllerMap.get(inputType);
         movableObject.setMovementController(controller);
+        currentInputType = inputType;
+    }
+
+    @Override
+    public InputType getCurrentInputType() {
+        return currentInputType;
+    }
+
+    @Override
+    public InputType[] getRegisteredInputTypes() {
+        return inputTypeMovementControllerMap.keySet().toArray(InputType[]::new);
     }
 
     @Override

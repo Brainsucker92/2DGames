@@ -8,42 +8,41 @@ import java.util.Iterator;
 
 public class MovementControlPanel extends JPanel {
 
-    private JRadioButton keyButton;
-    private JRadioButton mouseClickButton;
-    private JRadioButton mouseMotionButton;
-
     private ButtonGroup buttonGroup;
 
     private InputTypeController inputTypeController;
 
     public MovementControlPanel() {
 
-        keyButton = new JRadioButton();
-        keyButton.setText("Keyboard");
-        keyButton.setSelected(true);
-        keyButton.addActionListener(e -> inputTypeController.useController(InputType.KEY));
-
-        mouseClickButton = new JRadioButton();
-        mouseClickButton.setText("Mouse click");
-        mouseClickButton.addActionListener(e -> inputTypeController.useController(InputType.MOUSE_CLICK));
-
-        mouseMotionButton = new JRadioButton();
-        mouseMotionButton.setText("Mouse motion");
-        mouseMotionButton.addActionListener(e -> inputTypeController.useController(InputType.MOUSE_MOTION));
-
         buttonGroup = new ButtonGroup();
-        buttonGroup.add(keyButton);
-        buttonGroup.add(mouseClickButton);
-        buttonGroup.add(mouseMotionButton);
+    }
 
-
+    private void removeButtons() {
         for (Iterator<AbstractButton> it = buttonGroup.getElements().asIterator(); it.hasNext(); ) {
             AbstractButton button = it.next();
+            this.remove(button);
+        }
+    }
+
+    private void addButtons() {
+        InputType[] registeredInputTypes = inputTypeController.getRegisteredInputTypes();
+        for (InputType inputType : registeredInputTypes) {
+            JRadioButton button = new JRadioButton();
+            if (inputType == inputTypeController.getCurrentInputType()) {
+                button.setSelected(true);
+            }
+            button.setText(inputType.name());
+            button.addActionListener(e -> inputTypeController.useController(inputType));
+            buttonGroup.add(button);
             this.add(button);
         }
     }
 
     public void setInputTypeController(InputTypeController inputTypeController) {
+        if (inputTypeController != null) {
+            removeButtons();
+        }
         this.inputTypeController = inputTypeController;
+        addButtons();
     }
 }

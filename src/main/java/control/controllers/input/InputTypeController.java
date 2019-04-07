@@ -13,4 +13,8 @@ public interface InputTypeController {
 
     void useController(InputType inputType);
 
+    InputType getCurrentInputType();
+
+    InputType[] getRegisteredInputTypes();
+
 }

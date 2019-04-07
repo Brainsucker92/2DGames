@@ -35,8 +35,7 @@ public class TrumpGame {
         try {
             GameData gameData = new GameData(executorService);
             JPanel gamePanel = new JPanel();
-            gamePanel.setPreferredSize(new Dimension(300, 300));
-            // gamePanel.setSize(300, 300);
+            gamePanel.setPreferredSize(new Dimension(500, 500));
             gamePanel.setBackground(Color.WHITE);
             gamePanel.setLayout(null);
 
@@ -77,7 +76,7 @@ public class TrumpGame {
             JFrame frame = new JFrame();
             frame.setTitle("Trump Game");
             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-            frame.setPreferredSize(new Dimension(500, 500));
+            //frame.setPreferredSize(new Dimension(500, 500));
 
             frame.addWindowListener(new WindowAdapter() {
                 @Override
