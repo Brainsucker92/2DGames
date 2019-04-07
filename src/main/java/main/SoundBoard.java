@@ -1,9 +1,9 @@
 package main;
 
-import data.Resource;
-import data.ResourceLoader;
-import data.Resources;
 import data.grid.MP3SoundResource;
+import data.resources.Resource;
+import data.resources.ResourceLoader;
+import data.resources.Resources;
 
 import javax.sound.sampled.Clip;
 import javax.swing.*;

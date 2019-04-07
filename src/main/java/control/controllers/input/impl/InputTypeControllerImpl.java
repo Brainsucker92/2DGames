@@ -1,7 +1,7 @@
-package control.impl;
+package control.controllers.input.impl;
 
-import control.InputType;
-import control.InputTypeController;
+import control.controllers.input.InputType;
+import control.controllers.input.InputTypeController;
 import control.movement.MovableObject;
 import control.movement.MovementController;
 

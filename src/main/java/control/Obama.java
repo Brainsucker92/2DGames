@@ -1,9 +1,10 @@
 package control;
 
+import control.entities.AnimationEntity;
 import control.movement.impl.MovableGameEntityImpl;
-import data.ResourceLoader;
-import data.Resources;
 import data.grid.MP3SoundResource;
+import data.resources.ResourceLoader;
+import data.resources.Resources;
 import ui.animations.AnimationDrawer;
 import ui.animations.AnimationObject;
 import ui.animations.impl.AnimationObjectImpl;

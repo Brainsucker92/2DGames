@@ -1,8 +1,8 @@
 package ui.panels;
 
-import control.GameController;
-import control.GameState;
-import control.impl.GameControllerImpl;
+import control.controllers.game.GameController;
+import control.controllers.game.GameState;
+import control.controllers.game.impl.GameControllerImpl;
 import data.grid.event.EventListener;
 
 import javax.swing.*;

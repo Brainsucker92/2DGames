@@ -1,9 +1,10 @@
 package control;
 
+import control.entities.AnimationEntity;
 import control.movement.impl.MovableGameEntityImpl;
-import data.Resource;
-import data.ResourceLoader;
-import data.Resources;
+import data.resources.Resource;
+import data.resources.ResourceLoader;
+import data.resources.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.animations.AnimationDrawer;

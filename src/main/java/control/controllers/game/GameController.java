@@ -1,5 +1,6 @@
-package control;
+package control.controllers.game;
 
+import control.controllers.input.InputTypeController;
 import data.grid.event.EventListener;
 
 import java.util.concurrent.TimeUnit;

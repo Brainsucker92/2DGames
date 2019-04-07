@@ -1,7 +1,12 @@
 package main;
 
-import control.*;
-import data.ResourceLoader;
+import control.Coin;
+import control.Flappy;
+import control.Obama;
+import control.Trump;
+import control.entities.AnimationEntity;
+import control.entities.GameEntity;
+import data.resources.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.animations.AnimationObject;

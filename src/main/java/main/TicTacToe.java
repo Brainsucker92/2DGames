@@ -1,7 +1,7 @@
 package main;
 
-import control.GameController;
-import control.TicTacToeController;
+import control.controllers.game.GameController;
+import control.controllers.game.TicTacToeController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
 import ui.drawings.Token;

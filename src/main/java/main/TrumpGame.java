@@ -1,8 +1,8 @@
 package main;
 
-import control.InputTypeController;
-import control.TrumpGameController;
-import control.impl.GameControllerImpl;
+import control.controllers.game.TrumpGameController;
+import control.controllers.game.impl.GameControllerImpl;
+import control.controllers.input.InputTypeController;
 import data.GameData;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

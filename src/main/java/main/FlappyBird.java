@@ -1,6 +1,6 @@
 package main;
 
-import data.ResourceLoader;
+import data.resources.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,14 +1,15 @@
 package control;
 
+import control.entities.AnimationEntity;
 import control.movement.Direction;
 import control.movement.MovableObject;
 import control.movement.impl.MovableGameEntityImpl;
 import control.movement.impl.MovableObjectImpl;
-import data.ImageResource;
-import data.Resource;
-import data.ResourceLoader;
-import data.Resources;
 import data.grid.MP3SoundResource;
+import data.resources.ImageResource;
+import data.resources.Resource;
+import data.resources.ResourceLoader;
+import data.resources.Resources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.animations.AnimationDrawer;

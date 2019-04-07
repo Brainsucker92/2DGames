@@ -1,7 +1,7 @@
 package ui.panels;
 
-import control.InputType;
-import control.InputTypeController;
+import control.controllers.input.InputType;
+import control.controllers.input.InputTypeController;
 
 import javax.swing.*;
 import java.util.Iterator;

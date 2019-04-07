@@ -1,9 +1,10 @@
-package control.impl;
+package control.controllers.game.impl;
 
-import control.GameController;
-import control.GameState;
-import control.InputTypeController;
 import control.TimeCounter;
+import control.controllers.game.GameController;
+import control.controllers.game.GameState;
+import control.controllers.input.InputTypeController;
+import control.controllers.input.impl.InputTypeControllerImpl;
 import data.grid.event.Event;
 import data.grid.event.EventListener;
 import data.grid.event.EventObject;

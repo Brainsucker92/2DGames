@@ -1,10 +1,17 @@
-package control;
+package control.controllers.game;
 
-import control.impl.GameControllerImpl;
+import control.Coin;
+import control.Trump;
+import control.controllers.game.impl.GameControllerImpl;
+import control.controllers.input.InputType;
+import control.controllers.input.InputTypeController;
+import control.entities.AnimationEntity;
+import control.entities.GameEntity;
+import control.entities.MovableEntity;
 import control.movement.*;
 import control.movement.impl.MovableObjectImpl;
 import data.GameData;
-import data.ResourceLoader;
+import data.resources.ResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.animations.AnimationObject;

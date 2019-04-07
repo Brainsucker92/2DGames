@@ -1,6 +1,6 @@
-package control;
+package control.controllers.game;
 
-import control.impl.GameControllerImpl;
+import control.controllers.game.impl.GameControllerImpl;
 
 public class FlappyBirdController extends GameControllerImpl {
 

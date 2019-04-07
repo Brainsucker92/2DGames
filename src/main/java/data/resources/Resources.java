@@ -1,4 +1,4 @@
-package data;
+package data.resources;
 
 import data.grid.MP3SoundResource;
 

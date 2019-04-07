@@ -1,4 +1,4 @@
-package control;
+package control.entities;
 
 import control.movement.MovableObject;
 

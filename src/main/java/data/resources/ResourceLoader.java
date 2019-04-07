@@ -1,4 +1,4 @@
-package data;
+package data.resources;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;
