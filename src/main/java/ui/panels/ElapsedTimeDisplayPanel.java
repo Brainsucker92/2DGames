@@ -1,27 +1,23 @@
 package ui.panels;
 
 import control.controllers.game.GameController;
-import data.event.EventListener;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 import java.util.concurrent.TimeUnit;
 
 public class ElapsedTimeDisplayPanel extends EntityValueDisplayPanel<GameController> {
 
-    private EventListener eventListener;
-
     public ElapsedTimeDisplayPanel() {
-        super(new JTextField(), new JTextField());
+        super();
 
-        JTextComponent entityNameTextField = this.getEntityNameTextField();
-        entityNameTextField.setText("Elapsed time: ");
+        JLabel entityNameLabel = this.getEntityNameLabel();
+        entityNameLabel.setText("Elapsed time: ");
     }
 
     @Override
     public void displayEntityValue(GameController entity) {
-        JTextComponent entityValueTextField = this.getEntityValueTextField();
+        JLabel entityValueLabel = this.getEntityValueLabel();
         // TODO format time string properly.
-        entityValueTextField.setText(String.valueOf(entity.getElapsedTime(TimeUnit.SECONDS)));
+        entityValueLabel.setText(String.valueOf(entity.getElapsedTime(TimeUnit.SECONDS)));
     }
 }

@@ -1,7 +1,6 @@
 package ui.panels;
 
 import javax.swing.*;
-import javax.swing.text.JTextComponent;
 
 
 /**
@@ -9,29 +8,27 @@ import javax.swing.text.JTextComponent;
  */
 public abstract class EntityValueDisplayPanel<T> extends JPanel {
 
-    private JTextComponent entityNameTextField;
-    private JTextComponent entityValueTextField;
+    private JLabel entityNameLabel;
+    private JLabel entityValueLabel;
 
-    public EntityValueDisplayPanel(JTextComponent entityNameTextField, JTextComponent entityValueTextField) {
+    public EntityValueDisplayPanel() {
         super();
-        this.entityNameTextField = entityNameTextField;
-        this.entityValueTextField = entityValueTextField;
+        this.entityNameLabel = new JLabel();
+        this.entityValueLabel = new JLabel();
 
-        this.entityNameTextField.setEditable(false);
-        this.entityValueTextField.setEditable(false);
+        this.entityNameLabel.setText("Missing entity name");
+        this.entityValueLabel.setText("Waiting for data input.");
 
-        this.entityValueTextField.setText("Waiting for data input.");
-
-        this.add(entityNameTextField);
-        this.add(entityValueTextField);
+        this.add(entityNameLabel);
+        this.add(entityValueLabel);
     }
 
-    public JTextComponent getEntityNameTextField() {
-        return entityNameTextField;
+    public JLabel getEntityNameLabel() {
+        return entityNameLabel;
     }
 
-    public JTextComponent getEntityValueTextField() {
-        return entityValueTextField;
+    public JLabel getEntityValueLabel() {
+        return entityValueLabel;
     }
 
     public abstract void displayEntityValue(T entity);
