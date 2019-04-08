@@ -20,6 +20,7 @@ public class MouseClickController extends DestinationMovementControllerImpl impl
             public void mouseReleased(MouseEvent e) {
                 Point destination = e.getPoint();
                 setDestination(destination);
+                updateMovementDirection();
             }
         };
     }

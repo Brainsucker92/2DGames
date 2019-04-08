@@ -5,7 +5,6 @@ import control.movement.Direction;
 import control.movement.MovableObject;
 
 import java.awt.geom.Point2D;
-import java.util.concurrent.TimeUnit;
 
 public abstract class DestinationMovementControllerImpl extends DirectionMovementControllerImpl implements DestinationMovementController {
 
@@ -16,8 +15,7 @@ public abstract class DestinationMovementControllerImpl extends DirectionMovemen
         destination = new Point2D.Double();
     }
 
-    @Override
-    public void move(long delta, TimeUnit timeUnit) {
+    protected void updateMovementDirection() {
         MovableObject movableObject = this.getMovableObject();
         Point2D currentPosition = movableObject.getPosition();
 
@@ -39,7 +37,6 @@ public abstract class DestinationMovementControllerImpl extends DirectionMovemen
                 setDirection(Direction.SOUTH);
             }
         }
-        super.move(delta, timeUnit);
     }
 
     @Override
