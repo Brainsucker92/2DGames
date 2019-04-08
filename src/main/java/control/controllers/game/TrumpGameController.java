@@ -24,7 +24,6 @@ import ui.sprites.SpriteAnimation;
 import javax.sound.sampled.Clip;
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.awt.geom.Point2D;
 import java.util.List;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -96,6 +95,10 @@ public class TrumpGameController extends GameControllerImpl {
 
         GameComponent obamaGameComponent = obama.getGameComponent();
         obamaGameComponent.setVisible(false);
+
+        MovableObject coinMovableObject = coin.getMovableObject();
+        MovementController coinMovementController = new RandomMovementController(coinMovableObject);
+        coinMovableObject.setMovementController(coinMovementController);
 
         MovableObject obamaMovableObject = obama.getMovableObject();
         obamaMovableObject.setMovementSpeed(75);
@@ -268,18 +271,21 @@ public class TrumpGameController extends GameControllerImpl {
         GameComponent coinGameComponent = coin.getGameComponent();
         MovableObject coinMovableObject = coin.getMovableObject();
 
-        double randX = random.nextInt((int) (container.getWidth() * 0.9) - coinGameComponent.getWidth()) + coinGameComponent.getWidth();
-        double randY = random.nextInt((int) (container.getHeight() * 0.9) - coinGameComponent.getHeight()) + coinGameComponent.getHeight();
-        coinMovableObject.setPosition(randX, randY);
+        Rectangle coinArea = new Rectangle();
+        int coinAreaWidth = (int) ((container.getWidth() * 0.9) - coinGameComponent.getWidth());
+        int coinAreaHeight = (int) ((container.getHeight() * 0.9) - coinGameComponent.getHeight());
+        coinArea.setSize(coinAreaWidth, coinAreaHeight);
+        coinArea.setLocation(coinGameComponent.getWidth(), coinGameComponent.getHeight());
+
+        RandomMovementController movementController = ((RandomMovementController) coinMovableObject.getMovementController());
+        movementController.setRectangle(coinArea);
+        coinMovableObject.move();
     }
 
     private void updateMovableObjectLocations(long delta, TimeUnit timeUnit) {
         for (MovableEntity entity : movableEntityList) {
             MovableObject movableObject = entity.getMovableObject();
             movableObject.move(delta, timeUnit);
-            Point2D position = movableObject.getPosition();
-            Point pos = new Point();
-            pos.setLocation(position);
         }
     }
 
