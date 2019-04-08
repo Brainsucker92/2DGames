@@ -3,6 +3,7 @@ package ui.panels;
 import control.movement.MovableObject;
 
 import javax.swing.*;
+import java.text.DecimalFormat;
 
 public class MovementSpeedDisplayPanel extends EntityValueDisplayPanel<MovableObject> {
 
@@ -15,6 +16,7 @@ public class MovementSpeedDisplayPanel extends EntityValueDisplayPanel<MovableOb
     public void displayEntityValue(MovableObject movableObject) {
         JLabel entityValueLabel = this.getEntityValueLabel();
         double movementSpeed = movableObject.getMovementSpeed();
-        entityValueLabel.setText(String.valueOf(movementSpeed));
+        DecimalFormat format = new DecimalFormat("##.00");
+        entityValueLabel.setText(String.valueOf(format.format(movementSpeed)));
     }
 }

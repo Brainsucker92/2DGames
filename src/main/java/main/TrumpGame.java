@@ -1,8 +1,10 @@
 package main;
 
+import control.Trump;
 import control.controllers.game.TrumpGameController;
 import control.controllers.game.impl.GameControllerImpl;
 import control.controllers.input.InputTypeController;
+import control.movement.impl.MovableObjectImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import ui.panels.*;
@@ -42,8 +44,6 @@ public class TrumpGame {
             ElapsedTimeDisplayPanel elapsedTimeDisplayPanel = new ElapsedTimeDisplayPanel();
             AmountCoinsCollectedDisplayPanel amountCoinsCollectedDisplayPanel = new AmountCoinsCollectedDisplayPanel();
 
-            // TODO
-            //movementSpeedDisplayPanel.displayEntityValue();
 
             statisticsPanel.add(movementSpeedDisplayPanel);
             statisticsPanel.add(elapsedTimeDisplayPanel);
@@ -57,6 +57,14 @@ public class TrumpGame {
             controller = new TrumpGameController(executorService, gamePanel);
             controlPanel.setGameController(controller);
             InputTypeController inputTypeController = controller.getInputTypeController();
+
+            Trump trump = controller.getTrump();
+            trump.getMovableObject().addEventListener(event -> {
+                if (event instanceof MovableObjectImpl.MovementSpeedChangedEvent) {
+                    MovableObjectImpl.MovementSpeedChangedEvent evt = ((MovableObjectImpl.MovementSpeedChangedEvent) event);
+                    movementSpeedDisplayPanel.displayEntityValue(trump.getMovableObject());
+                }
+            });
 
             MovementControlPanel movementControlPanel = new MovementControlPanel();
             movementControlPanel.setSize(150, 50);

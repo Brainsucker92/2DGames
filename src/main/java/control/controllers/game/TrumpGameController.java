@@ -188,6 +188,10 @@ public class TrumpGameController extends GameControllerImpl {
         return coinsCollected;
     }
 
+    public Trump getTrump() {
+        return trump;
+    }
+
     @Override
     public void checkGameEnd() {
         GameComponent trumpGameComponent = this.trump.getGameComponent();
