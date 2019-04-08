@@ -17,6 +17,6 @@ public class MovementSpeedDisplayPanel extends EntityValueDisplayPanel<MovableOb
         JLabel entityValueLabel = this.getEntityValueLabel();
         double movementSpeed = movableObject.getMovementSpeed();
         DecimalFormat format = new DecimalFormat("##.00");
-        entityValueLabel.setText(String.valueOf(format.format(movementSpeed)));
+        entityValueLabel.setText(format.format(movementSpeed));
     }
 }
