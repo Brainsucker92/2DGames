@@ -1,6 +1,6 @@
 package control.movement.impl;
 
-import control.movement.InputMovementController;
+import control.movement.InputController;
 import control.movement.MovableObject;
 
 import java.awt.*;
@@ -8,7 +8,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseClickController extends DestinationMovementControllerImpl implements InputMovementController {
+public class MouseClickController extends DestinationMovementControllerImpl implements InputController {
 
     private MouseListener listener;
 

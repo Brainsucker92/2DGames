@@ -2,7 +2,7 @@ package control.movement;
 
 import java.awt.*;
 
-public interface InputMovementController extends MovementController {
+public interface InputController {
 
     void register(Component component);
 

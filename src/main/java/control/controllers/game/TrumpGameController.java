@@ -161,14 +161,14 @@ public class TrumpGameController extends GameControllerImpl {
                 MovementController oldController = evt.getOldController();
                 MovementController newController = evt.getNewController();
                 if (oldController != null) {
-                    if (oldController instanceof InputMovementController) {
-                        ((InputMovementController) oldController).unregister(container);
+                    if (oldController instanceof InputController) {
+                        ((InputController) oldController).unregister(container);
                     }
 
                 }
                 if (newController != null) {
-                    if (newController instanceof InputMovementController) {
-                        ((InputMovementController) newController).register(container);
+                    if (newController instanceof InputController) {
+                        ((InputController) newController).register(container);
                     }
                 }
 

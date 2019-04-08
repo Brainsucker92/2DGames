@@ -1,7 +1,7 @@
 package control.movement.impl;
 
 import control.movement.Direction;
-import control.movement.InputMovementController;
+import control.movement.InputController;
 import control.movement.MovableObject;
 
 import java.awt.*;
@@ -9,7 +9,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyInputController extends DirectionMovementControllerImpl implements InputMovementController {
+public class KeyInputController extends DirectionMovementControllerImpl implements InputController {
 
     private KeyListener listener;
 
