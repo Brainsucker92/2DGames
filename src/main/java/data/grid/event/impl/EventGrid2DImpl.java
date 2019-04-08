@@ -31,12 +31,12 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
 
     @Override
     public void addListener(EventListener listener) {
-        eventObject.addListener(listener);
+        eventObject.addEventListener(listener);
     }
 
     @Override
     public void removeListener(EventListener listener) {
-        eventObject.removeListener(listener);
+        eventObject.removeEventListener(listener);
     }
 
 

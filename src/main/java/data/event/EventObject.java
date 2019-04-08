@@ -1,10 +1,6 @@
 package data.event;
 
-public interface EventObject {
-
-    void addListener(EventListener listener);
-
-    void removeListener(EventListener listener);
+public interface EventObject extends EventSource {
 
     void fireEvent(Event event);
 }

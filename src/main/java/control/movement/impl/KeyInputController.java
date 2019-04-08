@@ -1,13 +1,15 @@
-package control.movement;
+package control.movement.impl;
 
-import control.movement.impl.MovementControllerImpl;
+import control.movement.Direction;
+import control.movement.InputMovementController;
+import control.movement.MovableObject;
 
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-public class KeyInputController extends MovementControllerImpl {
+public class KeyInputController extends DirectionMovementControllerImpl implements InputMovementController {
 
     private KeyListener listener;
 
@@ -31,23 +33,17 @@ public class KeyInputController extends MovementControllerImpl {
             @Override
             public void keyReleased(KeyEvent e) {
                 int keyCode = e.getKeyCode();
-                MovableObject movableObject = getMovableObject();
                 if (keyCode == northKeyCode) {
-                    movableObject.setDirection(Direction.NORTH);
+                    setDirection(Direction.NORTH);
                 } else if (keyCode == eastKeyCode) {
-                    movableObject.setDirection(Direction.EAST);
+                    setDirection(Direction.EAST);
                 } else if (keyCode == southKeyCode) {
-                    movableObject.setDirection(Direction.SOUTH);
+                    setDirection(Direction.SOUTH);
                 } else if (keyCode == westKeyCode) {
-                    movableObject.setDirection(Direction.WEST);
+                    setDirection(Direction.WEST);
                 }
             }
         };
-    }
-
-    @Override
-    public void requestMovementInput() {
-        // empty
     }
 
     @Override

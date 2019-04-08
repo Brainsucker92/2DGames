@@ -2,9 +2,14 @@ package control;
 
 import control.entities.AnimationEntity;
 import control.movement.Direction;
+import control.movement.DirectionMovementController;
 import control.movement.MovableObject;
+import control.movement.MovementController;
+import control.movement.impl.DirectionMovementControllerImpl;
 import control.movement.impl.MovableGameEntityImpl;
 import control.movement.impl.MovableObjectImpl;
+import data.event.Event;
+import data.event.EventListener;
 import data.resources.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -73,9 +78,10 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
 
         MovableObject movableObject = this.getMovableObject();
 
-        movableObject.addEventListener(event -> {
-            if (event instanceof MovableObjectImpl.DirectionChangedEvent) {
-                MovableObjectImpl.DirectionChangedEvent evt = ((MovableObjectImpl.DirectionChangedEvent) event);
+
+        EventListener movementControllerListener = event -> {
+            if (event instanceof DirectionMovementControllerImpl.DirectionChangedEvent) {
+                DirectionMovementControllerImpl.DirectionChangedEvent evt = ((DirectionMovementControllerImpl.DirectionChangedEvent) event);
                 Direction newDirection = evt.getNewDirection();
                 switch (newDirection) {
                     case NORTH:
@@ -90,6 +96,25 @@ public class Trump extends MovableGameEntityImpl implements AnimationEntity<Trum
                     case WEST:
                         animationObject.setCurrentAnimation(animations.getWalkWestAnimation());
                         break;
+                }
+            }
+        };
+
+        movableObject.addEventListener(new EventListener() {
+            @Override
+            public void onEventFired(Event event) {
+                if (event instanceof MovableObjectImpl.MovementControllerChangedEvent) {
+                    MovableObjectImpl.MovementControllerChangedEvent evt = ((MovableObjectImpl.MovementControllerChangedEvent) event);
+                    MovementController newController = evt.getNewController();
+                    MovementController oldController = evt.getOldController();
+                    if (newController != null) {
+                        if (newController instanceof DirectionMovementController) {
+                            newController.addEventListener(movementControllerListener);
+                        }
+                    }
+                    if (oldController != null) {
+                        oldController.removeEventListener(movementControllerListener);
+                    }
                 }
             }
         });

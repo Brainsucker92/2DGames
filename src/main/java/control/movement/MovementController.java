@@ -1,17 +1,16 @@
 package control.movement;
 
-import java.awt.*;
+import data.event.EventSource;
 
-public interface MovementController {
+import java.util.concurrent.TimeUnit;
 
-    void requestMovementInput();
+public interface MovementController extends EventSource {
 
-    void register(Component component);
+    void move();
 
-    void unregister(Component component);
+    void move(long delta, TimeUnit timeUnit);
 
     MovableObject getMovableObject();
 
     void setMovableObject(MovableObject movableObject);
-
 }

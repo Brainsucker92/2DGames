@@ -10,7 +10,7 @@ import control.entities.AnimationEntity;
 import control.entities.GameEntity;
 import control.entities.MovableEntity;
 import control.movement.*;
-import control.movement.impl.MovableObjectImpl;
+import control.movement.impl.*;
 import data.event.impl.EventImpl;
 import data.resources.MP3SoundResource;
 import data.resources.ResourceLoader;
@@ -97,6 +97,12 @@ public class TrumpGameController extends GameControllerImpl {
         GameComponent obamaGameComponent = obama.getGameComponent();
         obamaGameComponent.setVisible(false);
 
+        MovableObject obamaMovableObject = obama.getMovableObject();
+        obamaMovableObject.setMovementSpeed(75);
+        DirectionMovementController obamaController = new DirectionMovementControllerImpl(obamaMovableObject);
+        obamaController.setDirection(Direction.SOUTH);
+        obamaMovableObject.setMovementController(obamaController);
+
         MovableObject trumpMovableObject = trump.getMovableObject();
         MovementController movementController = new KeyInputController(trumpMovableObject, KeyEvent.VK_W, KeyEvent.VK_D, KeyEvent.VK_S, KeyEvent.VK_A);
         MovementController controller = new MouseMotionController(trumpMovableObject);
@@ -155,10 +161,15 @@ public class TrumpGameController extends GameControllerImpl {
                 MovementController oldController = evt.getOldController();
                 MovementController newController = evt.getNewController();
                 if (oldController != null) {
-                    oldController.unregister(container);
+                    if (oldController instanceof InputMovementController) {
+                        ((InputMovementController) oldController).unregister(container);
+                    }
+
                 }
                 if (newController != null) {
-                    newController.register(container);
+                    if (newController instanceof InputMovementController) {
+                        ((InputMovementController) newController).register(container);
+                    }
                 }
 
                 if (newController instanceof KeyInputController) {
@@ -285,8 +296,6 @@ public class TrumpGameController extends GameControllerImpl {
         obamaGameComponent.setVisible(true);
         MovableObject obamaMovableObject = obama.getMovableObject();
         obamaMovableObject.setPosition(container.getWidth() / 2, 0);
-        obamaMovableObject.setDirection(Direction.SOUTH);
-        obamaMovableObject.setMovementSpeed(75);
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override

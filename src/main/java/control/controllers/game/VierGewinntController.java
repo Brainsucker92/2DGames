@@ -31,7 +31,7 @@ public class VierGewinntController extends GameControllerImpl {
         this.dataGrid = dataGrid;
 
         if (panel != null) {
-            panel.addListener(new EventListener() {
+            panel.addEventListener(new EventListener() {
                 @Override
                 public void onEventFired(Event event) {
                     if (event instanceof EventGridPanel.PanelRepaintEvent) {

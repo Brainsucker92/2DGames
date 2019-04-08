@@ -61,12 +61,12 @@ public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> imple
 
     @Override
     public void addEventListener(EventListener eventListener) {
-        eventObject.addListener(eventListener);
+        eventObject.addEventListener(eventListener);
     }
 
     @Override
     public void removeEventListener(EventListener eventListener) {
-        eventObject.removeListener(eventListener);
+        eventObject.removeEventListener(eventListener);
     }
 
     protected void fireEvent(Event event) {

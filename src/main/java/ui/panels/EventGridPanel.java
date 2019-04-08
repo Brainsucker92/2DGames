@@ -2,6 +2,7 @@ package ui.panels;
 
 import data.event.EventListener;
 import data.event.EventObject;
+import data.event.EventSource;
 import data.event.impl.EventImpl;
 import data.event.impl.EventObjectImpl;
 import data.grid.Grid2D;
@@ -9,7 +10,7 @@ import data.grid.Grid2D;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 
-public class EventGridPanel extends GridPanel {
+public class EventGridPanel extends GridPanel implements EventSource {
 
     private EventObject eventObject = new EventObjectImpl();
 
@@ -48,12 +49,12 @@ public class EventGridPanel extends GridPanel {
         }
     }
 
-    public void addListener(EventListener listener) {
-        eventObject.addListener(listener);
+    public void addEventListener(EventListener listener) {
+        eventObject.addEventListener(listener);
     }
 
-    public void removeListener(EventListener listener) {
-        eventObject.removeListener(listener);
+    public void removeEventListener(EventListener listener) {
+        eventObject.removeEventListener(listener);
     }
 
     public class PanelRepaintEvent extends EventImpl {

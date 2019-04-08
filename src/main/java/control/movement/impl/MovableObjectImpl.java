@@ -1,6 +1,5 @@
 package control.movement.impl;
 
-import control.movement.Direction;
 import control.movement.MovableObject;
 import control.movement.MovementController;
 import data.event.Event;
@@ -18,7 +17,6 @@ public class MovableObjectImpl implements MovableObject {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MovableObject.class);
 
-    private Direction direction = Direction.EAST;
     private Point2D position;
     private double movementSpeed;
     private MovementController movementController;
@@ -34,33 +32,12 @@ public class MovableObjectImpl implements MovableObject {
 
     @Override
     public void move() {
-        move(1L, TimeUnit.SECONDS);
+        movementController.move();
     }
 
     @Override
     public void move(long delta, TimeUnit timeUnit) {
-        long nanos = timeUnit.toNanos(delta);
-        double diff = movementSpeed * (nanos * Math.pow(10, -9));
-        double x = position.getX();
-        double y = position.getY();
-        switch (this.getDirection()) {
-            case NORTH:
-                setPosition(x, y - diff);
-                break;
-            case EAST:
-                setPosition(x + diff, y);
-                break;
-            case SOUTH:
-                setPosition(x, y + diff);
-                break;
-            case WEST:
-                setPosition(x - diff, y);
-        }
-    }
-
-    @Override
-    public Direction getDirection() {
-        return direction;
+        movementController.move(delta, timeUnit);
     }
 
     @Override
@@ -101,17 +78,6 @@ public class MovableObjectImpl implements MovableObject {
     }
 
     @Override
-    public void setDirection(Direction direction) {
-        Direction oldDirection = this.direction;
-        this.direction = direction;
-
-        if (oldDirection != direction) {
-            DirectionChangedEvent event = new DirectionChangedEvent(this, oldDirection, direction);
-            fireEvent(event);
-        }
-    }
-
-    @Override
     public double getMovementSpeed() {
         return movementSpeed;
     }
@@ -129,12 +95,12 @@ public class MovableObjectImpl implements MovableObject {
 
     @Override
     public void addEventListener(EventListener eventListener) {
-        eventObject.addListener(eventListener);
+        eventObject.addEventListener(eventListener);
     }
 
     @Override
     public void removeEventListener(EventListener eventListener) {
-        eventObject.removeListener(eventListener);
+        eventObject.removeEventListener(eventListener);
     }
 
     protected void fireEvent(Event event) {
@@ -158,26 +124,6 @@ public class MovableObjectImpl implements MovableObject {
 
         public Point2D getNewPosition() {
             return newPosition;
-        }
-    }
-
-    public class DirectionChangedEvent extends EventImpl {
-
-        private Direction oldDirection;
-        private Direction newDirection;
-
-        DirectionChangedEvent(Object source, Direction oldDirection, Direction newDirection) {
-            super(source);
-            this.oldDirection = oldDirection;
-            this.newDirection = newDirection;
-        }
-
-        public Direction getOldDirection() {
-            return oldDirection;
-        }
-
-        public Direction getNewDirection() {
-            return newDirection;
         }
     }
 

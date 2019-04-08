@@ -31,7 +31,7 @@ public class TicTacToeController extends GameControllerImpl {
         this.currentPly = CROSS;
 
         if (panel != null) {
-            panel.addListener(new EventListener() {
+            panel.addEventListener(new EventListener() {
                 @Override
                 public void onEventFired(Event event) {
                     if (event instanceof EventGridPanel.PanelRepaintEvent) {

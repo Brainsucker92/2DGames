@@ -5,8 +5,9 @@ import control.movement.Direction;
 import control.movement.MovableObject;
 
 import java.awt.geom.Point2D;
+import java.util.concurrent.TimeUnit;
 
-public abstract class DestinationMovementControllerImpl extends MovementControllerImpl implements DestinationMovementController {
+public abstract class DestinationMovementControllerImpl extends DirectionMovementControllerImpl implements DestinationMovementController {
 
     private Point2D destination;
 
@@ -16,7 +17,7 @@ public abstract class DestinationMovementControllerImpl extends MovementControll
     }
 
     @Override
-    public void requestMovementInput() {
+    public void move(long delta, TimeUnit timeUnit) {
         MovableObject movableObject = this.getMovableObject();
         Point2D currentPosition = movableObject.getPosition();
 
@@ -26,18 +27,19 @@ public abstract class DestinationMovementControllerImpl extends MovementControll
         if (Math.abs(dx) > Math.abs(dy)) {
             // Keep walking in x direction
             if (dx > 0) {
-                movableObject.setDirection(Direction.WEST);
+                setDirection(Direction.WEST);
             } else {
-                movableObject.setDirection(Direction.EAST);
+                setDirection(Direction.EAST);
             }
         } else {
             // Keep walking in y direction
             if (dy > 0) {
-                movableObject.setDirection(Direction.NORTH);
+                setDirection(Direction.NORTH);
             } else {
-                movableObject.setDirection(Direction.SOUTH);
+                setDirection(Direction.SOUTH);
             }
         }
+        super.move(delta, timeUnit);
     }
 
     @Override

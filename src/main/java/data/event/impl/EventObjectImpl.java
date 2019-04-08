@@ -12,12 +12,12 @@ public class EventObjectImpl implements EventObject {
     private List<EventListener> listeners = new ArrayList<>();
 
     @Override
-    public void addListener(EventListener listener) {
+    public void addEventListener(EventListener listener) {
         listeners.add(listener);
     }
 
     @Override
-    public void removeListener(EventListener listener) {
+    public void removeEventListener(EventListener listener) {
         listeners.remove(listener);
     }
 

@@ -1,13 +1,14 @@
-package control.movement;
+package control.movement.impl;
 
-import control.movement.impl.DestinationMovementControllerImpl;
+import control.movement.InputMovementController;
+import control.movement.MovableObject;
 
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-public class MouseClickController extends DestinationMovementControllerImpl {
+public class MouseClickController extends DestinationMovementControllerImpl implements InputMovementController {
 
     private MouseListener listener;
 
@@ -19,7 +20,6 @@ public class MouseClickController extends DestinationMovementControllerImpl {
             public void mouseReleased(MouseEvent e) {
                 Point destination = e.getPoint();
                 setDestination(destination);
-                requestMovementInput();
             }
         };
     }
