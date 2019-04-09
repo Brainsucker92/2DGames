@@ -40,9 +40,9 @@ public class EventGridPanel extends GridPanel implements EventSource {
     }
 
     @Override
-    public void setGridColor(Color gridColor) {
+    public void setGridLineColor(Color gridColor) {
         Color oldColor = this.getGridColor();
-        super.setGridColor(gridColor);
+        super.setGridLineColor(gridColor);
         if (!gridColor.equals(oldColor)) {
             GridColorChangedEvent event = new GridColorChangedEvent(this, oldColor, gridColor);
             eventObject.fireEvent(event);

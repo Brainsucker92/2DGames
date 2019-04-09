@@ -12,10 +12,11 @@ import java.awt.geom.Dimension2D;
 
 public class GridPanel extends JPanel {
 
-    private Grid2D<?> grid;
+    protected Grid2D<?> grid;
     private Color gridColor = Color.BLACK;
     private Dimension2D tileSize = new DoubleDimension();
 
+    private boolean gridEnabled = true;
 
     public GridPanel(Grid2D<?> grid) {
         super();
@@ -57,11 +58,19 @@ public class GridPanel extends JPanel {
 
     }
 
+    public boolean isGridEnabled() {
+        return gridEnabled;
+    }
+
+    public void setGridEnabled(boolean gridEnabled) {
+        this.gridEnabled = gridEnabled;
+    }
+
     public Color getGridColor() {
         return gridColor;
     }
 
-    public void setGridColor(Color gridColor) {
+    public void setGridLineColor(Color gridColor) {
         this.gridColor = gridColor;
     }
 
@@ -84,10 +93,13 @@ public class GridPanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Color oldColor = g.getColor();
-        g.setColor(this.gridColor);
-        drawGrid(g);
-        g.setColor(oldColor);
+        if (gridEnabled) {
+            Color oldColor = g.getColor();
+            g.setColor(this.gridColor);
+            drawGrid(g);
+            g.setColor(oldColor);
+        }
+
     }
 
     private void drawGrid(Graphics g) {

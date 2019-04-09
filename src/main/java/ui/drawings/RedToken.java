@@ -5,8 +5,13 @@ import java.awt.*;
 public class RedToken extends ColorToken {
 
     @Override
-    Color getColor() {
+    public Color getColor() {
         return Color.RED;
+    }
+
+    @Override
+    public void setColor(Color color) {
+        throw new UnsupportedOperationException("Cannot assign color.");
     }
 
     @Override
