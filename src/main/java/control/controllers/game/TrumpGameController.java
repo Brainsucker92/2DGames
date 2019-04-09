@@ -301,7 +301,7 @@ public class TrumpGameController extends GameControllerImpl {
         GameComponent obamaGameComponent = obama.getGameComponent();
         obamaGameComponent.setVisible(true);
         MovableObject obamaMovableObject = obama.getMovableObject();
-        obamaMovableObject.setPosition(container.getWidth() / 2, 0);
+        obamaMovableObject.setPosition((container.getWidth() / 2) - (obamaGameComponent.getWidth() / 2), 0);
         Timer timer = new Timer();
         TimerTask timerTask = new TimerTask() {
             @Override
