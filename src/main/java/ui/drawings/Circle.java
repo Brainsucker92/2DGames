@@ -3,7 +3,7 @@ package ui.drawings;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 
-public class Circle extends ColorDrawing implements Token {
+public class Circle extends ColorDrawing {
 
     @Override
     protected void drawAdditional(Graphics2D g, Point position, Dimension2D size) {

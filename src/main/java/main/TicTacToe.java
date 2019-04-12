@@ -4,7 +4,7 @@ import control.controllers.game.GameController;
 import control.controllers.game.TicTacToeController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
-import ui.drawings.Token;
+import ui.Drawable;
 import ui.panels.EventGridPanel;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class TicTacToe {
     }
 
     private void start() {
-        Grid2D<Token> dataGrid = new Grid2DImpl<>(3);
+        Grid2D<Drawable> dataGrid = new Grid2DImpl<>(3);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
         GameController controller = new TicTacToeController(dataGrid, gridPanel);

@@ -7,7 +7,6 @@ import data.grid.Grid2D;
 import ui.Drawable;
 import ui.drawings.Circle;
 import ui.drawings.Cross;
-import ui.drawings.Token;
 import ui.panels.EventGridPanel;
 
 import java.awt.*;
@@ -16,14 +15,14 @@ import java.util.Objects;
 
 public class TicTacToeController extends GameControllerImpl {
 
-    private static Token CROSS = new Cross();
-    private static Token CIRCLE = new Circle();
+    private static Drawable CROSS = new Cross();
+    private static Drawable CIRCLE = new Circle();
 
-    private Token currentPly;
-    private Grid2D<Token> dataGrid;
+    private Drawable currentPly;
+    private Grid2D<Drawable> dataGrid;
     private EventGridPanel panel;
 
-    public TicTacToeController(Grid2D<Token> dataGrid, EventGridPanel panel) {
+    public TicTacToeController(Grid2D<Drawable> dataGrid, EventGridPanel panel) {
         super();
 
         this.dataGrid = dataGrid;
@@ -60,8 +59,8 @@ public class TicTacToeController extends GameControllerImpl {
         }
     }
 
-    public Token setNextPly() {
-        Token token = this.getCurrentPly();
+    public Drawable setNextPly() {
+        Drawable token = this.getCurrentPly();
         if (token instanceof Circle) {
             return CROSS;
         } else if (token instanceof Cross) {
@@ -90,12 +89,12 @@ public class TicTacToeController extends GameControllerImpl {
         return false;
     }
 
-    public Token getCurrentPly() {
+    public Drawable getCurrentPly() {
         return currentPly;
     }
 
     private void changeCurrentPly() {
-        Token next = setNextPly();
+        Drawable next = setNextPly();
         this.currentPly = Objects.requireNonNull(next);
     }
 }

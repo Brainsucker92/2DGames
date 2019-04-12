@@ -7,7 +7,6 @@ import data.grid.Grid2D;
 import ui.Drawable;
 import ui.drawings.BlueToken;
 import ui.drawings.RedToken;
-import ui.drawings.Token;
 import ui.panels.EventGridPanel;
 
 import java.awt.*;
@@ -16,14 +15,14 @@ import java.util.Objects;
 
 public class VierGewinntController extends GameControllerImpl {
 
-    private static final Token BLUE = new BlueToken();
-    private static final Token RED = new RedToken();
+    private static final Drawable BLUE = new BlueToken();
+    private static final Drawable RED = new RedToken();
 
-    private Token currentPly;
-    private Grid2D<Token> dataGrid;
+    private Drawable currentPly;
+    private Grid2D<Drawable> dataGrid;
     private EventGridPanel panel;
 
-    public VierGewinntController(Grid2D<Token> dataGrid, EventGridPanel panel) {
+    public VierGewinntController(Grid2D<Drawable> dataGrid, EventGridPanel panel) {
         super();
 
         this.panel = panel;
@@ -68,8 +67,8 @@ public class VierGewinntController extends GameControllerImpl {
         }
     }
 
-    public Token setNextPly() {
-        Token currentPly = this.getCurrentPly();
+    public Drawable setNextPly() {
+        Drawable currentPly = this.getCurrentPly();
         if (currentPly instanceof RedToken) {
             return BLUE;
         } else if (currentPly instanceof BlueToken) {
@@ -97,12 +96,12 @@ public class VierGewinntController extends GameControllerImpl {
         return false;
     }
 
-    public Token getCurrentPly() {
+    public Drawable getCurrentPly() {
         return currentPly;
     }
 
     private void changeCurrentPly() {
-        Token next = setNextPly();
+        Drawable next = setNextPly();
         this.currentPly = Objects.requireNonNull(next);
     }
 }

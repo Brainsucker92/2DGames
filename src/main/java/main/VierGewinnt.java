@@ -4,7 +4,7 @@ import control.controllers.game.GameController;
 import control.controllers.game.VierGewinntController;
 import data.grid.Grid2D;
 import data.grid.impl.Grid2DImpl;
-import ui.drawings.Token;
+import ui.Drawable;
 import ui.panels.EventGridPanel;
 
 import javax.swing.*;
@@ -17,7 +17,7 @@ public class VierGewinnt {
     }
 
     private void start() {
-        Grid2D<Token> dataGrid = new Grid2DImpl<>(9);
+        Grid2D<Drawable> dataGrid = new Grid2DImpl<>(9);
         EventGridPanel gridPanel = new EventGridPanel(dataGrid);
 
         GameController controller = new VierGewinntController(dataGrid, gridPanel);

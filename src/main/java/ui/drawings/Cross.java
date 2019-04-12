@@ -3,7 +3,7 @@ package ui.drawings;
 import java.awt.*;
 import java.awt.geom.Dimension2D;
 
-public class Cross extends ColorDrawing implements Token {
+public class Cross extends ColorDrawing {
     @Override
     protected void drawAdditional(Graphics2D g, Point position, Dimension2D size) {
         g.drawLine(position.x, position.y, (int) (position.x + size.getWidth()), (int) (position.y + size.getHeight()));
