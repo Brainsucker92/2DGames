@@ -1,11 +1,14 @@
 package ui.components;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Dimension2D;
+
+import javax.swing.JComponent;
+
 import ui.Drawable;
 import ui.drawings.ErrorDrawing;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.geom.Dimension2D;
 
 public class GameComponent extends JComponent {
 

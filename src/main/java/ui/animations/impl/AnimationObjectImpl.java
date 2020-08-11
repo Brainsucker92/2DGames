@@ -12,8 +12,8 @@ import ui.sprites.SpriteAnimation;
 public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> implements AnimationObject<T> {
 
     private SpriteAnimation currentAnimation;
-    private AnimationDrawer animationDrawer;
-    private EventObject eventObject;
+    private final AnimationDrawer animationDrawer;
+    private final EventObject eventObject;
 
     private T animations;
 
@@ -77,10 +77,10 @@ public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> imple
 
     }
 
-    public class AnimationChangedEvent extends EventImpl {
+    public static class AnimationChangedEvent extends EventImpl {
 
-        private SpriteAnimation oldAnimation;
-        private SpriteAnimation newAnimation;
+        private final SpriteAnimation oldAnimation;
+        private final SpriteAnimation newAnimation;
 
         AnimationChangedEvent(Object source, SpriteAnimation oldAnimation, SpriteAnimation newAnimation) {
             super(source);
@@ -97,7 +97,7 @@ public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> imple
         }
     }
 
-    public class AnimationUpdatedEvent extends EventImpl {
+    public static class AnimationUpdatedEvent extends EventImpl {
 
         AnimationUpdatedEvent(Object source) {
             super(source);

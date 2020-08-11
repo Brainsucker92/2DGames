@@ -1,15 +1,6 @@
 package main;
 
-import data.resources.MP3SoundResource;
-import data.resources.Resource;
-import data.resources.ResourceLoader;
-import data.resources.Resources;
-
-import javax.sound.sampled.Clip;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.GridBagLayout;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.List;
@@ -17,6 +8,16 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
+
+import javax.sound.sampled.Clip;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import data.resources.MP3SoundResource;
+import data.resources.Resource;
+import data.resources.ResourceLoader;
+import data.resources.Resources;
 
 public class SoundBoard {
 
@@ -54,12 +55,9 @@ public class SoundBoard {
             MP3SoundResource sound = ((MP3SoundResource) resource);
             Clip clip = sound.getData();
             button.setText(sound.getPath().getFileName().toString());
-            button.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    clip.setMicrosecondPosition(0);
-                    clip.start();
-                }
+            button.addActionListener(e -> {
+                clip.setMicrosecondPosition(0);
+                clip.start();
             });
 
             panel.add(button);

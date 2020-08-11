@@ -1,5 +1,11 @@
 package control;
 
+import java.awt.Dimension;
+import java.awt.image.BufferedImage;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
+
 import control.entities.AnimationEntity;
 import control.movement.impl.MovableGameEntityImpl;
 import data.resources.Resource;
@@ -13,12 +19,6 @@ import ui.animations.impl.AnimationObjectImpl;
 import ui.components.GameComponent;
 import ui.sprites.Sprite;
 import ui.sprites.SpriteAnimation;
-
-import java.awt.*;
-import java.awt.image.BufferedImage;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 public class Coin extends MovableGameEntityImpl implements AnimationEntity<Coin.Animations> {
 
@@ -81,10 +81,10 @@ public class Coin extends MovableGameEntityImpl implements AnimationEntity<Coin.
         return this.animationObject;
     }
 
-    public class Animations implements AnimationObjectImpl.Animations {
-        private SpriteAnimation coinRotateAnimation;
-        private SpriteAnimation coinShineAnimation;
-        private SpriteAnimation coinBlinkAnimation;
+    public static class Animations implements AnimationObjectImpl.Animations {
+        private final SpriteAnimation coinRotateAnimation;
+        private final SpriteAnimation coinShineAnimation;
+        private final SpriteAnimation coinBlinkAnimation;
 
         Animations(Sprite[] coinRotateSprites, Sprite[] coinShineSprites, Sprite[] coinBlinkSprites) {
             coinRotateAnimation = new SpriteAnimation(coinRotateSprites);

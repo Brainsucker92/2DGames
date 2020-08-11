@@ -6,12 +6,12 @@ import java.util.List;
 
 public class SpriteSheet {
 
-    private BufferedImage image;
-    private int spritesPerRow;
-    private int spritesPerColumn;
+    private final BufferedImage image;
+    private final int spritesPerRow;
+    private final int spritesPerColumn;
 
-    private int spriteWidth;
-    private int spriteHeight;
+    private final int spriteWidth;
+    private final int spriteHeight;
 
     public SpriteSheet(BufferedImage image, int spritesPerColumn, int spritesPerRow) {
         this.image = image;

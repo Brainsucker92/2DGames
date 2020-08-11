@@ -1,7 +1,6 @@
 package ui.sprites;
 
-
-import java.awt.*;
+import java.awt.Image;
 import java.util.function.Supplier;
 
 public class SpriteAnimation implements Supplier<Image> {
@@ -11,12 +10,6 @@ public class SpriteAnimation implements Supplier<Image> {
 
     public SpriteAnimation(Sprite[] sprites) {
         this.sprites = sprites;
-
-    }
-
-    @Deprecated
-    public Image getImage() {
-        return this.get();
     }
 
     public Image next() {

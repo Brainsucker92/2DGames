@@ -13,10 +13,10 @@ import java.util.Objects;
  */
 public abstract class Resource<T> {
 
-    private Path path;
+    private final Path path;
     private T data;
 
-    private ClassLoader classLoader;
+    private final ClassLoader classLoader;
 
     public Resource(Path path) {
         this.path = path;

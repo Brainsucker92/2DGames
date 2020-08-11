@@ -13,7 +13,7 @@ public class ResourceLoader {
         // private constructor
     }
 
-    public static ResourceLoader getInstance() {
+    public static synchronized ResourceLoader getInstance() {
         if (instance == null) {
             instance = new ResourceLoader();
         }

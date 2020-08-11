@@ -1,26 +1,26 @@
 package control.controllers.game;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Point;
+import java.awt.geom.Dimension2D;
+import java.util.Objects;
+
 import control.controllers.game.impl.GameControllerImpl;
-import data.event.Event;
-import data.event.EventListener;
 import data.grid.Grid2D;
 import ui.Drawable;
 import ui.drawings.Circle;
 import ui.drawings.Cross;
 import ui.panels.EventGridPanel;
 
-import java.awt.*;
-import java.awt.geom.Dimension2D;
-import java.util.Objects;
-
 public class TicTacToeController extends GameControllerImpl {
 
-    private static Drawable CROSS = new Cross();
-    private static Drawable CIRCLE = new Circle();
+    private static final Drawable CROSS = new Cross();
+    private static final Drawable CIRCLE = new Circle();
 
     private Drawable currentPly;
-    private Grid2D<Drawable> dataGrid;
-    private EventGridPanel panel;
+    private final Grid2D<Drawable> dataGrid;
+    private final EventGridPanel panel;
 
     public TicTacToeController(Grid2D<Drawable> dataGrid, EventGridPanel panel) {
         super();
@@ -30,30 +30,26 @@ public class TicTacToeController extends GameControllerImpl {
         this.currentPly = CROSS;
 
         if (panel != null) {
-            panel.addEventListener(new EventListener() {
-                @Override
-                public void onEventFired(Event event) {
-                    if (event instanceof EventGridPanel.PanelRepaintEvent) {
-                        EventGridPanel.PanelRepaintEvent evnt = (EventGridPanel.PanelRepaintEvent) event;
-                        Graphics graphics = evnt.getGraphics();
-                        Graphics2D g2d = ((Graphics2D) graphics);
-                        Dimension2D tileSize = panel.getTileSize();
-                        for (int y = 0; y < dataGrid.getNumRows(); y++) {
-                            for (int x = 0; x < dataGrid.getNumColumns(); x++) {
-                                if (dataGrid.isEmpty(y, x)) {
-                                    continue;
-                                }
-                                Point position = panel.getTilePosition(y, x);
-                                Drawable drawable = dataGrid.getValue(y, x);
-                                drawable.draw(g2d, position, tileSize);
+            panel.addEventListener(event -> {
+                if (event instanceof EventGridPanel.PanelRepaintEvent) {
+                    EventGridPanel.PanelRepaintEvent repaintEvent = (EventGridPanel.PanelRepaintEvent) event;
+                    Graphics graphics = repaintEvent.getGraphics();
+                    Graphics2D g2d = ((Graphics2D) graphics);
+                    Dimension2D tileSize = panel.getTileSize();
+                    for (int y = 0; y < dataGrid.getNumRows(); y++) {
+                        for (int x = 0; x < dataGrid.getNumColumns(); x++) {
+                            if (dataGrid.isEmpty(y, x)) {
+                                continue;
                             }
-
+                            Point position = panel.getTilePosition(y, x);
+                            Drawable drawable = dataGrid.getValue(y, x);
+                            drawable.draw(g2d, position, tileSize);
                         }
-                    } else if (event instanceof EventGridPanel.TileClickedEvent) {
-                        EventGridPanel.TileClickedEvent evnt = (EventGridPanel.TileClickedEvent) event;
-                        int tileIndex = evnt.getTileIndex();
-                        placeToken(tileIndex);
                     }
+                } else if (event instanceof EventGridPanel.TileClickedEvent) {
+                    EventGridPanel.TileClickedEvent evnt = (EventGridPanel.TileClickedEvent) event;
+                    int tileIndex = evnt.getTileIndex();
+                    placeToken(tileIndex);
                 }
             });
         }
