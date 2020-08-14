@@ -1,5 +1,7 @@
 package control.movement.impl;
 
+import java.util.concurrent.TimeUnit;
+
 import control.movement.MovableObject;
 import control.movement.MovementController;
 import data.event.Event;
@@ -7,12 +9,10 @@ import data.event.EventListener;
 import data.event.EventObject;
 import data.event.impl.EventObjectImpl;
 
-import java.util.concurrent.TimeUnit;
-
 public abstract class MovementControllerImpl implements MovementController {
 
     private MovableObject movableObject;
-    private EventObject eventObject;
+    private final EventObject eventObject;
 
     public MovementControllerImpl(MovableObject movableObject) {
         this.movableObject = movableObject;
@@ -46,5 +46,10 @@ public abstract class MovementControllerImpl implements MovementController {
     @Override
     public void removeEventListener(EventListener listener) {
         eventObject.addEventListener(listener);
+    }
+
+    @Override
+    public boolean hasEventListener(EventListener listener) {
+        return eventObject.hasEventListener(listener);
     }
 }

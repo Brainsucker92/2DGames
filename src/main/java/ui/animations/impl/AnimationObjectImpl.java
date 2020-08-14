@@ -11,10 +11,9 @@ import ui.sprites.SpriteAnimation;
 
 public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> implements AnimationObject<T> {
 
-    private SpriteAnimation currentAnimation;
     private final AnimationDrawer animationDrawer;
     private final EventObject eventObject;
-
+    private SpriteAnimation currentAnimation;
     private T animations;
 
     public AnimationObjectImpl(SpriteAnimation startAnimation, T animations) {
@@ -67,6 +66,11 @@ public class AnimationObjectImpl<T extends AnimationObjectImpl.Animations> imple
     @Override
     public void removeEventListener(EventListener eventListener) {
         eventObject.removeEventListener(eventListener);
+    }
+
+    @Override
+    public boolean hasEventListener(EventListener listener) {
+        return eventObject.hasEventListener(listener);
     }
 
     protected void fireEvent(Event event) {

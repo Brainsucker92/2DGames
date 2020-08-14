@@ -5,4 +5,6 @@ public interface EventSource {
     void addEventListener(EventListener listener);
 
     void removeEventListener(EventListener listener);
+
+    boolean hasEventListener(EventListener listener);
 }

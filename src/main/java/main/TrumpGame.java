@@ -1,5 +1,18 @@
 package main;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Toolkit;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import control.Trump;
 import control.controllers.game.TrumpGameController;
 import control.controllers.game.impl.GameControllerImpl;
@@ -7,15 +20,11 @@ import control.controllers.input.InputTypeController;
 import control.movement.impl.MovableObjectImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import ui.panels.*;
-
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.TimeUnit;
+import ui.panels.AmountCoinsCollectedDisplayPanel;
+import ui.panels.ControlPanel;
+import ui.panels.ElapsedTimeDisplayPanel;
+import ui.panels.MovementControlPanel;
+import ui.panels.MovementSpeedDisplayPanel;
 
 public class TrumpGame {
 
@@ -43,7 +52,6 @@ public class TrumpGame {
             MovementSpeedDisplayPanel movementSpeedDisplayPanel = new MovementSpeedDisplayPanel();
             ElapsedTimeDisplayPanel elapsedTimeDisplayPanel = new ElapsedTimeDisplayPanel();
             AmountCoinsCollectedDisplayPanel amountCoinsCollectedDisplayPanel = new AmountCoinsCollectedDisplayPanel();
-
 
             statisticsPanel.add(movementSpeedDisplayPanel);
             statisticsPanel.add(elapsedTimeDisplayPanel);

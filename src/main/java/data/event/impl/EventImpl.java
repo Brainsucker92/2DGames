@@ -4,7 +4,7 @@ import data.event.Event;
 
 public class EventImpl implements Event {
 
-    private Object source;
+    private final Object source;
 
     public EventImpl(Object source) {
         this.source = source;

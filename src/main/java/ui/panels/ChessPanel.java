@@ -1,15 +1,36 @@
 package ui.panels;
 
-import data.grid.Grid2D;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
 
+import data.grid.Grid2D;
+
 public class ChessPanel extends GridPanel {
+
+    private Color squareColorDark = Color.BLACK;
+    private Color squareColorLight = Color.WHITE;
 
     public ChessPanel(Grid2D<?> grid) {
         super(grid);
         setGridEnabled(false);
+    }
+
+    public Color getSquareColorDark() {
+        return squareColorDark;
+    }
+
+    public void setSquareColorDark(Color squareColorDark) {
+        this.squareColorDark = squareColorDark;
+    }
+
+    public Color getSquareColorLight() {
+        return squareColorLight;
+    }
+
+    public void setSquareColorLight(Color squareColorLight) {
+        this.squareColorLight = squareColorLight;
     }
 
     @Override
@@ -31,6 +52,6 @@ public class ChessPanel extends GridPanel {
     }
 
     private Color getSquareColor(int rowIndex, int columnIndex) {
-        return (rowIndex % 2 == 0) ^ (columnIndex % 2 == 0) ? Color.BLACK : Color.WHITE;
+        return (rowIndex % 2 == 0) ^ (columnIndex % 2 == 0) ? squareColorDark : squareColorLight;
     }
 }

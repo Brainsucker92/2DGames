@@ -1,5 +1,8 @@
 package control.movement.impl;
 
+import java.awt.geom.Point2D;
+import java.util.concurrent.TimeUnit;
+
 import control.movement.MovableObject;
 import control.movement.MovementController;
 import data.event.Event;
@@ -10,14 +13,11 @@ import data.event.impl.EventObjectImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.awt.geom.Point2D;
-import java.util.concurrent.TimeUnit;
-
 public class MovableObjectImpl implements MovableObject {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MovableObject.class);
 
-    private Point2D position;
+    private final Point2D position;
     private double movementSpeed;
     private MovementController movementController;
 
@@ -103,14 +103,19 @@ public class MovableObjectImpl implements MovableObject {
         eventObject.removeEventListener(eventListener);
     }
 
+    @Override
+    public boolean hasEventListener(EventListener listener) {
+        return eventObject.hasEventListener(listener);
+    }
+
     protected void fireEvent(Event event) {
         eventObject.fireEvent(event);
     }
 
-    public class PositionChangedEvent extends EventImpl {
+    public static class PositionChangedEvent extends EventImpl {
 
-        private Point2D oldPosition;
-        private Point2D newPosition;
+        private final Point2D oldPosition;
+        private final Point2D newPosition;
 
         public PositionChangedEvent(Object source, Point2D oldPosition, Point2D newPosition) {
             super(source);
@@ -127,10 +132,10 @@ public class MovableObjectImpl implements MovableObject {
         }
     }
 
-    public class MovementSpeedChangedEvent extends EventImpl {
+    public static class MovementSpeedChangedEvent extends EventImpl {
 
-        private double oldSpeed;
-        private double newSpeed;
+        private final double oldSpeed;
+        private final double newSpeed;
 
         MovementSpeedChangedEvent(Object source, double oldSpeed, double newSpeed) {
             super(source);
@@ -147,15 +152,15 @@ public class MovableObjectImpl implements MovableObject {
         }
     }
 
-    public class MovementControllerChangedEvent extends EventImpl {
+    public static class MovementControllerChangedEvent extends EventImpl {
 
-        private MovementController oldController;
-        private MovementController newControlller;
+        private final MovementController oldController;
+        private final MovementController newController;
 
-        public MovementControllerChangedEvent(Object source, MovementController oldController, MovementController newControlller) {
+        public MovementControllerChangedEvent(Object source, MovementController oldController, MovementController newController) {
             super(source);
             this.oldController = oldController;
-            this.newControlller = newControlller;
+            this.newController = newController;
         }
 
         public MovementController getOldController() {
@@ -163,7 +168,7 @@ public class MovableObjectImpl implements MovableObject {
         }
 
         public MovementController getNewController() {
-            return newControlller;
+            return newController;
         }
     }
 }

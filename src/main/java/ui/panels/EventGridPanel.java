@@ -1,5 +1,9 @@
 package ui.panels;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.geom.Dimension2D;
+
 import data.event.EventListener;
 import data.event.EventObject;
 import data.event.EventSource;
@@ -7,12 +11,9 @@ import data.event.impl.EventImpl;
 import data.event.impl.EventObjectImpl;
 import data.grid.Grid2D;
 
-import java.awt.*;
-import java.awt.geom.Dimension2D;
-
 public class EventGridPanel extends GridPanel implements EventSource {
 
-    private EventObject eventObject = new EventObjectImpl();
+    private final EventObject eventObject = new EventObjectImpl();
 
     public EventGridPanel(Grid2D<?> grid) {
         super(grid);
@@ -57,9 +58,14 @@ public class EventGridPanel extends GridPanel implements EventSource {
         eventObject.removeEventListener(listener);
     }
 
-    public class PanelRepaintEvent extends EventImpl {
+    @Override
+    public boolean hasEventListener(EventListener listener) {
+        return eventObject.hasEventListener(listener);
+    }
 
-        private Graphics graphics;
+    public static class PanelRepaintEvent extends EventImpl {
+
+        private final Graphics graphics;
 
         public PanelRepaintEvent(Object source, Graphics graphics) {
             super(source);
@@ -71,10 +77,10 @@ public class EventGridPanel extends GridPanel implements EventSource {
         }
     }
 
-    public class TileSizeUpdatedEvent extends EventImpl {
+    public static class TileSizeUpdatedEvent extends EventImpl {
 
-        private Dimension2D oldSize;
-        private Dimension2D newSize;
+        private final Dimension2D oldSize;
+        private final Dimension2D newSize;
 
         TileSizeUpdatedEvent(Object source, Dimension2D oldSize, Dimension2D newSize) {
             super(source);
@@ -91,9 +97,9 @@ public class EventGridPanel extends GridPanel implements EventSource {
         }
     }
 
-    public class TileClickedEvent extends EventImpl {
+    public static class TileClickedEvent extends EventImpl {
 
-        private int tileIndex;
+        private final int tileIndex;
 
         TileClickedEvent(Object source, int tileIndex) {
             super(source);
@@ -105,10 +111,10 @@ public class EventGridPanel extends GridPanel implements EventSource {
         }
     }
 
-    public class GridColorChangedEvent extends EventImpl {
+    public static class GridColorChangedEvent extends EventImpl {
 
-        private Color oldColor;
-        private Color newColor;
+        private final Color oldColor;
+        private final Color newColor;
 
         GridColorChangedEvent(Object source, Color oldColor, Color newColor) {
             super(source);
@@ -124,5 +130,4 @@ public class EventGridPanel extends GridPanel implements EventSource {
             return newColor;
         }
     }
-
 }

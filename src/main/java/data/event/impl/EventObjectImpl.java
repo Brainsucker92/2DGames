@@ -1,15 +1,15 @@
 package data.event.impl;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import data.event.Event;
 import data.event.EventListener;
 import data.event.EventObject;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class EventObjectImpl implements EventObject {
 
-    private List<EventListener> listeners = new ArrayList<>();
+    private final Set<EventListener> listeners = new HashSet<>();
 
     @Override
     public void addEventListener(EventListener listener) {
@@ -19,6 +19,11 @@ public class EventObjectImpl implements EventObject {
     @Override
     public void removeEventListener(EventListener listener) {
         listeners.remove(listener);
+    }
+
+    @Override
+    public boolean hasEventListener(EventListener listener) {
+        return listeners.contains(listener);
     }
 
     @Override

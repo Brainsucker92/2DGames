@@ -1,15 +1,15 @@
 package ui.panels;
 
-import javax.swing.*;
-
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * @param <T> The entity that is holding the data to display
  */
 public abstract class EntityValueDisplayPanel<T> extends JPanel {
 
-    private JLabel entityNameLabel;
-    private JLabel entityValueLabel;
+    private final JLabel entityNameLabel;
+    private final JLabel entityValueLabel;
 
     public EntityValueDisplayPanel() {
         super();

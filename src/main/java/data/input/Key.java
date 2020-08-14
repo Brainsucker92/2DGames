@@ -5,7 +5,7 @@ package data.input;
  */
 public class Key {
 
-    private int keyCode;
+    private final int keyCode;
     private boolean isPressed = false;
 
     Key(int keyCode) {

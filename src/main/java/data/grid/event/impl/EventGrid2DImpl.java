@@ -11,7 +11,7 @@ import data.grid.impl.Grid2DImpl;
 @SuppressWarnings("unused")
 public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> {
 
-    private EventObject eventObject = new EventObjectImpl();
+    private final EventObject eventObject = new EventObjectImpl();
 
     public EventGrid2DImpl(int size) {
         super(size);
@@ -30,23 +30,27 @@ public class EventGrid2DImpl<T> extends Grid2DImpl<T> implements EventGrid2D<T> 
     }
 
     @Override
-    public void addListener(EventListener listener) {
+    public void addEventListener(EventListener listener) {
         eventObject.addEventListener(listener);
     }
 
     @Override
-    public void removeListener(EventListener listener) {
+    public void removeEventListener(EventListener listener) {
         eventObject.removeEventListener(listener);
     }
 
+    @Override
+    public boolean hasEventListener(EventListener listener) {
+        return eventObject.hasEventListener(listener);
+    }
 
     public class GridValueChangedEvent extends EventImpl {
-        private T oldValue;
-        private T newValue;
-        private int rowIndex;
-        private int columnIndex;
+        private final T oldValue;
+        private final T newValue;
+        private final int rowIndex;
+        private final int columnIndex;
 
-        GridValueChangedEvent(Grid2D source, int rowIndex, int columnIndex, T oldValue, T newValue) {
+        GridValueChangedEvent(Grid2D<?> source, int rowIndex, int columnIndex, T oldValue, T newValue) {
             super(source);
             this.rowIndex = rowIndex;
             this.columnIndex = columnIndex;

@@ -9,7 +9,7 @@ public class KeyObserver extends KeyAdapter {
 
     private static KeyObserver instance;
 
-    private Map<Integer, Key> keyMap = new HashMap<>();
+    private final Map<Integer, Key> keyMap = new HashMap<>();
 
     private KeyObserver() {
         // private constructor
