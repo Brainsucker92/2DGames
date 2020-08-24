@@ -1,9 +1,11 @@
 package ui.drawings;
 
-import ui.Drawable;
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.Point;
 import java.awt.geom.Dimension2D;
+
+import ui.Drawable;
 
 public abstract class ColorDrawing implements Drawable {
 
@@ -18,11 +20,12 @@ public abstract class ColorDrawing implements Drawable {
     }
 
     @Override
-    public void draw(Graphics2D g, Point position, Dimension2D size) {
-        Color oldColor = g.getColor();
-        g.setColor(getColor());
-        drawAdditional(g, position, size);
-        g.setColor(oldColor);
+    public void draw(Graphics2D graphics, Point position, Dimension2D size) {
+        // Make sure the drawing color will be reset after drawing stuff.
+        Color oldColor = graphics.getColor();
+        graphics.setColor(getColor());
+        drawAdditional(graphics, position, size);
+        graphics.setColor(oldColor);
     }
 
     protected abstract void drawAdditional(Graphics2D g, Point position, Dimension2D size);
