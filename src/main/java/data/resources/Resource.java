@@ -16,12 +16,10 @@ public abstract class Resource<T> {
     private final Path path;
     private T data;
 
-    private final ClassLoader classLoader;
+    private static final ClassLoader classLoader = Resource.class.getClassLoader();
 
     public Resource(Path path) {
         this.path = path;
-
-        this.classLoader = this.getClass().getClassLoader();
     }
 
     public void load(boolean force) {
